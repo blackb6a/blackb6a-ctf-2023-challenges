@@ -60,7 +60,9 @@ def is_prime(n):
         1824907, 1842549, 1846559, 1847019, 1865431, 1879215, 1895455, 1930981,
         1932295, 1940509, 1957911, 1976957, 1986973, 1992813, 1993333, 1994939
     ]
-    # We should for all primes smaller than 65536... For optimization.
+    # We should be able to find all composite numbers smaller than 65536 with
+    # this sieve. Well, we don't do Miller-Rabin for every numbers; or it will
+    # be too time-consuming.
     for i in range(2, min(256, n)):
         if n % i == 0:
             return False
