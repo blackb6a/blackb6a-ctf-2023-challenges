@@ -2,8 +2,8 @@ from math import gcd, lcm
 from Crypto.Util.number import getPrime, getRandomNBitInteger, bytes_to_long
 from secret import flag
 
-bits = 2048
-given = bits // 3
+bits = 1024
+given = bits // 5
 e_bits = bits // 12
 
 mask = (1 << given) - 1
@@ -39,6 +39,8 @@ print(f'{l_dq = }')
 
 # RSA encryption, -1 because of flag format
 flag = bytes_to_long(flag)
+
 assert flag.bit_length() == bits - 1 and flag < N
+
 ct = pow(flag, e, N)
 print(f'{ct = }')

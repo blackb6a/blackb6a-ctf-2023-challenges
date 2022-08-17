@@ -11,7 +11,7 @@ Crypto
 
 ## Description
 
-Just simple warm-up - decrypt the RSA.
+I heard that we can factorize N when given $b > \frac{\log_2{N}}{4}$ bits of $d_p$ and $d_q$. My primary school teacher also taught me $5 > 4$, so $\frac{\log_2{N}}{5} > \frac{\log_2{N}}{4}}$. Now solve this!
 
 ## Notes
 
