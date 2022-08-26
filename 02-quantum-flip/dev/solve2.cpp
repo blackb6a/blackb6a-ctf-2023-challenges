@@ -1,15 +1,19 @@
+#include <algorithm>
 #include <bitset>
-#include <iostream>
+#include <stdio.h>
 #include <vector>
 using namespace std;
 
+const int EQS = 20000;
 const int LEN = 312 * 64;
+
 typedef bitset<LEN> State;
 
 const State EMPTY = 0;
 const uint64_t CONST = 0xb5026f5aa96619e9;
 
 vector<State> state[312];
+vector<State> coef_mat;
 
 vector<State> add(vector<State> v1, vector<State> v2) {
   for (int i = 0; i < 64; i++) {
@@ -89,6 +93,35 @@ void twist() {
   }
 }
 
+void rref() {
+  int eqs = coef_mat.size();
+  int row = 0;
+  int pivot = 0;
+  while (row < eqs && pivot < LEN) {
+    if (pivot % 1000 == 0) {
+      printf("pivot = %d\n", pivot);
+    }
+    int cur = row;
+    while (cur < eqs && !coef_mat[cur][pivot]) {
+      cur++;
+    }
+    if (cur == eqs) {
+      pivot++;
+      continue;
+    }
+    if (cur > row) {
+      swap(coef_mat[row], coef_mat[cur]);
+    }
+    for (cur = row + 1; cur < eqs; cur++) {
+      if (coef_mat[cur][pivot]) {
+        coef_mat[cur] ^= coef_mat[row];
+      }
+    }
+    row++;
+    pivot++;
+  }
+}
+
 void init_state() {
   for (int i = 0; i < 312; i++) {
     for (int j = 0; j < 64; j++) {
@@ -100,29 +133,19 @@ void init_state() {
 
 void init_coef() {
   int idx = 0, cnt = 0;
-  for (int i = 0; i < 60000; i++) {
+  for (int i = 0; i < EQS; i++) {
     if (idx == 0) {
       twist();
     }
 
-    if (i % 10000 == 0) {
-      vector<State> y = state[idx];
-      y = _process_vec(y);
-      State msb1 = y[63], msb2 = y[62];
+    if (i % 1000 == 0) {
+      printf("i = %d\n", i);
+    }
 
-      for (int j = 0; j < LEN; j++) {
-        if (msb1[j]) {
-          cout << j << " ";
-        }
-      }
-      cout << endl;
-
-      for (int j = 0; j < LEN; j++) {
-        if (msb2[j]) {
-          cout << j << " ";
-        }
-      }
-      cout << endl;
+    vector<State> y = state[idx];
+    y = _process_vec(y);
+    if (i >= 64) {
+      coef_mat.push_back(y[63]);
     }
 
     idx = (idx + 1) % 312;
@@ -132,4 +155,12 @@ void init_coef() {
 int main() {
   init_state();
   init_coef();
+  printf("Started rref\n");
+  rref();
+  for (int i = 0; i < EQS; i++) {
+    for (int j = 0; j < 200; j++) {
+      printf("%d", coef_mat[i][j] == 1);
+    }
+    printf("\n");
+  }
 }
