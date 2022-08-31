@@ -2,7 +2,7 @@
 
 ## Category
 
-Crypto, Misc
+Crypto
 
 ## Contributors
 
