@@ -1,1 +1,0 @@
-flag = b'flag{this_is_r11y_f1ag_l0l}'
