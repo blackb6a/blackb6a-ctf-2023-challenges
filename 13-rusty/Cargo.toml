@@ -1,9 +1,0 @@
-[package]
-name = "rusty"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-smallvec = { git = "https://github.com/ehuss/rust-smallvec", rev = "a775b5f74cce0d3c7218608fd9f6fd721bb0f461"}

@@ -1,1 +1,0 @@
-flag = b"I really hope someone can actually solve it and read this flag~ Heres the flag you submit: flag{grhkm_is_n0t_0rz_my5t1z_str0n9!}"
