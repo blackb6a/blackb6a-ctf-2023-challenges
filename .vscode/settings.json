@@ -1,0 +1,8 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.ignorePatterns": [
+        "**/site-packages/**/*.py",
+        ".vscode/*.py",
+        "**/**/*.sage"
+    ]
+}
