@@ -19,7 +19,7 @@ https://www.youtube.com/watch?v=eV9a5oUCbZQ
 > What if I could go back to the moment when we first met   
 > Stop the rain, the time, mistakes we’ve made
 
-Sometimes you may need to reincarnate endlessly to save your beloved ones, and perhaps it may be futile after all...
+Sometimes you may need to reincarnate endlessly to save your beloved ones, but perhaps it may be futile after all...
 
 ## Notes
 
