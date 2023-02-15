@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   rm -rf /var/lib/apt/lists/*
 
 # ENV FLAG "firebird{mmMmMmmXSS_del1c10us_c00k1e_mMm}"
-ENV CHAL "TODO"
+ENV CHAL "Red Scarf"
 
 WORKDIR /app
 COPY src/ /app/

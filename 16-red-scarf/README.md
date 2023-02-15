@@ -1,4 +1,4 @@
-# 不求月老 / (TODO)
+# 不求月老 / Red Scarf
 
 ## Category
 
@@ -16,9 +16,12 @@ Web
 
 https://www.youtube.com/watch?v=eV9a5oUCbZQ
 
-(TODO)
+> What if I could go back to the moment when we first met
+> Stop the rain, the time, mistakes we’ve made
 
 ## Notes
+
+Both Chinese and English description shares the same melody, which is first line of the chorus.
 
 ## Flag
 
