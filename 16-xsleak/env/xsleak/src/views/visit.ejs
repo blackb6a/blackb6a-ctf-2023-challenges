@@ -1,0 +1,77 @@
+<!doctype html>
+<title><%= challenge %> Admin Bot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * {
+    font-family: Menlo, Consolas, Monaco, 'Liberation Mono', 'Lucida Console', monospace;
+  }
+  html, body, main {
+    margin: 0;
+    height: 100%;
+    background: #18181c;
+    color: #eee;
+  }
+  main {
+    display: grid;
+  }
+  form {
+    margin: auto;
+    width: 100%;
+    max-width: 600px;
+    display: grid;
+    background: #08080c;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+  }
+  h2 {
+    margin: 0;
+  }
+  input, button {
+    border-radius: 5px;
+    padding: 10px;
+  }
+  input {
+    background: #18181c;
+    color: #eee;
+    border: 1px #eee solid;
+    margin-bottom: 30px;
+  }
+  button {
+    background: #eee;
+    color: #18181c;
+    border: 0;
+    cursor: pointer;
+    transition: background ease-in-out 0.2s;
+  }
+  button:hover {
+    background: #bbb;
+  }
+</style>
+<main>
+  <form id="form" method="POST" action="/visit">
+    <h2><%= challenge %> Admin Bot</h2>
+    <p><%= msg %></p>
+    <span>URL</span>
+    <input type="text" name="url" autofocus required placeholder="https://example.com" value="http://exmaple.com/">
+      <input type="hidden" name="recaptcha_code" id="recaptcha_code">
+    <button type="submit">Submit</button>
+  </form>
+</main>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script>
+    grecaptcha.ready(function () {
+      grecaptcha.render({
+        theme: 'dark',
+        sitekey: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+        callback: function (token) {
+          document.getElementById('recaptcha_code').value = token
+          form.submit()
+        }
+      })
+    })
+    document.getElementById('form').addEventListener('submit', function (evt) {
+      evt.preventDefault()
+      grecaptcha.execute()
+    })
+  </script>
