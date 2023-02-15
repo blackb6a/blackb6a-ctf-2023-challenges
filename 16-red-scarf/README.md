@@ -16,12 +16,14 @@ Web
 
 https://www.youtube.com/watch?v=eV9a5oUCbZQ
 
-> What if I could go back to the moment when we first met
+> What if I could go back to the moment when we first met   
 > Stop the rain, the time, mistakes we’ve made
+
+Sometimes you may need to reincarnate endlessly to save your beloved ones, and perhaps it may be futile after all...
 
 ## Notes
 
-Both Chinese and English description shares the same melody, which is first line of the chorus.
+Both quoted Chinese and English description shares the same melody, which is first line of the chorus.
 
 ## Flag
 
