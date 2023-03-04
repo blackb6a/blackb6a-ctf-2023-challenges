@@ -19,11 +19,11 @@ https://www.youtube.com/watch?v=eV9a5oUCbZQ
 > What if I could go back to the moment when we first met   
 > Stop the rain, the time, mistakes we’ve made
 
-Sometimes you may need to reincarnate endlessly to save your beloved ones, but perhaps it may be futile after all...
+Sometimes you may need to reincarnate endlessly to save your beloved ones, even though it may just be futile after all...
 
-## Notes
+## Note
 
-Both quoted Chinese and English description shares the same melody, which is first line of the chorus.
+The flag only contains capital letters.
 
 ## Flag
 

@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   apt-get install google-chrome-stable -y --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
 
-# ENV FLAG "firebird{mmMmMmmXSS_del1c10us_c00k1e_mMm}"
+# ENV FLAG 
 ENV CHAL "Red Scarf"
 
 WORKDIR /app

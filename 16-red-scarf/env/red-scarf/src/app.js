@@ -35,11 +35,11 @@ app.post('/visit', async (req, res, next) => {
     else {
         console.log(`[!] ${new Date().toLocaleString()} attempt to visit ${url}`);
         try {
-            let idx = await worker.visit(url);
+            await worker.visit(url);
             console.log(`[+] ${new Date().toLocaleString()} success`);
             return res.render('visit', {
                 challenge: CHAL,
-                msg: `The admin has visited your URL based on Rule ${idx}.`
+                msg: `The admin has visited your URL.`
             });
         }
         catch (e) {

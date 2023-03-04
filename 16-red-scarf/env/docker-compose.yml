@@ -1,6 +1,6 @@
 version: "3.8"
 services:
   xsleak:
-    build: xsleak
+    build: red-scarf
     ports:
       - "12345:12345"
