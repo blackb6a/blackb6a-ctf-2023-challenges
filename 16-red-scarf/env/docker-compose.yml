@@ -3,4 +3,4 @@ services:
   xsleak:
     build: red-scarf
     ports:
-      - "12345:12345"
+      - "3001:12345"
