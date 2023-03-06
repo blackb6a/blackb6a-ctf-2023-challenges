@@ -16,8 +16,6 @@ Reverse/Web
 
 https://www.youtube.com/watch?v=CnHSv1sjTCg
 
-_Good CTF challenges never die. They will be remembered and reused._
-
 Quick communication is important, especially when you are texting your secret crush. You surely don't want to miss any message or have the message came in delay. Behold! Here is a free app, running a service with 0 cost, serving for you free of charge. What might go wrong with such a sweet deal?
 
 ## Notes
