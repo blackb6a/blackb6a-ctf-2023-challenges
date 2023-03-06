@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install gnupg wget -y && \
 
 # ENV FLAG 
 ENV CHAL "Red Scarf"
+ENV FLAG "b6actf{THISISATESTFLAGTOOQWEFTGXXBVGE}"
 
 WORKDIR /app
 COPY src/ /app/

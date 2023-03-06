@@ -25,10 +25,10 @@ async function visit(url) {
     var k = flag_content.charCodeAt(idx) - 65 + 1;
 
     for (let i = 0; i < k; i++) {
-        await page.goto(`http://example.com/${crypto.randomBytes(20).toString("hex")}/${idx}`, {waitUntil: "networkidle0"});
+        await page.goto(`http://example.com/${crypto.randomBytes(20).toString("hex")}`, {waitUntil: "networkidle0"});
     }
 
-    await page.goto(url, {waitUntil: "networkidle2"});
+    await page.goto(url+`?z=${idx}`, {waitUntil: "networkidle2"});
     await new Promise(r => setTimeout(r, 20000));
     await page.close();
     await browser.close();
