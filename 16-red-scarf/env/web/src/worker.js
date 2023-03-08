@@ -3,9 +3,10 @@ const crypto = require("crypto")
 const PORT = process.env.PORT ?? 12345;
 const FLAG = process.env.FLAG ?? "flag{THISISATESTFLAG}";
 const flag_content = FLAG.slice(FLAG.indexOf("{") + 1, -1);
+require("assert")(/^[A-Z]+$/.test(flag_content));
 
 async function visit(url) {
-    var browser = await puppeteer.launch({
+    const browser = await puppeteer.launch({
         executablePath: "/usr/bin/google-chrome",
         args: [
             '--no-sandbox',
@@ -20,10 +21,10 @@ async function visit(url) {
         ],
         ignoreHTTPSErrors: true
     });
-    var page = await browser.newPage();
+    const page = await browser.newPage();
     
-    var idx = Math.floor(Math.random() * flag_content.length);
-    var k = flag_content.charCodeAt(idx) - 65 + 1;
+    const idx = Math.floor(Math.random() * flag_content.length);
+    const k = flag_content.charCodeAt(idx) - 65 + 1;
 
     for (let i = 0; i < k; i++) {
         await page.goto(`http://localhost:${PORT}/${crypto.randomBytes(20).toString("hex")}`, {waitUntil: "networkidle0"});
