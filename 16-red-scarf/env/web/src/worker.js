@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const crypto = require("crypto")
+const PORT = process.env.PORT ?? 12345;
 const FLAG = process.env.FLAG ?? "flag{THISISATESTFLAG}";
 const flag_content = FLAG.slice(FLAG.indexOf("{") + 1, -1);
 
@@ -15,7 +16,7 @@ async function visit(url) {
             '--disable-translate',
             '--disable-device-discovery-notifications',
             '--disable-software-rasterizer',
-            '--disbale-xss-auditor'
+            '--disable-xss-auditor'
         ],
         ignoreHTTPSErrors: true
     });
@@ -25,7 +26,7 @@ async function visit(url) {
     var k = flag_content.charCodeAt(idx) - 65 + 1;
 
     for (let i = 0; i < k; i++) {
-        await page.goto(`http://example.com/${crypto.randomBytes(20).toString("hex")}`, {waitUntil: "networkidle0"});
+        await page.goto(`http://localhost:${PORT}/${crypto.randomBytes(20).toString("hex")}`, {waitUntil: "networkidle0"});
     }
 
     await page.goto(url+`?z=${idx}`, {waitUntil: "networkidle2"});
