@@ -110,25 +110,56 @@ For reference, the firebase security rule is as follows.
     ".read" : false,
     "users" : {
       ".read" : "auth != null",
-      ".write" : "auth != null",
+      "$user_id": {
+        ".write" : "!data.exists() && newData.exists() && auth != null",
+        ".validate": "newData.hasChildren(['profile'])",
+        "profile": {
+          ".validate": "newData.hasChildren(['email', 'uid'])",
+          "email": {
+            ".validate":"newData.isString() && newData.val() === auth.token.email"
+          },
+          "uid": {
+            ".validate": "newData.isString() && newData.val() === $user_id"
+          }
+        }
+      }
     },
     "chatrooms" : {
       ".read" : "auth != null",
-      ".write" : "!data.exists() || !newData.exists() && auth != null",
       "$chatroomid":{
+        ".validate": "newData.hasChildren(['chatroom'])",
+        ".write" : "!data.exists() && newData.exists() && auth != null",
         "chatroom":{
+          ".validate" : "newData.hasChildren(['name', 'uuid', 'participants', 'description'])",
           "participants":{
             ".write":"auth != null"
+          },
+          "uuid":{
+						".validate": "newData.isString() && newData.val() === $chatroomid &&  newData.val().matches(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)",
+          },
+          "name":{
+		        ".validate": "newData.isString()",
+          },
+          "description":{
+		        ".validate": "newData.isString()",
           }
-        }
-
+        },
+        "$other": { ".validate": false }
       }
     },
     "messages" : {
       "$messageid" : {
         ".read" : "root.child('chatrooms').child($messageid).child('chatroom').child('participants').child(auth.uid).exists()",
+        ".validate" : "root.child('chatrooms').child($messageid).exists()",
         "$timestamp":{
-          ".write" : "!data.exists() || !newData.exists() && auth != null",
+          ".write" : "!data.exists() && newData.exists() && auth != null",
+          ".validate" : "newData.hasChildren(['message', 'sender'])",
+          "message": {
+            ".validate":"newData.isString() && !newData.val().matches(/b6actf\\{/)"
+          },
+          "sender": {
+            ".validate": "newData.isString() && newData.val() === auth.token.email"
+          }
         }
       }
     }
