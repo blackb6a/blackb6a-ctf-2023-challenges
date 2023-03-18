@@ -1,0 +1,1 @@
+flag = "b6actf{0n3_sM4LL_maP_f0R_Man;1_GiAn7_Fl4g_4_y4'all}"
