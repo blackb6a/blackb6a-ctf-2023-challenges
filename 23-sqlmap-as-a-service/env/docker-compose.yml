@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  saas:
+    build: saas/.
+    ports:
+      - "8809:3306"
