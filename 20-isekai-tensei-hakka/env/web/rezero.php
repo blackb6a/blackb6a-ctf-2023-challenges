@@ -1,6 +1,7 @@
+#!/usr/local/bin/php
 <?php
 set_time_limit(0);
-$flag = "b6actf{Un1ink_za_worId_Un1ock_za_res3t}";
+$dbpassword = "b6actf{Un1ink_za_worId_Un1ock_za_res3t}";
 require "/usr/local/apache2/htdocs/forum_support/config/config.php";
 $conn = new mysqli($servername, $dbusername, $dbpassword);
 $conn->query("SET NAMES utf8;");
