@@ -13,7 +13,7 @@ def escapeshellarg(arg):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-	if request.method == "POST" and request.remote_addr != "127.0.0.1":
+	if request.method == "POST":
 		if "g-recaptcha-response" not in request.form or request.form["g-recaptcha-response"] == "":
 			return "Bad reCAPTCHA"
 		data = urlencode({"secret": G_SECRET, "response": request.form["g-recaptcha-response"]}).encode('ascii')
@@ -24,7 +24,9 @@ def index():
 		if '"success": true' not in fetch:
 			return "reCAPTCHA is broken"
 		url = escapeshellarg(request.form["url"])
-		command = "qutebrowser -T -s content.pdfjs true -s content.javascript.can_open_tabs_automatically true -s url.start_pages \"data:text/plain,$FLAG\" -- %s" % url
+		if url[:8] != "'http://" and url[:9] != "'https://":
+			return "Invalid URL"
+		command = "qutebrowser -T -s content.pdfjs true -s content.javascript.can_open_tabs_automatically true -s url.start_pages \"data:text/plain,\" -- %s" % url
 		print(request.remote_addr + ": " + command, flush=True)
 		try:
 			subprocess.run(command, shell=True, timeout=30, cwd="/tmp")
@@ -41,7 +43,7 @@ def index():
 <h2>Kill T Browser</h2>
 <form method="post">
 <p style="font-family:Courier New;background:#CCCCCC;font-size:16pt;padding:0.25em">
-qutebrowser -T -s content.pdfjs true -s content.javascript.can_open_tabs_automatically true -s url.start_pages "data:text/plain,$FLAG" -- 
+qutebrowser -T -s content.pdfjs true -s content.javascript.can_open_tabs_automatically true -s url.start_pages "data:text/plain," -- 
 <input style="font-family:Courier New;background:#CCCCCC;font-size:16pt;border:0;width:70%%" name="url" placeholder="http://example.com">
 </p>
 <div class="g-recaptcha" data-sitekey="%s"></div>
@@ -50,8 +52,7 @@ qutebrowser -T -s content.pdfjs true -s content.javascript.can_open_tabs_automat
 <p>Remarks: 
 <ul>
 <li>Timeout in 30 seconds</li>
-<li>Flag 1 is shown in the start page</li>
-<li>Flag 2 is located in the root directory with name /proof*.sh</li>
+<li>Reborn every 30 minutes</li>
 </ul>
 </p>
 </body>
