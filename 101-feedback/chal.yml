@@ -1,0 +1,12 @@
+# other metadata fields
+enabled: true
+author: 'Black Bauhinia'
+categories:
+- ☆☆☆☆☆
+points: 10
+released_at: '2022-11-12 10:00:00'
+flag: 'b6actf{TODO}'
+metadata:
+  location:
+    lat: 22.30804
+    lon: 113.91848

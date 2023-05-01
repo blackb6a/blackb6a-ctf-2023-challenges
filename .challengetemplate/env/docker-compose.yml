@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  chal:
+    build: chal
+    ports:
+      - "8080:80"
+    restart: unless-stopped
