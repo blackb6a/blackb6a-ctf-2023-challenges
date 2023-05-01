@@ -21,15 +21,11 @@ def hash_matrix(M):
     s = [ZZ(list(c), 2) for row in M for c in row]
     return hashlib.sha512(str(s).encode()).digest()
     
-# G in <A, B>
 Alice, Bob = [Player() for _ in range(2)]
 Alice.exchange(Bob.pub())
 Bob.exchange(Alice.pub())
 assert Alice.shared() == Bob.shared()
 
-# A_pub = A^k1 * B^k2
-# B_pub = A^m1 * B^m2
-# A_secret = A^(k1 + m1) * B^(m2 + k2)
 with open("flag.txt", "r") as fin, open("output.txt", "w") as fout:
     FLAG = fin.read().strip().encode("utf-16")
     assert len(FLAG) <= 64
