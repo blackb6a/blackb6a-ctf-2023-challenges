@@ -1,32 +1,11 @@
-# 人曲大戰 / VS Code
-
-## Category
-
-Misc/Crypto
-
-## Contributors
-
--   **Author:** RaccoonNinja
--   **Idea by:** TWY
--   **Tester:** 
+VS Code (人曲大戰)
+===
 
 ## Description
 
-> 不妨濛一點 模糊地享受
-> 現在在你旁邊　掌心的軟
-> 靠幻想纏綿　不必看　我的臉
-
-https://www.youtube.com/watch?v=-0BYjJW4Wsk
+Making a challenge has never been easier! Just paste a screenshot and there you go.
 
 > How hard can this cryptogram be - there are even spaces and syntax highlightings!
 > Wait - you're saying that this is your new programming language? You must be lying.
 
 *Remark: all characters are ASCII*
-
-## Notes
-I don't know if this can be solved.
-Do let me know if there is any bug or any rooms for improvement.
-
-## Flag
-
-See `src`.
