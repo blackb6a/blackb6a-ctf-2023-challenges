@@ -26,4 +26,4 @@ Mystiz loves to pay tribute to (i.e., plagarise) challenges. This time he refere
 
 ## Flag
 
-(TODO)
+`b6actf{h0w_c4n_y0u_c0mpu73_d109s_s00ooo_qu1ckly}`

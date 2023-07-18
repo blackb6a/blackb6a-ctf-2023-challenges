@@ -2,7 +2,8 @@ from pwn import *
 from tqdm import trange
 
 # context.log_level = 'debug'
-r = process(['python3', 'chall.py'])
+# r = process(['python3', 'chall.py'])
+r = remote('localhost', 28101)
 
 for i in trange(256):
     log.info(f'=== Round {i+1}/256 ===')
