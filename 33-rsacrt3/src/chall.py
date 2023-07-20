@@ -66,10 +66,6 @@ print(f"{n = }")
 # ATTENTION: s is deterministic! But so what? You don't have `nc` anyways.
 rands = [RSALCG(a, b, e, n, deterministicGetRandomInteger(1024) % n) for _ in range(ROUND)]
 
-# DEBUG ONLY
-print(rands[ROUND-1].s)
-assert False
-
 while True:
   m = decrypt(rands, bytes.fromhex(input("> ")))
   if m.lstrip(b"\x00") == FLAG.encode():
