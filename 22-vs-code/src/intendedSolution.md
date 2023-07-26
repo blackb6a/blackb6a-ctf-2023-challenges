@@ -1,6 +1,6 @@
 # Skills required: Planning an efficient solve, Data analysis, Solving cryptograms
 
-In this challenge, players receive a png file taken from the *minimap* of VSCode as hinted at title. By default `editor.minimap.renderCharacters` is on and this can leak the whole program, given sufficient code text.
+In this challenge, players receive a png file taken from the *minimap* of VSCode[1] as hinted at title. By default `editor.minimap.renderCharacters` is on and this can leak the whole program, given sufficient code text.
 
 While the source code syntax coloring is customized (we'll go through that later), it is highly reminiscent of Python. I have put a trick to reduce guessing and cheesy solutions however, in that **the program is in fact a cryptogram and the syntax highlighting rules are based on the cryptogram instead of normal Python keywords**. This can be confirmed with a simple sanity check (observe the pixel sharpness):
 
@@ -88,7 +88,7 @@ with Image.open("JigII.rn.png") as im:
 
 The problem at hand has 2 variables: *which* character it is and *what* color it is. Considering the pixels individually may give you some results on the *character* but generally it performs poorly when it comes to pinpointing the color. This is why the clustering is needed.
 
-It is very useful to generate a helper png file with `#ffffff` text color and `#000000` background color for reference.
+It is very useful to generate a helper png file with `#ffffff` text color and `#000000` background color for reference.[2]
 
 <img src="./_resources/letters.png" alt="A tiny helper png file showing how letters in the ascii range is rendered with white text color under a black background" />
 
@@ -430,7 +430,11 @@ if __name__ == "__main__":
     - `#d68556` from the skin beige unicode character escape highlighting, this is the only coloring category that deviates from the default vscode theme.
     - They are used as `bytes.fromhex` so the case don't matter.
   - The `support.type.raccoon` entry in the ~~python~~`raccoon` language's grammar setting file, which needs to undergo *some* encryption in order to support syntax highlighting in the new `raccoon` language.
-    - Taking reference from the original `MagicPython.tmLanguage.json` file: `"(?x)\n  (?<!\\.) \\b(\n    bool | bytearray | bytes | classmethod | complex | dict\n    | float | frozenset | int | list | object | property\n    | set | slice | staticmethod | str | tuple | type\n\n    (?# Although 'super' is not a type, it's related to types,\n        and is special enough to be highlighted differently from\n        other built-ins)\n    | super\n  )\\b\n"`, the code extracts the various types (duplicating `type` and `super`).
+    - Taking reference from the [original `MagicPython.tmLanguage.json` file](https://github.com/microsoft/vscode/blob/main/extensions/python/syntaxes/MagicPython.tmLanguage.json): `"(?x)\n  (?<!\\.) \\b(\n    bool | bytearray | bytes | classmethod | complex | dict\n    | float | frozenset | int | list | object | property\n    | set | slice | staticmethod | str | tuple | type\n\n    (?# Although 'super' is not a type, it's related to types,\n        and is special enough to be highlighted differently from\n        other built-ins)\n    | super\n  )\\b\n"`, the code extracts the various types (duplicating `type` and `super`).
     - Only `n` gives `frozensetint` which is 12-letter long, encoding again with our scheme, the second half of the key is `CbeaOUYOlLUl`
 - There are only *4* unknown letters in the encoded flag, which can be readily bruteforced
   - ~~they are really digits and not `B` or `F`, `hex()` doesn't trick you~~
+
+Notes:
+- [1] Actually Codium is used.
+- [2] TWY, who came up with the original idea, found out [the actual colorings used in the official source](https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/viewParts/minimap/minimapPreBaked.ts).
