@@ -35,15 +35,15 @@ def finalTest(recipe1, recipe2):
     print("It's time for the final test!")
 
     print("Please give me dish with recipe 1 using the MSG 'cryptochefisgood':")
-    sig = input('> ')
+    dish = input('> ')
 
-    sig = base64.b64decode(sig.encode())
+    dish = base64.b64decode(dish.encode())
     msg = b'cryptochefisgood'
 
-    sig = list(map(int, ''.join(format(b, '08b') for b in sig)))
+    dish = list(map(int, ''.join(format(b, '08b') for b in dish)))
     msg = list(map(int, ''.join(format(b, '08b') for b in msg)))
 
-    if recipe1.verify(sig, msg):
+    if np.array_equal(recipe1.cook(msg), dish):
         print("Nice! You have mastered this recipe!")
     else:
         print("Hum... Please come again after you have sharpened your cooking skills.")
@@ -51,15 +51,15 @@ def finalTest(recipe1, recipe2):
     
     print("=========================================================================")
     print("Please give me dish with recipe 2 using the MSG 'ilovemsg':")
-    sig = input('> ')
+    dish = input('> ')
 
-    sig = base64.b64decode(sig.encode())
+    dish = base64.b64decode(dish.encode())
     msg = b'ilovemsg'
 
-    sig = list(map(int, ''.join(format(b, '08b') for b in sig)))
+    dish = list(map(int, ''.join(format(b, '08b') for b in dish)))
     msg = list(map(int, ''.join(format(b, '08b') for b in msg)))
 
-    if recipe2.verify(sig, msg):
+    if np.array_equal(recipe2.cook(msg), dish):
         print("Congratulations! You have mastered all the recipes!")
     else:
         print("Hum... Please come again after you have sharpened your cooking skills.")
@@ -89,7 +89,7 @@ def main():
     print("Of course, you can cook a few dishes with me to get some cooking skills first.")
 
     try:
-        for _ in range(32):
+        for _ in range(self.o // 2 + 1):
             cmd = input("> ")
             args = cmd.split(' ')
             if args[0] == 'cook':
