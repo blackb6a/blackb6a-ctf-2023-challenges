@@ -1,6 +1,6 @@
 version: '3.8'
 services:
     kernpass:
-    build: ./chall
-    ports:
-      - "9999:9999"
+      build: ./chall
+      ports:
+        - "9999:9999"
