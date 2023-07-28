@@ -16,6 +16,7 @@ struct sock_filter filter[] = {
     VALIDATE_ARCHITECTURE,
     EXAMINE_SYSCALL,
     DISALLOW_SYSCALL(socket),
+    DISALLOW_SYSCALL(ptrace),
     ALLOW_PROCESS
 };
 
@@ -49,7 +50,11 @@ int main(int argc, char **argv)
         fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
         return 1;
     }
-    
+   
+    close(0);
+    close(1);
+    close(2);
+
     filename = argv[1];
     activate_seccomp();
     execve(filename, 0, 0);

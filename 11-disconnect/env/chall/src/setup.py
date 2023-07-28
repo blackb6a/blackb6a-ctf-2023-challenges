@@ -19,9 +19,8 @@ def receive_data():
     # Close the temp file
     temp_file.close()
 
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     os.chmod(filename, 0o555)
-
+    
     pid = subprocess.Popen(["./sandbox", filename], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(3)
     pid.kill()
