@@ -34,7 +34,7 @@ void tournament() {
     printf("Enter your guess:");
     scanf("%s", &guess);
 
-    if (strncmp(&random_number, &guess, sizeof(unsigned long)) == 0) {
+    if (guess == random_number) {
         printf("You are the god of gamblers!\n");
         printf("Here is your flag!\n");
         win();

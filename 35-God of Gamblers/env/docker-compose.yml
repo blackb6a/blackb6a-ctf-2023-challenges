@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-    gamblers:
-      build: ./chall
-      ports:
-        - "9999:9999"
+  gamblers:
+    build: ./chall
+    ports:
+      - "9999:9999"
