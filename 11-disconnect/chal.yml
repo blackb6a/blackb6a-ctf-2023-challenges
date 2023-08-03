@@ -1,0 +1,9 @@
+# other metadata fields
+enabled: true
+author: 'botton'
+categories:
+- pwn
+- ★★★☆☆
+points: 500
+released_at: '1970-01-01 12:00:00'
+flag: 'b6actf{50ck37_15_n07_7h3_0nly_5y5c4ll_70_cr3473_50ck37}'
