@@ -7,7 +7,7 @@ Crypto
 ## Contributors
 
 -   **Author:** grhkm
--   **Testers:** -
+-   **Testers:** Mystiz
 
 ## Description
 
