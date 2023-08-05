@@ -3,4 +3,4 @@ services:
     disconnect:
       build: ./chall
       ports:
-        - "9999:9999"
+        - "1337:9999"

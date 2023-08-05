@@ -17,7 +17,7 @@ service app
     server_args = -u /home/disconnect/setup.py
 
     # the maximum instances of this service per source IP address
-    per_source = 20
+    per_source = 5
     # the maximum number of CPU seconds that the service may use
     # rlimit_cpu = 20 
     # the Address Space resource limit for the service

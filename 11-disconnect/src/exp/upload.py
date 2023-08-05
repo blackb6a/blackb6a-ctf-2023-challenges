@@ -1,6 +1,6 @@
 from pwn import *
 
-r = remote("127.0.0.1", 9999)
+r = remote("127.0.0.1", 1337)
 
 with open("solve", 'rb') as file:
     data = file.read()

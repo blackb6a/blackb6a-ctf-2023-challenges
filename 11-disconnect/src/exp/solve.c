@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <liburing.h>
 
-char *ip = "124.244.120.26";
+char *ip = "210.209.101.153";
 int port = 58888;
 
 int main(int argc , char *argv[])
@@ -32,7 +32,7 @@ int main(int argc , char *argv[])
     io_uring_submit(&ring);
     io_uring_wait_cqe(&ring, &cqe);
 
-    int sockfd = 5;
+    int sockfd = fd+2;
     if (sockfd == -1){
         printf("Fail to create a socket.");
     }
@@ -57,6 +57,5 @@ int main(int argc , char *argv[])
 
     send(sockfd,message, 0x100,0);
 
-    getchar();
     return 0;
 }

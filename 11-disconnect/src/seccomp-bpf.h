@@ -66,8 +66,9 @@ struct seccomp_data {
 
 #define VALIDATE_ARCHITECTURE \
 	BPF_STMT(BPF_LD+BPF_W+BPF_ABS, arch_nr), \
-	BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, ARCH_NR, 1, 0), \
-	BPF_JUMP(BPF_JMP | BPF_JGE | BPF_K, 0x40000000, 0, 1), \
+	BPF_JUMP(BPF_JMP+BPF_JEQ+BPF_K, ARCH_NR, 0, 2), \
+	BPF_STMT(BPF_LD + BPF_W + BPF_ABS, (offsetof(struct seccomp_data, nr))), \
+	BPF_JUMP(BPF_JMP + BPF_JGE + BPF_K, 0x40000000, 0, 1), \
 	BPF_STMT(BPF_RET+BPF_K, SECCOMP_RET_KILL)
 
 #define EXAMINE_SYSCALL \
