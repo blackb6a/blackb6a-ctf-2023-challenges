@@ -1,4 +1,4 @@
-# 日練夜練沒有假 / Unity WebGL game
+# 日練夜練沒有假 / Very Simplified RPG
 
 ## Category
 
