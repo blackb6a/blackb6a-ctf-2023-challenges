@@ -7,7 +7,7 @@ Misc
 ## Contributors
 
 -   **Author:** GonJK
--   **Testers:** hollow, fsharp
+-   **Testers:** hollow
 
 ## Description
 
