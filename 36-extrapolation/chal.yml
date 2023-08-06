@@ -3,7 +3,7 @@ enabled: true
 author: 'GonJK'
 categories:
 - misc
-points: 250
+points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{c4n_y0u_trust_y0ur_scr33n_c4p}'
 deployment:
