@@ -1,85 +1,51 @@
+#!/usr/bin/env python3
+import json, re, subprocess
+from flag import flag
+import bcrypt
 
-import json, re, subprocess, string
-from os import path
-from secret import flag
-from Crypto.Cipher import AES
+# the flag does match the prescribed format
+assert re.match(r"^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$", flag)
 
-def find_user_extensions() -> list[str]:
-    result = subprocess.run([
-        "find",
-        path.expanduser("~/.vscode-oss/extensions"),
-        "-name",
-        "package.json"
-    ], stdout=subprocess.PIPE)
-    return result.stdout.strip().decode().split("\n")
-
-def open_and_parse_json(path):
+def oapj(path):
     with open(path) as p:
-        return json.load(p)
+        return json.loads(re.sub("//.*","",p.read(),flags=re.M))
 
-for package in find_user_extensions():
-    data = open_and_parse_json(package)
-    try:
-        if "raccoon" in [x["id"] for x in data["contributes"]["languages"]]:
-            for g in data["contributes"]["grammars"]:
-                if g["scopeName"] == "source.raccoon":
-                    rn_grammar = open_and_parse_json(
-                        path.normpath(path.join(package, "..", g["path"]))
-                    )
-                    break
-    except:
-        continue
+ws = oapj(".vscode/settings.json")["editor.tokenColorCustomizations"]
 
-ws = open_and_parse_json(".vscode/settings.json")
+def inscope(rule, val):
+    r = rule['scope']
+    return r==val if type(r)==str else val in r if type(r)==list else False
 
-def get_child(obj, paths):
-    try:
-        for p in paths:
-            obj = obj[p]
-        return obj
-    except:
-        return None
+rules=[
+    "source.python",
+    "keyword.control",
+    "keyword.operator",
+    "keyword.operator.logical.python",
+    "constant.language",
+    ["constant.character.escape","constant.character.unicode"],
+    ["constant.character.set.regexp","string.regexp"],
+]
 
-tmdrules = get_child(ws, ["editor.tokenColorCustomizations", "textMateRules"])
+tmdrules = ws['textMateRules']
+assert len(tmdrules) == len(rules)
+for i,r in enumerate(rules):
+    if type(r)==str:
+        assert inscope(tmdrules[i], r)
+    elif type(r)==list or type(r)==tuple:
+        assert all(inscope(tmdrules[i], x) for x in r)
+    else:
+        raise Exception("0 mark redo")
 
-assert "keyword.control" == tmdrules[0]["scope"]
-assert "constant.character.escape" in tmdrules[4]["scope"]
-
-colors_1st_part = list(map(lambda x: x.replace("#",""), [
-    get_child(ws,["workbench.colorCustomizations","minimap.selectionHighlight"]),
-    get_child(ws,["editor.tokenColorCustomizations", "functions"]),
-    tmdrules[0]["settings"]["foreground"],
-    tmdrules[4]["settings"]["foreground"],
+colors = list(map(lambda x: x.replace("#",""), [
+    *(ws[k] for k in sorted(x for x in ws.keys() if re.match("^[a-z]+$", x))),
+    *(t["settings"]["foreground"] for t in tmdrules)
 ]))
 
-assert all(len(x)==6 for x in colors_1st_part)
+assert all(type(x) == str and len(x)==6 for x in colors)
 
-bt = get_child(rn_grammar, ["repository","builtin-types"])
-assert bt["name"] == "support.type.raccoon"
-colors_2nd_part = "".join(x for x in re.compile(bt["match"]).findall(bt["match"]) if 'U' in x)
-assert len(colors_2nd_part) == 12
+peppered_flag = flag.encode('utf-8') + bytes.fromhex("".join(colors))
 
-cipher = AES.new(bytes.fromhex("".join(colors_1st_part))+colors_2nd_part.encode(), AES.MODE_CTR, nonce=b"")
+assert len(peppered_flag)<=72 # bcrypt
 
-assert flag == "b6actf{0n3_sM4LL_maP_f0R_Man;1_GiAn7_Fl4g_4_y4'all}" # no escape
-inside = re.compile(r"""
-^
-\x62    # different escapes
-\u0036  # TIL I can put comments in regex
-\141    # How cool
-ctf\{([!-z]{43})\}
-""", re.X).match(flag)[0].encode()
-
-assert cipher.encrypt(inside).hex() == "503dffdf68de1a94143572e1303fd357559f11d876d507ca674a4bf621d6c1e44c8a0f3e9cfc93dbedfb54f00aa8bcde796d15"
-
-if __name__ == "__main__":
-    filename = path.basename(__file__)
-
-    with open(f'./{filename}') as f:
-        data = f.read()
-
-    with open('./ciphertext') as f:
-        translation = str.maketrans(string.digits+string.ascii_letters, f.read().rstrip())
-
-    with open(F'./{filename.translate(translation)}', 'w') as f:
-        f.write(data.translate(translation))
+# every trial counts
+assert bcrypt.checkpw(peppered_flag, b'$2b$13$6Od/kTTrv619HcJUWmu9yO1UNiz.sdzpeIz.HwaAxVUR46l05Lxsm')
