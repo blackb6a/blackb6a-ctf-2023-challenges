@@ -4,48 +4,46 @@
         "minimap.background": "#202020"
     },
     "editor.tokenColorCustomizations": {
-        "comments": "#315528", //first 2 comments
-        "functions": "#6cf73e", //enumerate
-        "keywords": "#279c00", //def,lambda,r ['26', '27', '28', '29', '2a', '2b', '2c'] 9c 0
-        "numbers": "#f5e6a0", // OVERWRITTEN BY constant.numeric
-        "strings": "#138f13", //M in encrypted flag
-        "types": "#49d11b", //49d1 ['16', '17', '18', '19', '1a', '1b']
-        "variables": "#ccdd99", //! flags 
+        "comments": "#315528", 
+        "functions": "#6cf73e", 
+        "keywords": "#279c00", 
+        "numbers": "#f5e6a0", 
+        "strings": "#138f13", 
+        "types": "#49d11b", 
+        "variables": "#ccdd99", 
         "textMateRules": [
             {
                 "scope": [
                     "source.python"
                 ],
                 "settings": {
-                    "foreground": "#5a8f5a" //first line
+                    "foreground": "#5a8f5a" 
                 }
             },
             {
                 "scope": "keyword.control",
                 "settings": {
-                    "foreground": "#beff33" //import with
+                    "foreground": "#beff33" 
                 }
             },
             {
                 "scope": "keyword.operator",
                 "settings": {
-                    "foreground": "#ffffbe" //*<=
+                    "foreground": "#ffffbe" 
                 }
             },
             {
                 "scope": "keyword.operator.logical.python",
                 "settings": {
-                    "foreground": "#00ff00" //or
+                    "foreground": "#00ff00" 
                 }
             },
             {
                 "scope": [
-                    "entity.name.tag",
-                    "constant.language",
-                    "variable.language"
+                    "constant.language"
                 ],
                 "settings": {
-                    "foreground": "#9cff27" //9cff['25', '26', '27', '28', '29', '2a', '2c']
+                    "foreground": "#ecff58" 
                 }
             },
             {
@@ -54,7 +52,7 @@
                     "constant.character.unicode"
                 ],
                 "settings": {
-                    "foreground": "#85d656" //\x62
+                    "foreground": "#85c656" 
                 }
             },
             {
@@ -63,7 +61,16 @@
                     "string.regexp"
                 ],
                 "settings": {
-                    "foreground": "#defaca" //A-Za-z0-9-_
+                    "foreground": "#defaca" 
+                }
+            },
+            {
+                "scope": [
+                    "constant.other.set.regexp",
+                    "keyword.operator.quantifier.regexp"
+                ],
+                "settings": {
+                    "foreground": "#acfe09"
                 }
             }
         ]
