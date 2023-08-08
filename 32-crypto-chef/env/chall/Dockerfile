@@ -11,4 +11,4 @@ WORKDIR /home/ctfuser
 COPY *.py /home/ctfuser/
 RUN python3 -m compileall /home/ctfuser/
 
-CMD socat TCP-LISTEN:1337,reuseaddr,fork EXEC:"stdbuf -i0 -o0 -e0 /home/ctfuser/venv/bin/python3 /home/ctfuser/chall.py"
+CMD socat TCP-LISTEN:1337,reuseaddr,fork EXEC:"stdbuf -i0 -o0 -e0 (/home/ctfuser/venv/bin/python3 /home/ctfuser/PoW.py && /home/ctfuser/venv/bin/python3 /home/ctfuser/chall.py)"
