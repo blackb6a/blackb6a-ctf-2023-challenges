@@ -1,4 +1,4 @@
-# 不求月老 / Red Scarf
+# 在生 / Carpe Diem
 
 ## Category
 
@@ -6,8 +6,8 @@ Web
 
 ## Contributors
 
--   **Author:** Hollow
--   **Testers:** 
+-   **Author:** hollow
+-   **Testers:** Ozetta
 
 ## Description
 
@@ -27,4 +27,4 @@ The flag only contains capital letters.
 
 ## Flag
 
-(TODO)
+b6actf{EYETOEYE}
