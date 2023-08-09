@@ -4,7 +4,7 @@ River Crab Extinction
 ## Summary
 
 * **Author:** Ozetta
-* **Category:** Web, ★★★☆☆
+* **Category:** Web
 
 ## Description
 
@@ -13,4 +13,4 @@ The big brother mandated the installation of content filter software. Show the b
 
 ## Flag
 
-`flag{eight_times_eight_equals_seventy_two}`
+`b6actf{Master_Password=***************************************************************}`

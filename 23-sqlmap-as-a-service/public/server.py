@@ -26,16 +26,18 @@ def index():
 		if '"success": true' not in fetch:
 			return "reCAPTCHA is broken"
 		argv = escapeshellcmd(request.form["argv"])
-		if "-eval" in argv:
-			payload = argv[argv.find("-eval")+6:].split()[0]
+		if "eval" in argv:
+			payload = argv[argv.find("eval")+5:].split()[0]
 			return "<script>for(;;){try{eval(prompt('eval','%s'))}catch(e){}}</script>" % payload
-		if "-alert" in argv:
-			payload = argv[argv.find("-alert")+7:].split()[0]
+		if "alert" in argv:
+			payload = argv[argv.find("alert")+6:].split()[0]
 			return "<script>for(;;){alert('%s')}</script>" % payload
-		command = "python sqlmap.py %s" % argv
+		if "proxy" in argv:
+			return "<script>location='http://squid:3128'</script>"
+		command = "python sqlmap.py --proxy=http://squid:3128 %s" % argv
 		print(request.remote_addr + ": " + command, flush=True)
 		try:
-			out = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, timeout=30, cwd="/sqlmap-dev")
+			out = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT, timeout=180, cwd="/sqlmap-dev")
 		except subprocess.CalledProcessError as e:
 			out = e.output
 		return "<code>%s</code><hr /><plaintext>%s" % (command, out.decode("utf-8"))
@@ -48,9 +50,9 @@ def index():
 <body>
 <h2>Sqlmap as a Service</h2>
 <form method="post">
-<p style="font-family:Courier New;background:#CCCCCC;font-size:16pt;padding:0.25em">
-python sqlmap.py 
-<input style="font-family:Courier New;background:#CCCCCC;font-size:16pt;border:0;width:80%%" name="argv" placeholder="http://menazon.ozetta.net/search.php --answers=Y --data=search=Y">
+<p style="font-family:Courier New;background:#CCCCCC;font-size:14pt;padding:0.25em">
+python sqlmap.py --proxy=http://squid:3128 
+<input style="font-family:Courier New;background:#CCCCCC;font-size:14pt;border:0;width:63%%" name="argv" placeholder="-u http://menazon.ozetta.net/search.php --answers=Y --data=search=Y">
 </p>
 <div class="g-recaptcha" data-sitekey="%s"></div>
 <p><input type="submit"></p>
@@ -58,9 +60,9 @@ python sqlmap.py
 <p>Remarks: 
 <ul>
 <li style="color:red">Do not scan others without permission. Your IP will be reported if we receive abuse complains. </li>
-<li>Timeout in 30 seconds </li>
+<li>Timeout in 180 seconds </li>
 <li>Reborn every 30 minutes </li>
-<li>To prevent hackers like you hacking the service, the keywords <code style="color:red">-eval</code> and <code style="color:red">-alert</code> are blocked. </li>
+<li>To prevent hackers like you hacking the service, the keywords <code style="color:red">eval</code>, <code style="color:red">alert</code> and <code style="color:red">proxy</code> are blocked. </li>
 </ul>
 </p>
 </body>

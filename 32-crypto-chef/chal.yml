@@ -1,0 +1,18 @@
+# other metadata fields
+enabled: true
+author: 'hoifanrd'
+categories:
+- crypto
+points: 500
+released_at: '1970-01-01 12:00:00'
+flag: 'b6actf{1_w0nd3r_wha7_th3_d15h_t4573_l1k3_7035b0b3c0db29973a93afa01e8fdc4f}'
+deployment:
+  resources:
+    limits:
+      cpu: "4"
+      memory: "1Gi"
+  type: normal
+  port: 30032
+  stateful: false
+metadata:
+  youtubeUrl: xRXj7R1j3cE

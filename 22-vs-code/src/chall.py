@@ -1,85 +1,62 @@
-
-import json, re, subprocess, string
-from os import path
-from secret import flag
+#!/usr/bin/env python3
+import json, re
+from flag import flag
+import bcrypt
 from Crypto.Cipher import AES
 
-def find_user_extensions() -> list[str]:
-    result = subprocess.run([
-        "find",
-        path.expanduser("~/.vscode-oss/extensions"),
-        "-name",
-        "package.json"
-    ], stdout=subprocess.PIPE)
-    return result.stdout.strip().decode().split("\n")
+# the flag does match the prescribed format
+assert re.match(r"^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$", flag)
 
-def open_and_parse_json(path):
+def oapj(path):
     with open(path) as p:
         return json.load(p)
 
-for package in find_user_extensions():
-    data = open_and_parse_json(package)
-    try:
-        if "raccoon" in [x["id"] for x in data["contributes"]["languages"]]:
-            for g in data["contributes"]["grammars"]:
-                if g["scopeName"] == "source.raccoon":
-                    rn_grammar = open_and_parse_json(
-                        path.normpath(path.join(package, "..", g["path"]))
-                    )
-                    break
-    except:
-        continue
+ws = oapj(".vscode/settings.json")["editor.tokenColorCustomizations"]
 
-ws = open_and_parse_json(".vscode/settings.json")
+def inscope(rule, val):
+    r = rule['scope']
+    return r == val if type(r) == str else val in r if type(r) == list else False
 
-def get_child(obj, paths):
-    try:
-        for p in paths:
-            obj = obj[p]
-        return obj
-    except:
-        return None
+rules = [
+    "source.python",
+    "keyword.control",
+    "keyword.operator",
+    "keyword.operator.logical.python",
+    "constant.language",
+    ["constant.character.escape", "constant.character.unicode"],
+    ["constant.character.set.regexp", "string.regexp"],
+    ["constant.other.set.regexp", "keyword.operator.quantifier.regexp"]
+]
 
-tmdrules = get_child(ws, ["editor.tokenColorCustomizations", "textMateRules"])
+tmdrules = ws['textMateRules']
+assert len(tmdrules) == len(rules)
 
-assert "keyword.control" == tmdrules[0]["scope"]
-assert "constant.character.escape" in tmdrules[4]["scope"]
+for i,r in enumerate(rules):
+    if type(r) == str:
+        assert inscope(tmdrules[i], r)
+    elif type(r) == list or type(r) == tuple:
+        assert all(inscope(tmdrules[i], x) for x in r)
+    else:
+        raise Exception("0 mark redo")
 
-colors_1st_part = list(map(lambda x: x.replace("#",""), [
-    get_child(ws,["workbench.colorCustomizations","minimap.selectionHighlight"]),
-    get_child(ws,["editor.tokenColorCustomizations", "functions"]),
-    tmdrules[0]["settings"]["foreground"],
-    tmdrules[4]["settings"]["foreground"],
+colors = list(map(lambda x: x.replace("#",""), [
+    *(ws[k] for k in sorted(x for x in ws.keys() if re.match("^[a-z]+$", x))),
+    *(t["settings"]["foreground"] for t in tmdrules)
 ]))
 
-assert all(len(x)==6 for x in colors_1st_part)
+assert all(type(x) == str and len(x) == 6 for x in colors)
 
-bt = get_child(rn_grammar, ["repository","builtin-types"])
-assert bt["name"] == "support.type.raccoon"
-colors_2nd_part = "".join(x for x in re.compile(bt["match"]).findall(bt["match"]) if 'U' in x)
-assert len(colors_2nd_part) == 12
+b = bytes.fromhex("".join(colors))
 
-cipher = AES.new(bytes.fromhex("".join(colors_1st_part))+colors_2nd_part.encode(), AES.MODE_CTR, nonce=b"")
+assert len(b) <= 72 # bcrypt
 
-assert flag == "b6actf{0n3_sM4LL_maP_f0R_Man;1_GiAn7_Fl4g_4_y4'all}" # no escape
-inside = re.compile(r"""
-^
-\x62    # different escapes
-\u0036  # TIL I can put comments in regex
-\141    # How cool
-ctf\{([!-z]{43})\}
-""", re.X).match(flag)[0].encode()
+secure_key = bcrypt.kdf(
+    password = b,
+    salt = b'no bruteforcing',
+    desired_key_bytes = 32,
+    rounds = 1000
+)
 
-assert cipher.encrypt(inside).hex() == "503dffdf68de1a94143572e1303fd357559f11d876d507ca674a4bf621d6c1e44c8a0f3e9cfc93dbedfb54f00aa8bcde796d15"
+cipher = AES.new(secure_key, AES.MODE_CTR, nonce = b"no gamcholium")
 
-if __name__ == "__main__":
-    filename = path.basename(__file__)
-
-    with open(f'./{filename}') as f:
-        data = f.read()
-
-    with open('./ciphertext') as f:
-        translation = str.maketrans(string.digits+string.ascii_letters, f.read().rstrip())
-
-    with open(F'./{filename.translate(translation)}', 'w') as f:
-        f.write(data.translate(translation))
+assert cipher.encrypt(flag.encode('utf-8')).hex() == "d00fbaacc1691ff2d068aa659c438fbd6e046bd1ce1b5eb472927bf0934f19eccb688400c26415a5ccf23e7564c6812a73"

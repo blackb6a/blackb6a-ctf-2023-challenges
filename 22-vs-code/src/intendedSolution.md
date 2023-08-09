@@ -1,440 +1,219 @@
-# Skills required: Planning an efficient solve, Data analysis, Solving cryptograms
+# Skills required: Data analysis
 
 In this challenge, players receive a png file taken from the *minimap* of VSCode[1] as hinted at title. By default `editor.minimap.renderCharacters` is on and this can leak the whole program, given sufficient code text.
 
-While the source code syntax coloring is customized (we'll go through that later), it is highly reminiscent of Python. I have put a trick to reduce guessing and cheesy solutions however, in that **the program is in fact a cryptogram and the syntax highlighting rules are based on the cryptogram instead of normal Python keywords**. This can be confirmed with a simple sanity check (observe the pixel sharpness):
+While the source code syntax coloring is customized (we'll go through that later), it is highly reminiscent of Python. To increase the fun and reduce bruteforcing though, I have:
 
-<img src="./_resources/doublecheck.png" alt="Picture comparing what normal Python looks like and what the challenge looks like" />
+- Increased bcrypt rounds to 13
+- Append actual colors used before hashing
+- changed the background to #202020 to be more theme agnostic
 
-*Normal Python text on the left; Actual image on the right*
+Here's a suggested solve path:
 
-An efficient solve path could be:
-
-1. Segregate the different texts by their syntax-highlighting colors, this can be done by hand or K-means clustering techniques.
+1. Solve the cryptogram
 1. Identify exactly the various text colors
-1. Recover the encoded program
-1. Solving the cryptogram
-1. Understanding the program and trivial bruteforcing
+1. Understanding the workspace setting
 1. Get flag
 
-### Segregate the different texts
+### Solve the cryptogram
 
-- A key insight is that $\overrightarrow{text pixel}-\overrightarrow{background} = k * (\overrightarrow{text color}-\overrightarrow{background})$ and the normalized vector is dependent on true text color only
-  - Clustering by hue only will not work, there are different shades used for similar hues.
+There are many ways to approach this part since the characters themselves are intact.
 
-```py
-from PIL import Image, ImageColor
-from colorsys import hsv_to_rgb
-from sklearn.cluster import KMeans
-from sage.all import vector
-from sklearn.metrics import silhouette_score
-
-bg = vector((30,30,30))
-pixel_set = set()
-all_pixels = list()
-all_data = list()
-
-with Image.open("JigII.rn.png") as im:
-    rgb_im = im.convert('RGB')
-    for y in range(0,im.height,2):
-        for x in range(im.width):
-            pixels = [vector(rgb_im.getpixel((x,y+i)))-bg for i in range(2)]
-            pixels = sorted(pixels,key=lambda x:x.norm())
-            if pixels[1].norm():
-                new_pixel = tuple(pixels[1].normalized())
-                # this only gets pixels that round differently, so (66,-6,-6) will not be considered if (33,-3,-3) is present (it's unnecessary)
-                if not new_pixel in pixel_set:
-                    all_data.append((y,x,rgb_im.getpixel((x,y)),rgb_im.getpixel((x,y+1))))
-                    all_pixels.append(new_pixel)
-                    pixel_set.add(new_pixel)
-
-# print(all_pixels)
-X = list(all_pixels)
-
-max_result = (None, -1, None) # i, silhouette, model
-for i in range(8,18):
-    clusters = i
-    kmeans = KMeans(n_clusters = clusters, n_init="auto")
-    silhouette = silhouette_score(X, kmeans.fit_predict(X))
-    if max_result[1] < silhouette:
-        max_result = (i, silhouette, kmeans)
-print(max_result[:2])
-
-def hsv2rgb(h,s,v):
-    return tuple(round(i * 255) for i in hsv_to_rgb(h,s,v))
-
-with Image.open("JigII.rn.png") as im:
-    im2 = Image.new(mode="RGBA", size=(im.width, im.height), color=(0,0,0,0))
-    for y in range(0,im.height,2):
-        for x in range(im.width):
-            pixels = [vector(rgb_im.getpixel((x,y+i)))-bg for i in range(2)]
-            pixels = sorted(pixels,key=lambda x:x.norm())
-            if pixels[1].norm():
-                new_pixel = tuple(pixels[1].normalized())
-                cat = max_result[2].predict([new_pixel])[0]
-                if cat<max_result[0]//2:
-                    color = hsv2rgb(cat/(max_result[0]//2), 1, 1)
-                else:
-                    color = hsv2rgb((cat/(max_result[0]//2)) % 1, 1, 0.5)
-                im2.putpixel((x,y), color+tuple([255]))
-                im2.putpixel((x,y+1), color+tuple([255]))
-    im2.save("clustering.png", "PNG")
-    im2.show()
-```
-
-<img src="./_resources/clustering.png" alt="Clustering result with n=14"/>
-
-### Identify exactly the various text colors
-
-The problem at hand has 2 variables: *which* character it is and *what* color it is. Considering the pixels individually may give you some results on the *character* but generally it performs poorly when it comes to pinpointing the color. This is why the clustering is needed.
-
-It is very useful to generate a helper png file with `#ffffff` text color and `#000000` background color for reference.[2]
-
-<img src="./_resources/letters.png" alt="A tiny helper png file showing how letters in the ascii range is rendered with white text color under a black background" />
-
-As we only have `126-32+1=95` characters and the 3 channels can be considered separately, we can store the result of $i/255 * \overrightarrow{character}$ for each i in `[-0x1e,256-0x1e)` (background is `#1e1e1e`) and see if all character pixels can be generated by $i$.
-
-Here's a sample script for calculating the skin biege color at around `(0,136)~(3,141)` in the picture (at the time of writing I did not implement clustering):
+It is possible to recover 99% of the program, aside from some hard to distinguish characters like `/` vs `\`, `s` vs `{` vs `}`. It is however possible to sort them out by context.
 
 ```py
-from PIL import Image, ImageColor
-from colorsys import rgb_to_hsv, hsv_to_rgb
-from sage.all import vector
-
-with Image.open("../../mini_palette/letters.png") as im:
-    g_im = im.convert('L')
-    letters = set()
-    for x in range(im.width):
-        for y in range(0, im.height, 2):
-            letters.add(vector((g_im.getpixel((x,y+i)) for i in range(2)), immutable=True))
-
-bg = (30,30,30)
-
-def subtract_background(pixels):
-    return list(map(lambda pixel: tuple(vector(x)-vector(bg) for x in pixel), pixels))
-
-with Image.open("JigII.rn.png") as im:
-    rgb_im = im.convert('RGB')
-    yellow = set()
-    for y in range(0,im.height,2):
-        for x in range(im.width):
-            hsv1 = rgb_to_hsv(*rgb_im.getpixel((x,y)))
-            hsv2 = rgb_to_hsv(*rgb_im.getpixel((x,y+1)))
-            valid = sorted(
-                [hsv for hsv in (hsv1, hsv2) if hsv[1]],
-                key=lambda x:x[2]
-            )
-            if len(valid):
-                if abs(valid[-1][0]-21.6/360)<0.0015:
-                    for v in valid:
-                        yellow.add((rgb_im.getpixel((x,y)), rgb_im.getpixel((x,y+1))))
-
-candidates = subtract_background(yellow)
-
-sets = []
-for i in range(-30, 256-30):
-    sets.append(set(tuple(round(x) for x in l*i/255) for l in letters))
-
-print("0x", end="")
-for channel in list(zip(*list(list(zip(*c)) for c in candidates))):
-    for i,s in enumerate(sets):
-        if all(r in s for r in channel):
-            print(hex(i)[2:],end="")
-print("")
-```
-
-The following colors can be pinpointed with this method:
-- *Remark: `#ff0000` needs to be removed from the dataset, otherwise it will interfere with the `string` color*
-
-```
-#ffbe33
-#8f1313
-#ddcc99
-#f76c3e
-#d16969
-#753128
-#d68556
-#bd777f
-#8f4f56
-```
-
-### Recover the encoded program
-
-With the *accurate* colors we can again use some pattern matching, this time I can find the nearest neighbor with `scipy.spatial.cKDTree` (I didn't segregate the pixels here as that was only needed to find the colors):
-
-```py
-from PIL import Image, ImageColor
-from colorsys import rgb_to_hsv
-from scipy.spatial import cKDTree
-
-background = ImageColor.getrgb("#1e1e1e")
-
-# it's okay to not have all colors, small deviations (~2 pixels) are also okay
-palette = [ImageColor.getrgb(x) for x in [
-"#ffbe33",
-"#8f1313",
-"#ddcc99",
-"#f76c3e",
-"#d16969",
-"#753128",
-"#d68556",
-"#bd777f",
-"#8f4f56",
-] if ImageColor.getrgb(x) != background]
-
-THRESHOLD = 1e-3
-
-def dot(v1: tuple, v2: tuple) -> float:
-    return sum(a*b for a,b in zip(v1,v2))
-
-def norm(vector: tuple) -> float:
-    return sum(v**2 for v in vector)**0.5
-
-def pixel_to_weight(pixel, color, bg, silent):
-    if pixel == bg:
-        return (0, 0)
-    diff1 = tuple([a-b for a,b in zip(pixel,bg)])
-    diff2 = tuple([a-b for a,b in zip(color,bg)])
-    error = 1 - dot(diff1, diff2)/norm(diff1)/norm(diff2)
-    if not silent:
-        print("{:.6f}".format(error), end="\t")
-    return (error, norm(diff1)/norm(diff2))
-
-def pixels_to_weight(pixels, color, bg=background, silent=True):
-    info = tuple(pixel_to_weight(pixel, color, bg, silent) for pixel in pixels)
-    return (norm((info[0][0], info[1][0])),(info[0][1], info[1][1]))
-
-# https://stackoverflow.com/questions/12923586/nearest-neighbor-search-python
-
-with open("../../mini_palette/letters.txt") as f:
-    pt = f.read().rstrip()
-    with Image.open("../../mini_palette/letters.png") as im:
-        rgb_im = im.convert('RGB')
-        assert im.width == len(pt)
-        weights = [pixels_to_weight(tuple(rgb_im.getpixel((x,i)) for i in range(2)), color=(255,255,255), bg=(0,0,0))[1] for x in range(im.width)]
-        lookup = dict(zip(weights, pt))
-        Tree = cKDTree(weights, leafsize=8)
-
-with Image.open("JigII.rn.png") as im:
-    rgb_im = im.convert('RGB')
-
-    for y in range(0,im.height,2):
-        for x in range(im.width):
-            letter = tuple(rgb_im.getpixel((x,y+i)) for i in range(2))
-            if letter == (background, background):
-                print(" ", end="")
-                continue
-            candidate_weights = sorted([pixels_to_weight(letter, color) for color in palette])
-            tree_results = Tree.query(candidate_weights[0][1], k=1, distance_upper_bound=1e-1)
-            try:
-                result = weights[tree_results[1]]
-                print(lookup[result], end="")
-            except:
-                print("?", end="")
-        print("")
-```
-
-With this you should be able to recover almost the whole program text:
-
-```
-Lyrebl ZYeU, bO, YuvrbeJOYY, YlbLUs
-Cbey eY Lyrebl rgli
-Cbey YOJbOl Lyrebl CIgs
-Cbey Pbnrle.PLriOb Lyrebl Qkj
-
-??? CLUw_uYOb_OtlOUYLeUY() -> ILYl[???]:
-    bOYuIl = YuvrbeJOYY.buU([
-        "CLUw",
-        rgli.OtrgUwuYOb("~/.TYJewO-eYY/OtlOUYLeUY"),
-        "-UgyO",
-        "rgJAgsO.ZYeU"
-    ], Ylweul=YuvrbeJOYY.XEXk)
-    bOlubU bOYuIl.Ylweul.YlbLr().wOJewO().YrILl("\U")
-
-??? erOU_gUw_rgbYO_ZYeU(rgli):
-    zLli erOU(rgli) gY r:
-        bOlubU ZYeU.Iegw(r)
-
-Ceb rgJAgsO LU CLUw_uYOb_OtlOUYLeUY():
-    wglg = erOU_gUw_rgbYO_ZYeU(rgJAgsO)
-    lbn:
-        LC "bgJJeeU" LU [t["Lw"] Ceb t LU wglg["JeUlbLvulOY"]["IgUsugsOY"]]:
-            Ceb s LU wglg["JeUlbLvulOY"]["sbgyygbY"]:
-                LC s["YJerOcgyO"] == "YeubJO.bgJJeeU":
-                    bU_sbgyygb = erOU_gUw_rgbYO_ZYeU(
-                        rgli.Uebyrgli(rgli.ZeLU(rgJAgsO, "..", s["rgli"]))
-                    )
-                    vbOgA
-    OtJOrl:
-        JeUlLUuO
-
-zY = erOU_gUw_rgbYO_ZYeU(".TYJewO/YOllLUsY.ZYeU")
-
-??? sOl_JiLIw(evZ, rgliY):
-    lbn:
-        Ceb r LU rgliY:
-            evZ = evZ[r]
-        bOlubU evZ
-    OtJOrl:
-        bOlubU ????
-
-lywbuIOY = sOl_JiLIw(zY, ["OwLleb.leAOUPeIebPuYleyLaglLeUY", "lOtlxglOhuIOY"])
-
-gYYObl "AOnzebw.JeUlbeI" == lywbuIOY[6]["YJerO"]
-gYYObl "JeUYlgUl.JigbgJlOb.OYJgrO" LU lywbuIOY[0]["YJerO"]
-
-JeIebY_9Yl_rgbl = ????(ygr(?????? t: t.bOrIgJO("#",""), [
-    sOl_JiLIw(zY,["zebAvOUJi.JeIebPuYleyLaglLeUY","yLULygr.YOIOJlLeUKLsiILsil"]),
-    sOl_JiLIw(zY,["OwLleb.leAOUPeIebPuYleyLaglLeUY", "CuUJlLeUY"]),
-    lywbuIOY[6]["YOllLUsY"]["CebOsbeuUw"],
-    lywbuIOY[0]["YOllLUsY"]["CebOsbeuUw"],
-]))
-
-gYYObl gII(IOU(t)==3 Ceb t LU JeIebY_9Yl_rgbl)
-
-vl = sOl_JiLIw(bU_sbgyygb, ["bOreYLlebn","vuLIlLU-lnrOY"])
-gYYObl vl["UgyO"] == "Yurrebl.lnrO.bgJJeeU"
-JeIebY_4Uw_rgbl = "".ZeLU(t Ceb t LU bO.JeyrLIO(vl["yglJi"]).CLUwgII(vl["yglJi"]) LC 'H' LU t)
-gYYObl IOU(JeIebY_4Uw_rgbl) == 94
-
-JLriOb = Qkj.UOz(?????.CbeyiOt("".ZeLU(JeIebY_9Yl_rgbl))+JeIebY_4Uw_rgbl.OUJewO(), Qkj.xSVk_PMh, UeUJO=v"")
-
-gYYObl CIgs == "v3gJlC{6U2_Yx0BB_ygX_C6h_xgU;9_NLQU5_RI0s_0_n0'gII}" # Ue OYJgrO
-LUYLwO = bO.JeyrLIO(b"""
-^
-\t34    # wLCCObOUl OYJgrOY
-\u6623  # MEB E JgU rul JeyyOUlY LU bOsOt
-\909    # Kez JeeI
-JlC\{??!-a?????)\}
-""", bO.p).yglJi(CIgs)[6].OUJewO()
-
-gYYObl JLriOb.OUJbnrl(LUYLwO).iOt() == "162wCCwC37wO9g80902154O9262Cw215118C99w753w165Jg350g0vC349w3J9O00J7g6C2O8JCJ82wvOwCv10C66gg7vJwO583w91"
-
-LC __UgyO__ == "__ygLU__":
-    CLIOUgyO = rgli.vgYOUgyO(__CLIO__)
-
-    zLli erOU(C'./?CLIOUgyO?') gY C:
-        wglg = C.bOgw()
-
-    zLli erOU('./JLriOblOtl') gY C:
-        lbgUYIglLeU = ???.ygAOlbgUY(YlbLUs.wLsLlY+YlbLUs.gYJLL_IOllObY, C.bOgw().bYlbLr())
-
-    zLli erOU(R'./?CLIOUgyO.lbgUYIglO(lbgUYIglLeU)?', 'z') gY C:
-        C.zbLlO(wglg.lbgUYIglO(lbgUYIglLeU))
-```
-
-The program clearly spells Python with all the special characters intact.
-
-~~I tried implementing a cryptogram that involved all non-space characters, but rewriting all the regex rules was too much for me~~
-
-### Solving the cryptogram
-
-Use your favorite tool, it's possible to do it by hand.
-
-```py
-
-import json, re, subprocess, string
-from os import path
-from secret import flag
+#!/usr/bin/env python3
+import json, re
+from flag import flag
+import bcrypt
 from Crypto.Cipher import AES
 
-def find_user_extensions() -> list[str]:
-    result = subprocess.run([
-        "find",
-        path.expanduser("~/.vscode-oss/extensions"),
-        "-name",
-        "package.json"
-    ], stdout=subprocess.PIPE)
-    return result.stdout.strip().decode().split("\n")
+# the flag does match the prescribed format
+assert re.match(r"^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$", flag)
 
-def open_and_parse_json(path):
+def oapj(path):
     with open(path) as p:
         return json.load(p)
 
-for package in find_user_extensions():
-    data = open_and_parse_json(package)
-    try:
-        if "raccoon" in [x["id"] for x in data["contributes"]["languages"]]:
-            for g in data["contributes"]["grammars"]:
-                if g["scopeName"] == "source.raccoon":
-                    rn_grammar = open_and_parse_json(
-                        path.normpath(path.join(package, "..", g["path"]))
-                    )
-                    break
-    except:
-        continue
+ws = oapj(".vscode/settings.json")["editor.tokenColorCustomizations"]
 
-ws = open_and_parse_json(".vscode/settings.json")
+def inscope(rule, val):
+    r = rule['scope']
+    return r == val if type(r) == str else val in r if type(r) == list else False
 
-def get_child(obj, paths):
-    try:
-        for p in paths:
-            obj = obj[p]
-        return obj
-    except:
-        return None
+rules = [
+    "source.python",
+    "keyword.control",
+    "keyword.operator",
+    "keyword.operator.logical.python",
+    "constant.language",
+    ["constant.character.escape", "constant.character.unicode"],
+    ["constant.character.set.regexp", "string.regexp"],
+    ["constant.other.set.regexp", "keyword.operator.quantifier.regexp"]
+]
 
-tmdrules = get_child(ws, ["editor.tokenColorCustomizations", "textMateRules"])
+tmdrules = ws['textMateRules']
+assert len(tmdrules) == len(rules)
 
-assert "keyword.control" == tmdrules[0]["scope"]
-assert "constant.character.escape" in tmdrules[4]["scope"]
+for i,r in enumerate(rules):
+    if type(r) == str:
+        assert inscope(tmdrules[i], r)
+    elif type(r) == list or type(r) == tuple:
+        assert all(inscope(tmdrules[i], x) for x in r)
+    else:
+        raise Exception("0 mark redo")
 
-colors_1st_part = list(map(lambda x: x.replace("#",""), [
-    get_child(ws,["workbench.colorCustomizations","minimap.selectionHighlight"]),
-    get_child(ws,["editor.tokenColorCustomizations", "functions"]),
-    tmdrules[0]["settings"]["foreground"],
-    tmdrules[4]["settings"]["foreground"],
+colors = list(map(lambda x: x.replace("#",""), [
+    *(ws[k] for k in sorted(x for x in ws.keys() if re.match("^[a-z]+$", x))),
+    *(t["settings"]["foreground"] for t in tmdrules)
 ]))
 
-assert all(len(x)==6 for x in colors_1st_part)
+assert all(type(x) == str and len(x) == 6 for x in colors)
 
-bt = get_child(rn_grammar, ["repository","builtin-types"])
-assert bt["name"] == "support.type.raccoon"
-colors_2nd_part = "".join(x for x in re.compile(bt["match"]).findall(bt["match"]) if '?' in x)
-assert len(colors_2nd_part) == 12
+b = bytes.fromhex("".join(colors))
 
-cipher = AES.new(bytes.fromhex("".join(colors_1st_part))+colors_2nd_part.encode(), AES.MODE_CTR, nonce=b"")
+assert len(b) <= 72 # bcrypt
 
-assert flag == "???????????????????????????????????????????????????" # no escape
-inside = re.compile(r"""
-^
-\x62    # different escapes
-\u0036  # ?I? I can put comments in regex
-\141    # How cool
-ctf\{([!-z]{43})\}
-""", re.X).match(flag)[0].encode()
+secure_key = bcrypt.kdf(
+    password = b,
+    salt = b'no bruteforcing',
+    desired_key_bytes = 32,
+    rounds = 1000
+)
 
-assert cipher.encrypt(inside).hex() == "?03dffdf6?de1a?4143??2e1303fd3?????f11d??6d?0?ca6?4a4bf621d6c1e44c?a0f3e?cfc?3dbedfb?4f00aa?bcde??6d1?"
+cipher = AES.new(secure_key, AES.MODE_CTR, nonce = b"no gamcholium")
 
-if __name__ == "__main__":
-    filename = path.basename(__file__)
-
-    with open(f'./{filename}') as f:
-        data = f.read()
-
-    with open('./ciphertext') as f:
-        translation = str.maketrans(string.digits+string.ascii_letters, f.read().rstrip())
-
-    with open(F'./{filename.translate(translation)}', 'w') as f:
-        f.write(data.translate(translation))
+assert cipher.encrypt(flag.encode('utf-8')).hex() == "d00fbaacc1691ff2d068aa659c438fbd6e046bd1ce1b5eb472927bf0934f19eccb688400c26415a5ccf23e7564c6812a73"
 ```
 
-### Understanding the program and trivial bruteforcing
+### Identify exactly the various text colors
 
-- The code references how the `JigII.rn` is made and that only `:alnum:` is involved in cryptogram, which you already know :raccoon:.
-- The code also details how the flag is encrypted with a key comprised of 2 halves:
-  - The first half uses 4 different syntax highlighting colors used in the workspace `settings.json` (thank God everything's 100% sure in this part):
-    - `#ff0000` from the minimap redaction color
-    - `#f76c3e` from the highlighting for functions
-    - `#ffbe33` from the bright-yellow keyword highlighting (`try`, `return`, `import`, etc)
-    - `#d68556` from the skin beige unicode character escape highlighting, this is the only coloring category that deviates from the default vscode theme.
-    - They are used as `bytes.fromhex` so the case don't matter.
-  - The `support.type.raccoon` entry in the ~~python~~`raccoon` language's grammar setting file, which needs to undergo *some* encryption in order to support syntax highlighting in the new `raccoon` language.
-    - Taking reference from the [original `MagicPython.tmLanguage.json` file](https://github.com/microsoft/vscode/blob/main/extensions/python/syntaxes/MagicPython.tmLanguage.json): `"(?x)\n  (?<!\\.) \\b(\n    bool | bytearray | bytes | classmethod | complex | dict\n    | float | frozenset | int | list | object | property\n    | set | slice | staticmethod | str | tuple | type\n\n    (?# Although 'super' is not a type, it's related to types,\n        and is special enough to be highlighted differently from\n        other built-ins)\n    | super\n  )\\b\n"`, the code extracts the various types (duplicating `type` and `super`).
-    - Only `n` gives `frozensetint` which is 12-letter long, encoding again with our scheme, the second half of the key is `CbeaOUYOlLUl`
-- There are only *4* unknown letters in the encoded flag, which can be readily bruteforced
-  - ~~they are really digits and not `B` or `F`, `hex()` doesn't trick you~~
+Knowing the program plaintext allows us to reverse the colors blazing fast. This challenge works in the first place because minimap (at zoom level 1) is font agnostic as demonstrated [in the actual official source code](https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/viewParts/minimap/minimapPreBaked.ts)
+
+There are minute details like whether to `round` or `floor`. If replicating it seems to much, it's advisable to create your own image where everything's well-known.
+
+Usually it takes 2~6 characters to completely determine the color.
+
+```py
+from itertools import chain
+from math import floor
+from sage.all import vector, RR
+from PIL import Image
+
+intensities = '0000511D6300CF609C709645A78432005642574171487021003C451900274D35D762755E8B629C5BA856AF57BA649530C167D1512A272A3F6038604460398526BCA2A968DB6F8957C768BE5FBE2FB467CF5D8D5B795DC7625B5DFF50DE64C466DB2FC47CD860A65E9A2EB96CB54CE06DA763AB2EA26860524D3763536601005116008177A8705E53AB738E6A982F88BAA35B5F5B626D9C636B449B737E5B7B678598869A662F6B5B8542706C704C80736A607578685B70594A49715A4522'
+
+pixels = [floor(int(intensities[i:i+2], base=16)*4/5) for i in range(0,len(intensities),2)]
+
+pairs = [vector(pixels[i:i+2]) for i in range(0,len(pixels),2)]
+
+def gen_reference(s, coord):
+    return [((coord[1]-1+i, coord[0]-1),c) for i,c in enumerate(s)]
+
+with Image.open("../public/chall.png") as im:
+    rgb_im = im.convert('RGB')
+    bg = vector(rgb_im.getpixel((rgb_im.width-1,0)))
+
+    def calculate(*references):
+        reference = list(chain(*chain(gen_reference(*r) for r in references)))
+
+        candidates = [list(range(256)) for _ in range(3)]
+        for coord, letter in reference:
+            pair_info = [
+                tuple(vector(rgb_im.getpixel((coord[0],coord[1]*2+i)))-bg) for i in range(2)
+            ]
+            channels = tuple(zip(*pair_info))
+            for i, ch in enumerate(channels):
+                temp = [x for x in candidates[i] if tuple(round(x) for x in pairs[ord(letter)-32]*(x-bg[0])/255) == ch]
+                # if len(temp) != len(candidates[i]):
+                #     print(letter, pairs[ord(letter)-32])
+                candidates[i] = temp
+                if len(candidates[i]) == 0:
+                    print(f"Channel #{i} failed")
+            
+            if all(len(x)==1 for x in candidates):
+                print(letter, *[hex(l[0])[2:] for l in candidates])
+                break
+        else:
+            print(letter, *[[hex(x)[2:] for x in l] for l in candidates])
+    
+    calculate(("#!/usr/bin/env python3", (1,1)))
+    calculate(("import", (2,1)))
+    calculate(("json, re", (2,8)))
+    calculate(("\\x62\\u0036\\141", (8,20)))
+    calculate(("A-Za-z0-9-_", (8,40)))
+    calculate(
+        ("[", (8,39)),
+        ("]+", (8,51)),
+    )
+    calculate(
+        ('def', (10,1))
+    )
+    calculate(
+        ('.vscode/settings.json', (14,12))
+    )
+    calculate(
+        ('type', (18,24))
+    )
+    calculate(
+        ('in', (18,48)),
+        ('or', (37,26)),
+    )
+    calculate(
+        ('False', (18,77))
+    )
+    calculate(
+        ('enumerate', (34,12))
+    )
+    calculate(
+        ('*', (43,5)),
+        ('<=', (51,15)),
+    )
+    calculate(
+        ('72', (51,18)),
+        ('32', (56,25)),
+    )
+    calculate(
+        ('password', (54,5)),
+    )
+```
+
+### Understanding the workspace setting
+
+Theme colorization is governed by the workspace setting at `.vscode/settings.json`, under `editor.tokenColorCustomizations`
+
+Besides the known entries under `textMateRules`, there are also:
+
+```
+comments
+functions
+keywords
+numbers
+strings
+types
+variables
+```
+
+The `Ctrl+Shift+P` `Developer: Inspect Editor Tokens and Scopes` hotkey could be handy:
+
+|categories|color|keywords or remark|
+|-|-|-|
+|comments| #315528 | comments |
+|functions| #6cf73e | builtin functions like `open`,`len`,`map` excluding types<br/>function names in declarations |
+|keywords| #279c00 | `def` and `lambda` (and also `r` in regex string) |
+|numbers| #f5e6a0 | plain numbers |
+|strings| #138f13 | plain string,<br/>regex strings are rendered a bit differently |
+|types| #49d11b | `int`, `tuple`, `Exception` |
+|variables| #ccdd99 | function parameters and named arguments |
+|source.python|#5a8f5a| variables and modules, overrides function calls |
+|keyword.control|#beff33| `import`, `from`, `if`... |
+|keyword.operator|#ffffbe| `<`, `=`, `*`, `+` |
+|keyword.operator.logical.python|#00ff00| only `or` and `in` are shown.<br/>Doesn't apply to `for _ in _` |
+|constant.language|#ecff58| only `False` |
+|constant.character.escape,<br/>constant.character.unicode|#85c656| used to deter guessing |
+|constant.character.set.regexp,<br/>string.regexp|#defaca| plain string and character sets in regexs |
+|constant.other.set.regexp<br/>keyword.operator.quantifier.regexp|#acfe09| Touches up so that `[]+` doesn't look out of place.<br/>**The only undetermined color `#acfe0[89a]`** |
+
+### Get your flag and profit!
 
 Notes:
 - [1] Actually Codium is used.
-- [2] TWY, who came up with the original idea, found out [the actual colorings used in the official source](https://github.com/microsoft/vscode/blob/main/src/vs/editor/browser/viewParts/minimap/minimapPreBaked.ts).

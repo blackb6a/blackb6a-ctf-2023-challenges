@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install gnupg wget -y && \
   rm -rf /var/lib/apt/lists/*
 
 # ENV FLAG 
-ENV CHAL "Red Scarf"
-ENV FLAG "b6actf{THISISATESTFLAGTOOQWEFTGXXBVGE}"
+ENV CHAL "Carpe Diem"
+ENV FLAG "b6actf{SEIZEYOURDAY}"
 
 WORKDIR /app
 COPY src/ /app/

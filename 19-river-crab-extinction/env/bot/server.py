@@ -17,7 +17,8 @@ def visit_RCE(url, chal):
 	chrome_options.add_argument("--headless")
 	chrome_options.add_argument("--no-sandbox")
 	chrome_options.add_argument('--proxy-server=river-crab-proxy:8080')
-	driver = webdriver.Chrome(options=chrome_options)
+	service = Service()
+	driver = webdriver.Chrome(service=service, options=chrome_options)
 	try:
 		driver.get("http://"+chals[chal]["domain"]+"/robots.txt?url="+quote_plus(url))
 		driver.add_cookie({"name": "flag", "value": chals[chal]["flag"]})
@@ -102,7 +103,7 @@ def index():
 """
 		for chal in chals:
 			if chals[chal]["show"]:
-				out += '            <option value="'+chal+'">'+chal+' ('+chals[chal]["domain"]+')</option>\n'
+				out += '            <option value="'+chal+'">'+chal+' (http://'+chals[chal]["domain"]+')</option>\n'
 		out += """          </select>
         </td>
       </tr>

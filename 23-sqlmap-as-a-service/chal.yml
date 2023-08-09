@@ -1,0 +1,19 @@
+# other metadata fields
+enabled: true
+author: 'ozetta'
+categories:
+- misc
+- ★★★☆☆
+points: 100
+released_at: '1970-01-01 12:00:00'
+flag: 'b6actf{InjEcTThEInjEcTIngInjEcTors_AND_0_UNION_SELECT_1_--_1e308}'
+deployment:
+  resources:
+    limits:
+      cpu: "4"
+      memory: "1Gi"
+  type: normal
+  port: 8765
+  stateful: true
+metadata:
+  youtubeUrl: CpmXh6e_OEk
