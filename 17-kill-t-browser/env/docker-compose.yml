@@ -3,4 +3,4 @@ services:
   killt:
     build: killt/.
     ports:
-      - "8085:80"
+      - "8087:80"
