@@ -1,29 +1,20 @@
 # other metadata fields
 enabled: true
-author: 'byron'
+author: 'ozetta'
 categories:
-- crypto
-- pwn
-- reverse
 - web
-- forensics
 - misc
-- ☆☆☆☆☆
-- ★☆☆☆☆
-- ★★☆☆☆
-- ★★★☆☆
-- ★★★★☆
 - ★★★★★
 points: 100
 released_at: '1970-01-01 12:00:00'
-flag: 'b6actf{test_test_test}'
+flag: 'b6actf{d1d_you_s0f_ahn_RCE_cha-l3n-gee_w1f-out_RCE}'
 deployment:
   resources:
     limits:
       cpu: "4"
       memory: "1Gi"
   type: normal
-  port: 12345
-  stateful: false
+  port: 8097
+  stateful: true
 metadata:
-  youtubeUrl: -a02RxrYF24
+  youtubeUrl: c2b09Psd6T0
