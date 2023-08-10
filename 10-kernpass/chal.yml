@@ -7,3 +7,10 @@ categories:
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{17_15_4n_345y_k3rn31_ch4113n63}'
+deployment:
+  resources:
+    limits:
+      cpu: "4"
+      memory: "1Gi"
+  type: normal
+  port: 20002
