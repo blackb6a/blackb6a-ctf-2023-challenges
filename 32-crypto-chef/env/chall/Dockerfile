@@ -9,6 +9,11 @@ RUN /home/ctfuser/venv/bin/pip install pycryptodome galois
 
 WORKDIR /home/ctfuser
 COPY *.py /home/ctfuser/
+COPY start.sh /home/ctfuser/
 RUN python3 -m compileall /home/ctfuser/
 
-CMD socat TCP-LISTEN:1337,reuseaddr,fork EXEC:"stdbuf -i0 -o0 -e0 (/home/ctfuser/venv/bin/python3 /home/ctfuser/PoW.py && /home/ctfuser/venv/bin/python3 /home/ctfuser/chall.py)"
+RUN chown -R root:root /home/ctfuser/ && \
+    find /home/ctfuser/ -type d -exec chmod 555 {} \; && \
+    find /home/ctfuser/ -type f -exec chmod 444 {} \;
+
+CMD socat TCP-LISTEN:1337,reuseaddr,fork EXEC:"stdbuf -i0 -o0 -e0 /bin/bash /home/ctfuser/start.sh"

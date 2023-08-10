@@ -1,0 +1,1 @@
+/home/ctfuser/venv/bin/python3 /home/ctfuser/PoW.py && /home/ctfuser/venv/bin/python3 /home/ctfuser/chall.py
