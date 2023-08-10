@@ -13,7 +13,7 @@ deployment:
       cpu: "4"
       memory: "1Gi"
   type: normal
-  port: 8765
+  port: 8809
   stateful: true
 metadata:
   youtubeUrl: CpmXh6e_OEk
