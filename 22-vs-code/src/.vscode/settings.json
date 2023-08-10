@@ -72,6 +72,12 @@
                 "settings": {
                     "foreground": "#acfe09"
                 }
+            },
+            {
+                "scope": "constant.character",
+                "settings": {
+                    "foreground": "#138d13"
+                }
             }
         ]
     }

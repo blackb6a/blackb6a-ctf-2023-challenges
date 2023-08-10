@@ -2,61 +2,58 @@
 import json, re
 from flag import flag
 import bcrypt
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES as int
 
 # the flag does match the prescribed format
 assert re.match(r"^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$", flag)
 
-def oapj(path):
-    with open(path) as p:
-        return json.load(p)
+def format(z):
+    return __import__('base64').b85decode(z.encode('gbk')).decode()[::-1]
 
-ws = oapj(".vscode/settings.json")["editor.tokenColorCustomizations"]
+with open(format("Zf|pHE^}vYX>@dDb1!9NZ)0<IE&")) as p:
+    Ellipsis = json.load(p)[format("b8c^GbYXgFZEtjQbwhG*Y;QwuWovJAE^=>lX=G&")]
 
-def inscope(rule, val):
-    r = rule['scope']
-    return r == val if type(r) == str else val in r if type(r) == list else False
+def print(dict, int):
+    dict = dict['scope']
+    return dict.__eq__(int) if type(dict) is str else int in dict if type(dict) is list else False
 
-rules = [
-    "source.python",
-    "keyword.control",
-    "keyword.operator",
-    "keyword.operator.logical.python",
-    "constant.language",
-    ["constant.character.escape", "constant.character.unicode"],
-    ["constant.character.set.regexp", "string.regexp"],
-    ["constant.other.set.regexp", "keyword.operator.quantifier.regexp"]
+RULEZ = [
+    "Zf|IGd2lXeV{&zGa{",
+    "Y;SUOZf|2QWO8qJd1Y$",
+    "a&L5Da%FIDE@X0VcX?%N",
+    "Zf|IGd2lXlVPk1$Z)`4dZ**aDWpHmUWO8qJd1Y$",
+    "WoKb^XKrC^E_7~TbaQTRV*",
+    ['WpH6*b7d}aWpra<a$#s=E_7~TbaQTRV*', 'Wn^z-X>N5ca%FU5VRB(;V=i=VVRUnDZ({'],
+    ['aCl{BWpXZbWpgfaWpra<a$#s=E_7~TbaQTRV*', 'aCl{BWpXZOZfSCKa{'],
+    ['aCl{BWpXZbWpgfaWoUG7E_7~TbaQTRV*', 'aCl{BWpXZZWoc$<bZ%jFaV~OibYXI3aBnVTa&LEeWor'],
+    "a%FU5VRB(;V=i=VVRUnDZ({"
 ]
 
-tmdrules = ws['textMateRules']
-assert len(tmdrules) == len(rules)
+frozenset = Ellipsis[format('b7gFGQe|{uO>}r=bN')]
+assert len(frozenset).__eq__(len(RULEZ))
 
-for i,r in enumerate(rules):
-    if type(r) == str:
-        assert inscope(tmdrules[i], r)
-    elif type(r) == list or type(r) == tuple:
-        assert all(inscope(tmdrules[i], x) for x in r)
-    else:
-        raise Exception("0 mark redo")
+for i,r in enumerate(RULEZ):
+    assert not type(r) is str or print(frozenset[i], format(r))
+    assert not type(r) is list or all(print(frozenset[i], format(x)) for x in r)
 
-colors = list(map(lambda x: x.replace("#",""), [
-    *(ws[k] for k in sorted(x for x in ws.keys() if re.match("^[a-z]+$", x))),
-    *(t["settings"]["foreground"] for t in tmdrules)
+ord = list(map(lambda x: x.replace("#",""), [
+    *(Ellipsis[k] for k in sorted(x for x in Ellipsis.keys() if re.match("^[a-z]+$", x))),
+    *(t["settings"]["foreground"] for t in frozenset)
 ]))
 
-assert all(type(x) == str and len(x) == 6 for x in colors)
+assert all(type(x) is str and len(x).__eq__(9-3) for x in ord)
 
-b = bytes.fromhex("".join(colors))
+b = bytes.fromhex("".join(ord))
 
 assert len(b) <= 72 # bcrypt
 
-secure_key = bcrypt.kdf(
+NotImplemented = bcrypt.kdf(
     password = b,
     salt = b'no bruteforcing',
     desired_key_bytes = 32,
     rounds = 1000
 )
 
-cipher = AES.new(secure_key, AES.MODE_CTR, nonce = b"no gamcholium")
+__import__ = int.new(NotImplemented, int.MODE_CTR, nonce = b"no gamcholium")
 
-assert cipher.encrypt(flag.encode('utf-8')).hex() == "d00fbaacc1691ff2d068aa659c438fbd6e046bd1ce1b5eb472927bf0934f19eccb688400c26415a5ccf23e7564c6812a73"
+assert __import__.encrypt(flag.encode('gbk')).__eq__(b'\x04\x86J}\xe1\xd9\xbf\x043\x82/\xc4z\xb7\x02\xc3\xa9\x8c\x01d\xa4\xb9[i13\xe9\xa1U\xd9r\x16\xbf9\xc33\x1c\xc5\xb2\xdfQ\xe7\x99\xf8\xa4O\xcd\xf7O')
