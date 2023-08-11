@@ -34,6 +34,7 @@ def main():
     assert len(flag) == 128
 
     # Defining the first PRNG
+    # Note: p is slightly greater than 2^128 to ensure 128 bit output
     p = 0x100720f648a7a4c0a305489880973cf45
     a = random.getrandbits(128)
     c = random.getrandbits(128)
@@ -50,7 +51,7 @@ def main():
         flag = cipher.encrypt(flag)
 
     # Who doesn't love leaks?
-    leaks = [prng1.next() ^ prng2.next() for _ in range(32768)]
+    leaks = [prng1.next() ^ prng2.next() for _ in range(16384)]
 
     print(json.dumps({
         "prng1": {"p": p, "a": a, "c": c},
