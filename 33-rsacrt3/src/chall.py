@@ -34,8 +34,8 @@ def main():
     assert len(flag) == 128
 
     # Defining the first PRNG
-    # Note: p is slightly greater than 2^128 to ensure 128 bit output
-    p = 0x100720f648a7a4c0a305489880973cf45
+    # Note: p is slightly greater than 2^128 to ensure 128 bit output.
+    p = 0x100_b6a_b6a_b6a_b6a_b6a_b6a_b6a_b6a_b6a_009
     a = random.getrandbits(128)
     c = random.getrandbits(128)
     key1 = random.getrandbits(128)
