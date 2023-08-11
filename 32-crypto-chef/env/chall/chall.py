@@ -46,7 +46,6 @@ def main():
     recipe1 = Fruit(q, n, secret_sause)
     recipe2 = OilVinegar(q, o, v, WATER_TAP, salt, pepper, secret_sause)
 
-    printRecipesPub(recipe1, recipe2)
     print("Please give me the following two dishes!")
     print("1. Cooked with recipe 1 using the MSG 'cryptochefisgood'")
     print("2. Cooked with recipe 2 using the MSG 'ilovemsg'")
@@ -63,7 +62,10 @@ def main():
             
             cmd = input(f"[{comm_count}/{comm_limit}] > ")
             args = cmd.split(' ')
-            if args[0] == 'cook':
+            if args[0] == 'pub':
+                printRecipesPub(recipe1, recipe2)
+                
+            elif args[0] == 'cook':
                 rec, msg_hex = int(args[1]), args[2]
 
                 if rec != 1 and rec != 2:
