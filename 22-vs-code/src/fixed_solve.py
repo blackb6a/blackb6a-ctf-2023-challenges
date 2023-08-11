@@ -39,42 +39,34 @@ with Image.open("../public/chall.png") as im:
         else:
             print(letter, *[[hex(x)[2:] for x in l] for l in candidates])
     
-    calculate(("#!/usr/bin/env python3", (1,1)))
-    calculate(("import", (2,1)))
-    calculate(("json, re", (2,8)))
-    calculate(("\\x62\\u0036\\141", (8,20)))
-    calculate(("A-Za-z0-9-_", (8,40)))
+    calculate(("#!/u", (1,1)))
+    calculate(("__import__", (11,12)))
+    calculate(('def', (10,1)))
+    calculate(
+        ('72', (48,18)),
+        ('0', (54,16))
+    )
+    calculate(('W', (26,43)))
+    calculate(('des', (53,5)))
+    calculate(('type', (18,32)))
+    calculate(("jso", (2,8)))
+    calculate(("impor", (2,1)))
+    calculate(
+        ('*', (40,5)),
+    )
+    calculate(
+        ('is', (18,43)),
+        ('not', (36,12)),
+    )
+    calculate(
+        ('Fa', (18,94))
+    )
+    calculate(("\\x6", (8,20)))
+    calculate(("A-Za-z", (8,40)))
     calculate(
         ("[", (8,39)),
         ("]+", (8,51)),
     )
     calculate(
-        ('def', (10,1))
-    )
-    calculate(
-        ('.vscode/settings.json', (14,12))
-    )
-    calculate(
-        ('type', (18,24))
-    )
-    calculate(
-        ('in', (18,48)),
-        ('or', (37,26)),
-    )
-    calculate(
-        ('False', (18,77))
-    )
-    calculate(
-        ('enumerate', (34,12))
-    )
-    calculate(
-        ('*', (43,5)),
-        ('<=', (51,15)),
-    )
-    calculate(
-        ('72', (51,18)),
-        ('32', (56,25)),
-    )
-    calculate(
-        ('password', (54,5)),
+        ('%F', (23,12))
     )

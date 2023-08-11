@@ -1,8 +1,8 @@
 FROM ubuntu:jammy-20230624
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -y update --fix-missing && apt-get -y upgrade
-RUN apt-get -y install xinetd git intltool imagemagick \
+RUN apt-get -y update --fix-missing && apt-get -y upgrade \
+    && apt-get -y install xinetd git intltool imagemagick \
 	libmagickcore-dev pstoedit libpstoedit-dev \
 	autopoint build-essential tini python3\
 	&& rm -rf /var/lib/apt/lists/*

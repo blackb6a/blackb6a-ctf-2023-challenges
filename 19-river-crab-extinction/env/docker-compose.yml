@@ -14,4 +14,5 @@ services:
       start_period: 30s
   river-crab-proxy:
     build: proxy/.
+    restart: unless-stopped
 

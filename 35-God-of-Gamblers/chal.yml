@@ -1,0 +1,16 @@
+# other metadata fields
+enabled: true
+author: 'botton'
+categories:
+- pwn
+- ★☆☆☆☆
+points: 500
+released_at: '1970-01-01 12:00:00'
+flag: 'b6actf{y0u_4r3_7h3_60d_0f_64mbl3r5!!!!!}'
+deployment:
+  resources:
+    limits:
+      cpu: "4"
+      memory: "1Gi"
+  type: normal
+  port: 20001
