@@ -1,7 +1,7 @@
 {
     "workbench.colorCustomizations": {
         "editor.selectionBackground": "#ffffff80",
-        "minimap.background": "#202020"
+        "minimap.background": "#202020ff"
     },
     "editor.tokenColorCustomizations": {
         "comments": "#315528", 
@@ -13,9 +13,7 @@
         "variables": "#ccdd99", 
         "textMateRules": [
             {
-                "scope": [
-                    "source.python"
-                ],
+                "scope": "source.python",
                 "settings": {
                     "foreground": "#5a8f5a" 
                 }
@@ -39,9 +37,7 @@
                 }
             },
             {
-                "scope": [
-                    "constant.language"
-                ],
+                "scope": "constant.language",
                 "settings": {
                     "foreground": "#ecff58" 
                 }
@@ -67,16 +63,20 @@
             {
                 "scope": [
                     "constant.other.set.regexp",
-                    "keyword.operator.quantifier.regexp"
+                    "keyword.operator.quantifier.regexp",
+                    "constant.character"
                 ],
                 "settings": {
                     "foreground": "#acfe09"
                 }
             },
             {
-                "scope": "constant.character",
+                "scope": [
+                    "support.variable",
+                    "variable.language"
+                ],
                 "settings": {
-                    "foreground": "#138d13"
+                    "foreground": "#98cf1f"
                 }
             }
         ]

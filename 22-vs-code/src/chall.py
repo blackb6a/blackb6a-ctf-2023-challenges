@@ -1,51 +1,53 @@
+
+
 #!/usr/bin/env python3
-import json, re
+import json, re, sys
 from flag import flag
 import bcrypt
-from Crypto.Cipher import AES as int
+from Crypto.Cipher import AES as __kwdefaults__
 
-# the flag does match the prescribed format
-assert re.match(r"^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$", flag)
+# the flag does match the stricter format, you can't bruteforce anyway
+assert re.match(r'^\x62\u0036\141ctf\{[A-Za-z0-9-_]+\}$', flag)
 
-def format(z):
-    return __import__('base64').b85decode(z.encode('gbk')).decode()[::-1]
+def format(z, abs = not None):
+    x = __import__(''.join(map(chr,[98,97,115,101,54,52]))).b85decode(z.encode('gbk')[::-1])
+    return (x.decode() if abs else x)[::-1]
 
-with open(format("Zf|pHE^}vYX>@dDb1!9NZ)0<IE&")) as p:
-    Ellipsis = json.load(p)[format("b8c^GbYXgFZEtjQbwhG*Y;QwuWovJAE^=>lX=G&")]
+with open(format('&EI<0)ZN9!1bDd@>XYv}^EHp|fZ')) as p:
+    Ellipsis = json.load(p)[format('&G=Xl>=^EAJvoWuwQ;Y*GhwbQjtEZFgXYbG^c8b')]
 
-def print(dict, int):
-    dict = dict['scope']
-    return dict.__eq__(int) if type(dict) is str else int in dict if type(dict) is list else False
+__mro__ = lambda dict, bool: (
+    type(dict := dict['scope']) is str and sys . intern (dict) is sys . intern (bool) or
+    type(dict) is list and bool in dict
+)
 
-RULEZ = [
-    "Zf|IGd2lXeV{&zGa{",
-    "Y;SUOZf|2QWO8qJd1Y$",
-    "a&L5Da%FIDE@X0VcX?%N",
-    "Zf|IGd2lXlVPk1$Z)`4dZ**aDWpHmUWO8qJd1Y$",
-    "WoKb^XKrC^E_7~TbaQTRV*",
-    ['WpH6*b7d}aWpra<a$#s=E_7~TbaQTRV*', 'Wn^z-X>N5ca%FU5VRB(;V=i=VVRUnDZ({'],
-    ['aCl{BWpXZbWpgfaWpra<a$#s=E_7~TbaQTRV*', 'aCl{BWpXZOZfSCKa{'],
-    ['aCl{BWpXZbWpgfaWoUG7E_7~TbaQTRV*', 'aCl{BWpXZZWoc$<bZ%jFaV~OibYXI3aBnVTa&LEeWor'],
-    "a%FU5VRB(;V=i=VVRUnDZ({"
+cls = [
+    '{aGz&{VeXl2dGI|fZ',
+    '$Y1dJq8OWQ2|fZOUS;Y',
+    'N%?XcV0X@EDIF%aD5L&a',
+    '$Y1dJq8OWUmHpWDa**Zd4`)Z$1kPVlXl2dGI|fZ',
+    '*VRTQabT~7_E^CrKX^bKoW',
+    ['*VRTQabT~7_E=s#$a<arpWa}d7b*6HpW', '{(ZDnURVV=i=V;(BRV5UF%ac5N>X-z^nW'], ['*VRTQabT~7_E=s#$a<arpWafgpWbZXpWB{lCa', '{aKCSfZOZXpWB{lCa'],
+    ['*VRTQabT~7_E7GUoWafgpWbZXpWB{lCa', 'roWeEL&aTVnBa3IXYbiO~VaFj%Zb<$coWZZXpWB{lCa', '{(ZDnURVV=i=V;(BRV5UF%a'],
+    ['V{yBalB8_E9tw>X$+%oW', '^b<$FQVD<f@E^CrKX^bKoW']
 ]
 
-frozenset = Ellipsis[format('b7gFGQe|{uO>}r=bN')]
-assert len(frozenset).__eq__(len(RULEZ))
+frozenset = Ellipsis[format('Nb=r}>Ou{|eQGFg7b')]
+assert len(frozenset).__eq__(len(cls))
 
-for i,r in enumerate(RULEZ):
-    assert not type(r) is str or print(frozenset[i], format(r))
-    assert not type(r) is list or all(print(frozenset[i], format(x)) for x in r)
+for r, set in zip(cls, frozenset):
+    assert (u:=type(r)) in [str, list]
+    assert u is not str or type(set['scope']) is str and __mro__(set, format(r))
+    assert u is not list or type(w:=set['scope']) is list and len(r) is len(w) and all(__mro__(set, format(x)) for x in r)
 
-ord = list(map(lambda x: x.replace("#",""), [
-    *(Ellipsis[k] for k in sorted(x for x in Ellipsis.keys() if re.match("^[a-z]+$", x))),
-    *(t["settings"]["foreground"] for t in frozenset)
+ord = list(map(lambda x: x.replace('#',''), [
+    *(Ellipsis[k] for k in sorted(x for x in Ellipsis.keys() if re.match('^[a-z]+$', x))),
+    *(t[format('N8Zab8Xy7b')][format('N)Z7|W%aDkvNW')] for t in frozenset)
 ]))
 
-assert all(type(x) is str and len(x).__eq__(9-3) for x in ord)
+assert all(type(x) is str and len(x).__eq__(6) for x in ord)
 
-b = bytes.fromhex("".join(ord))
-
-assert len(b) <= 72 # bcrypt
+b = bytes.fromhex(''.join(ord))
 
 NotImplemented = bcrypt.kdf(
     password = b,
@@ -54,6 +56,6 @@ NotImplemented = bcrypt.kdf(
     rounds = 1000
 )
 
-__import__ = int.new(NotImplemented, int.MODE_CTR, nonce = b"no gamcholium")
+long = __kwdefaults__.new(NotImplemented, __kwdefaults__.MODE_CTR, nonce = BR'no gamcholium')
 
-assert __import__.encrypt(flag.encode('gbk')).__eq__(b'\x04\x86J}\xe1\xd9\xbf\x043\x82/\xc4z\xb7\x02\xc3\xa9\x8c\x01d\xa4\xb9[i13\xe9\xa1U\xd9r\x16\xbf9\xc33\x1c\xc5\xb2\xdfQ\xe7\x99\xf8\xa4O\xcd\xf7O')
+assert long.encrypt(flag.encode('gbk')).__eq__(format('28q+RB;C2cF9$2xUEJ*FGAP*|ls^5~)#1}@!;tpV@mWDmZ)p>ROt(5bc0q`r*I', not True))
