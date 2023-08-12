@@ -2,11 +2,9 @@
 enabled: true
 author: 'Black Bauhinia'
 categories:
-- ☆☆☆☆☆
-points: 10
-released_at: '2022-11-11 10:00:00'
-flag: 'b6actf{TODO}'
+- misc
+points: 500
+released_at: '1970-01-01 12:00:00'
+flag: 'b6actf{c0uld_y0u_1m4g1n3_b31n9_r1ckr0l13d_4t_th3_v33rrryy_b3g1nnnn1n9g}'
 metadata:
-  location:
-    lat: 22.38895
-    lon: 113.95356
+  youtubeUrl: 4HBIxZ5Bs7c
