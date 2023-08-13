@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, Response, request, make_response
 import secrets
 from werkzeug.exceptions import HTTPException
 import json
@@ -42,7 +42,7 @@ def after_request_callback(response: Response):
         updated = render_template("index.html", status=response.status_code, message=response.response[0].decode())
         response.set_data(updated)
     if "auth" not in request.cookies:
-        response.set_cookie("auth", "asdf")
+        response.set_cookie("auth", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoibWVtb3J5IGxvc3QifQ.Fw-zd72pKScg-Zagzz_zl04doz84NgG2uPjr3yAcYu3DJ0Kp5rLaprBRKyQwdJ1232A791WQSaByIAwawzQsZ4XO8aVg6xmnnXEpHXU0Yb88jmNdP6jcjnOxyQ9zTpyQsnoy_raqYWhELCizXn-Y9QwKDXYk2WT1UMdWtLuZ4DYC043Y5glKlaVFTLhpilIPh5h3NlCRxdR9KSnPUO0ZK-8Bahw3onBTsjBgcK7exJLp374dGrdeijaM1jcCRzhb4SGpHHvT_JGYvTfQJW4P7JQM3u8dC4eK06bYwl3QGIlWqxGxc53IBGMzfkDUcEYYg5HCplDnJe-o128RxokUBQ")
     return response
 
 @app.errorhandler(Exception)
