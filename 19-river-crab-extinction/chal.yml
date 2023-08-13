@@ -2,9 +2,8 @@
 enabled: true
 author: 'ozetta'
 categories:
-- web
-- ★★★☆☆
-points: 100
+- main-web
+points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{Master_Password=***************************************************************}'
 deployment:

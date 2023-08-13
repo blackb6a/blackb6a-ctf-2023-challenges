@@ -15,7 +15,6 @@ f.close()
 
 FLAG = os.getenv("FLAG")
 
-valid_issuer_domain = os.getenv("HOST")
 valid_algo = "RS256"
 
 def is_valid_algo(token):
@@ -42,7 +41,7 @@ def after_request_callback(response: Response):
         updated = render_template("index.html", status=response.status_code, message=response.response[0].decode())
         response.set_data(updated)
     if "auth" not in request.cookies:
-        response.set_cookie("auth", "asdf")
+        response.set_cookie("auth", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoibWVtb3J5IGxvc3QifQ.Fw-zd72pKScg-Zagzz_zl04doz84NgG2uPjr3yAcYu3DJ0Kp5rLaprBRKyQwdJ1232A791WQSaByIAwawzQsZ4XO8aVg6xmnnXEpHXU0Yb88jmNdP6jcjnOxyQ9zTpyQsnoy_raqYWhELCizXn-Y9QwKDXYk2WT1UMdWtLuZ4DYC043Y5glKlaVFTLhpilIPh5h3NlCRxdR9KSnPUO0ZK-8Bahw3onBTsjBgcK7exJLp374dGrdeijaM1jcCRzhb4SGpHHvT_JGYvTfQJW4P7JQM3u8dC4eK06bYwl3QGIlWqxGxc53IBGMzfkDUcEYYg5HCplDnJe-o128RxokUBQ")
     return response
 
 @app.errorhandler(Exception)
@@ -58,14 +57,14 @@ def index(path):
 
 @app.route("/.well-known/jwks.json")
 def jwks():
-    return jwks_content, 200, {"Content-Type", "application/json"}
+    return jwks_content, 200, {"Content-Type": "application/json"}
 
 @app.route("/flag")
 def flag():
     if "auth" not in request.cookies:
         raise Exception("Authorization cookie required.")
     if not authorize_token(request.cookies.get("auth")):
-        return "Not authorized. Only memory hero can get the flag.", 403
+        return "Not authorized. Only \"memory hero\" can get the flag.", 403
     else:
         return f"Welcome! The flag is {FLAG}", 200
 

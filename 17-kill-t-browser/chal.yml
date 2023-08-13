@@ -2,10 +2,9 @@
 enabled: true
 author: 'ozetta'
 categories:
-- web
+- main-web
 - misc
-- ★★★★★
-points: 100
+points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{d1d_you_s0f_ahn_RCE_cha-l3n-gee_w1f-out_RCE}'
 deployment:
