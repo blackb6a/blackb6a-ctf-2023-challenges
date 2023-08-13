@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  amnesia:
+    build: src/.
+    ports:
+      - "3000:80"

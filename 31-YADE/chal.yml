@@ -2,7 +2,7 @@
 enabled: true
 author: 'grhkm'
 categories:
-- crypto
+- main-crypto
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{dM_6rHKm-_4b0ut_y0ur~4ppr04ch_p1z!1!10ne0ne0ne!}'

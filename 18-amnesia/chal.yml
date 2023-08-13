@@ -1,18 +1,19 @@
 # other metadata fields
 enabled: true
-author: 'Mystiz'
+author: 'hollow, Mystiz'
 categories:
-- main-crypto
+- web
+- crypto
 points: 500
 released_at: '1970-01-01 12:00:00'
-flag: 'b6actf{h0w_c4n_y0u_c0mpu73_d109s_s00ooo_qu1ckly}'
+flag: 'b6actf{h4v1ng_b64ctf_1n_my_pub1c_key_m4d5_m5_s0b5r}'
 deployment:
   resources:
     limits:
       cpu: "4"
       memory: "1Gi"
   type: normal
-  port: 30001
+  port: 30018
   stateful: false
 metadata:
-  youtubeUrl: QqzVA3-1YTw
+  youtubeUrl: Mvec1GN_dtY

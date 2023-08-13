@@ -2,8 +2,7 @@
 enabled: true
 author: 'viky'
 categories:
-- reverse
-- ★★☆☆☆
+- main-reverse
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{345y_w3b6l_64m3_h4ck1n6_w17h_c37u5}'

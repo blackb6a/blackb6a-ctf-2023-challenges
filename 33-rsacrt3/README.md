@@ -1,4 +1,4 @@
-# RandomXRandom
+# Every Delicate Detail
 
 ## Category
 
@@ -20,6 +20,8 @@ Crypto
 > 做最關鍵那板塊  
 
 Can you distinguish the two random streams which are xorred together?
+
+{ATTACHMENT_LINK}
 
 ## Flag
 
