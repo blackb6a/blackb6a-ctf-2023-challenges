@@ -6,16 +6,22 @@ import numpy as np
 
 class Fruit:
 
-    def __init__(self, q, n, secret_sause):
+    def __init__(self, q, n, secret_sauce):
         
         self.n = n
         self.GF = galois.GF(q)
-        self.SS = self.GF(secret_sause)
+        self.SS = self.GF(secret_sauce)
+        self.madness = 0
+        self.tolerance = 100
 
     # Do you know what is msg? msg makes everything good. If your dish is not delicious, add msg.
     # If your life is not good, add msg, it will be a lot better.
     def cook(self, msg):
+        if self.madness >= self.tolerance:
+            print("I feel like you are not trying to learn with me but just want to steal my secret sauce from me!")
+            raise Exception("Bad guy.")
         assert len(msg) == self.n
+        self.madness += 3.84
         msg = self.GF(msg)
         tastyDish = self.SS @ msg
         return tastyDish

@@ -7,4 +7,4 @@ import galois
 WATER_TAP = [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1]
 
 # flag on the server side is having a different value, get the flag!
-flag = 'b6actf{testflag}'
+flag = 'b6actf{**REDACTED**}'

@@ -27,14 +27,14 @@ class OilVinegar:
 
             return galois.GF(self.q)(rtn)
 
-    def __init__(self, q, o, v, water_tap, salt, pepper, secret_sause):
+    def __init__(self, q, o, v, water_tap, salt, pepper, secret_sauce):
         
         self.o = o
         self.v = v
         self.n = o + v
         self.GF = galois.GF(q)
 
-        self.SS = self.GF(secret_sause)
+        self.SS = self.GF(secret_sauce)
         self.pepper = self.GF(pepper)
         self.lfsr_salt = self.LFSRSalt(q, water_tap, self.GF(salt))
 

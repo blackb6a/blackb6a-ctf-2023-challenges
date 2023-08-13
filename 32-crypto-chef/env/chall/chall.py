@@ -10,11 +10,11 @@ from secret import WATER_TAP, flag
 def getPepperOrSalt(q, v):
     return galois.GF(q).Random(v // 2)
 
-def getSause(q, n):
-    secret_sause = galois.GF(q).Random((n, n))
-    while np.linalg.matrix_rank(secret_sause) < n:
-        secret_sause = galois.GF(q).Random((n, n))
-    return secret_sause
+def getSauce(q, n):
+    secret_sauce = galois.GF(q).Random((n, n))
+    while np.linalg.matrix_rank(secret_sauce) < n:
+        secret_sauce = galois.GF(q).Random((n, n))
+    return secret_sauce
 
 def vec2Hex(vec):
     vec = np.char.mod('%x', vec.view(np.ndarray))
@@ -41,10 +41,10 @@ def main():
     assert len(WATER_TAP) == (k * (v // 2)) # WATER_TAP is ont-hot encoding of the water tabs
     salt = getPepperOrSalt(q, v)
     pepper = getPepperOrSalt(q, v)
-    secret_sause = getSause(q, n)
+    secret_sauce = getSauce(q, n)
     
-    recipe1 = Fruit(q, n, secret_sause)
-    recipe2 = OilVinegar(q, o, v, WATER_TAP, salt, pepper, secret_sause)
+    recipe1 = Fruit(q, n, secret_sauce)
+    recipe2 = OilVinegar(q, o, v, WATER_TAP, salt, pepper, secret_sauce)
 
     print("Please give me the following two dishes!")
     print("1. Cooked with recipe 1 using the MSG 'cryptochefisgood'")
@@ -53,15 +53,15 @@ def main():
     print("I won't check whether you have added the MSG in the dish, but would require you to have the EXACT SAME dish as mine!")
     print("Of course, you can cook a few dishes with me to learn my style first.")
 
-    comm_count = 1
-    comm_limit = o // 2
+    comm_limit = 38
     exam_status = [False, False]
 
     try:
-        while comm_count <= comm_limit:
+        for comm_count in range(1, comm_limit + 1):
             
             cmd = input(f"[{comm_count}/{comm_limit}] > ")
             args = cmd.split(' ')
+
             if args[0] == 'pub':
                 printRecipesPub(recipe1, recipe2)
                 
@@ -75,12 +75,9 @@ def main():
                 msg = bytes.fromhex(msg_hex)
                 if msg == b'cryptochefisgood' or msg == b'ilovemsg':
                     raise Exception("Sorry, but you have to learn the dishes yourself!")
-
                 
                 msg_vec = [int(c, 16) for c in msg_hex]
                 print(f"Cooked dish: {vec2Hex(recipe.cook(msg_vec))}")
-
-                comm_count += 1
             
             elif args[0] == 'check':
                 rec, sig_hex, msg_hex = int(args[1]), args[2], args[3]
@@ -96,8 +93,6 @@ def main():
                     print("Yes! This dish is made from that msg.")
                 else:
                     print("Hum... Seems a bit off.")
-                
-                comm_count += 1
             
             elif args[0] == 'exam':
                 rec, dish_hex = int(args[1]), args[2]
@@ -125,8 +120,7 @@ def main():
                     exit(0)
                 else:
                     print("Nice! You have mastered this recipe!")
-                    print("Your potential makes me willing to teach you more!")
-                    comm_limit += 2
+                    print("Please continue on your journey!")
         
         print("Too slow! Please come again after you have sharpened your cooking skills :(")
 
