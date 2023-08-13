@@ -58,7 +58,7 @@ def index(path):
 
 @app.route("/.well-known/jwks.json")
 def jwks():
-    return jwks_content, 200, {"Content-Type", "application/json"}
+    return jwks_content, 200, {"Content-Type": "application/json"}
 
 @app.route("/flag")
 def flag():
