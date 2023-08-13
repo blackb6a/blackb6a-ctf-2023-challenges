@@ -2,7 +2,7 @@
 enabled: true
 author: 'hoifanrd'
 categories:
-- crypto
+- main-crypto
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{1_w0nd3r_wha7_th3_d15h_t4573_l1k3_7035b0b3c0db29973a93afa01e8fdc4f}'

@@ -2,13 +2,7 @@
 enabled: true
 author: 'cdemirer'
 categories:
-- reverse
-- ☆☆☆☆☆ # to be decided
-- ★☆☆☆☆
-- ★★☆☆☆
-- ★★★☆☆
-- ★★★★☆
-- ★★★★★
-points: 100
+- main-reverse
+points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{CONGRATZ}' # to be changed
