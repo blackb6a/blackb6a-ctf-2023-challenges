@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, make_response
+from flask import Flask, render_template, Response, request
 import secrets
 from werkzeug.exceptions import HTTPException
 import json
@@ -15,7 +15,6 @@ f.close()
 
 FLAG = os.getenv("FLAG")
 
-valid_issuer_domain = os.getenv("HOST")
 valid_algo = "RS256"
 
 def is_valid_algo(token):
@@ -65,7 +64,7 @@ def flag():
     if "auth" not in request.cookies:
         raise Exception("Authorization cookie required.")
     if not authorize_token(request.cookies.get("auth")):
-        return "Not authorized. Only <b>memory hero</b> can get the flag.", 403
+        return "Not authorized. Only \"memory hero\" can get the flag.", 403
     else:
         return f"Welcome! The flag is {FLAG}", 200
 

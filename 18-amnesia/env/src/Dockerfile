@@ -7,7 +7,7 @@ RUN apt update && apt install -y python3 python3-pip
 RUN pip3 install Flask
 
 RUN mkdir /app
-COPY src/ /app
+COPY . /app
 
 WORKDIR /app
 
