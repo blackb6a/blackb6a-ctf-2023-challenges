@@ -22,6 +22,10 @@ _Good CTF challenges never die. They will be remembered and reused._
 
 Mystiz loves to pay tribute to (i.e., plagarise) challenges. This time he referenced (i.e., copied) code snippets from at least five challenges to build the most unoriginal crypto challenge ever. Also, he is really verbose and there are a lot of red herrings. Can you avoid the rabbit holes and find the vulnerable one(s)?
 
+{CHAL_NC_LINK}
+
+{ATTACHMENT_LINK}
+
 ## Notes
 
 ## Flag
