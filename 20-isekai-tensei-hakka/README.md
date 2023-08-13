@@ -14,7 +14,6 @@ Za Warudo no Sosukodo: {ATTACHMENT_LINK}
 
 Isekai: {CHAL_URL_LINK}
 
-===
 ## Flag
 
 `b6actf{Un1ink_za_worId_Un1ock_za_res3t}`
