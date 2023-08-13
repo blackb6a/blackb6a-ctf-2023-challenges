@@ -14,6 +14,7 @@ Attachments: {ATTACHMENT_LINK}
 
 Challenge Bot: {CHAL_URL_LINK}
 
+
 ## Flag
 
 `b6actf{Master_Password=***************************************************************}`

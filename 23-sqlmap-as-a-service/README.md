@@ -16,7 +16,6 @@ Attachments: {ATTACHMENT_LINK}
 Challenge Bot: {CHAL_URL_LINK}
 
 
-===
 ## Flag
 
 `b6actf{InjEcTThEInjEcTIngInjEcTors_AND_0_UNION_SELECT_1_--_1e308}`
