@@ -65,7 +65,7 @@ def flag():
     if "auth" not in request.cookies:
         raise Exception("Authorization cookie required.")
     if not authorize_token(request.cookies.get("auth")):
-        return "Not authorized. Only memory hero can get the flag.", 403
+        return "Not authorized. Only <b>memory hero</b> can get the flag.", 403
     else:
         return f"Welcome! The flag is {FLAG}", 200
 
