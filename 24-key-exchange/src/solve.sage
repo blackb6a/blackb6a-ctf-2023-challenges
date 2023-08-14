@@ -1,7 +1,7 @@
 import re
 import secrets
 import hashlib
-from tqdm import trange
+from tqdm import tqdm, trange
 from functools import cache
 
 def _random_matrix(K, n):
@@ -60,11 +60,11 @@ sol = ker.basis()[0]
 
 print("Reconstructing solution!")
 A_rec = Matrix.zero(K, n, n)
-for s in reversed(sol[:n]):
+for s in tqdm(reversed(sol[:n])):
     A_rec = A_rec * A + s * ID
 
 B_rec = Matrix.zero(K, n, n)
-for s in reversed(sol[n:2 * n]):
+for s in tqdm(reversed(sol[n:2 * n])):
     B_rec = B_rec * B + s * ID
 B_rec = 1 / B_rec
 
