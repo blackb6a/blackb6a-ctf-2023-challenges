@@ -16,11 +16,11 @@ Misc
 
 https://www.youtube.com/watch?v=AsmxdD7DNKU
 
-10 years ago, it was prophesied that the Earth is going to end soon. Some people then had chosen to move to the Mars. Today, you on the Earth, have received some signals sent from the Mars, what are they trying to tell? How are they?
+10 years ago, it was prophesied that the Earth is going to end soon. Some people then had chosen to move to the Mars. Today, you on the Earth, have received an image and a Youtube link sent from the Mars, what are they trying to tell? How are they?
 
 ## Notes
 
-You may need some OSINT, if you at anytime need a password.
+This is a stego challenge. The regex of the password (if you at anytime need one) is `[a-z ]+`.   
 
 ## Flag
 

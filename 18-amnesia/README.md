@@ -16,7 +16,7 @@ Web / Crypto
 
 https://www.youtube.com/watch?v=Mvec1GN_dtY
 
-
+I lose my memories, I don't even know who I am.
 
 ## Note
 
