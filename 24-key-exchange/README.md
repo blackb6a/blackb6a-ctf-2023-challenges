@@ -1,4 +1,4 @@
-# baby secret
+# Key Exchange: Epilogue
 
 ## Category
 
@@ -11,7 +11,7 @@ Crypto
 
 ## Description
 
-"idk just threw some random operations tgt" - grhkm, 2023
+點解咁撚肥？點解咁撚肥？你食嘢求撚其？
 
 ## Notes
 
@@ -19,4 +19,4 @@ easy chal, maybe warmup level
 
 ## Flag
 
-you'll see it when you solve it
+b6actf{kx:點解咁撚肥？點解咁撚肥？你食嘢亂咁嚟！}
