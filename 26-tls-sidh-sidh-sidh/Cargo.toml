@@ -1,0 +1,9 @@
+[package]
+name = "tls-sidh"
+version = "6.9.420"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rustls = { version = "0.21.5", features = ["dangerous_configuration", "quic", "read_buf", "rustversion", "secret_extraction"] }
