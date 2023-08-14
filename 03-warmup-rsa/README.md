@@ -11,7 +11,7 @@ Crypto
 
 ## Description
 
-I heard that we can factorize N when given $b > \frac{\log_2{N}}{4}$ bits of $d_p$ and $d_q$. My primary school teacher also taught me $5 > 4$, so clearly $\frac{\log_2{N}}{5} > \frac{\log_2{N}}{4}$. Now solve this!
+![](https://media.discordapp.net/attachments/933031272568221727/1140629684502138960/492693942693920770.png?width=1028&height=345)
 
 ## Notes
 
