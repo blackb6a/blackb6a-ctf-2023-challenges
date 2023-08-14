@@ -1,10 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-<script>hljs.highlightAll();setTimeout(() => window.location.reload(), 1000)</script>
-<style>
-code {background: #e3e3e3; color: #222;}
-</style>
-
 # Bauhinia CTF 2023 / Fork Machine / Author's Writeup
 ### Author: [cdemirer](https://github.com/cdemirer)
 
@@ -137,7 +130,7 @@ def f():
 
 #### 1.4.2 Scope Parameters
 
-The `scope_node` would not complete without the ability to pass arguments of course. Example:
+The `scope_node` would not be complete without the ability to pass arguments of course. Example:
 
 ```py
 def main():
@@ -308,4 +301,134 @@ Finally, we have the vector value type. They are like arrays/lists but they are 
 
 ## 2. Reversing `prog.bin`
 
-TODO
+When you play the challenge, you don't have access to the design notes above, but you have access to the source code of the Fork Machine. The following can be known / deduced from the source:
+- Various kinds of nodes and what they do
+- Value types (`int`, `vector`)
+- Compute ops (`add`, `sub`, etc.)
+- Something called `scope`, that it can have parameters and optionally a return `id`
+- How nodes have `id`s and how they refer to each other within a scope
+- The way parameters are passed when instantiating a scope
+- How nodes and scopes are serialized into a program file such as `prog.bin`
+- That the first scope corresponds to the `main` function.
+- etc.
+
+In `prog.bin`, there are many scopes to deal with. In order to classify them, we can use the following knowledge:
+- Scopes that do have a `ret_id` are likely to be functions.
+- Scopes that have a `scope_node` that instantiates the same scope are likely loops.
+- Other scopes are likely `if/else` suites.
+
+We can also look at the hierarchy of non-function scopes within a function scope. For example, here's the scope hierarchy for `prog.bin`:
+
+```text
+Scope Hierarchy
+::0 (fn)
+    ::1 (if)
+        ::2 (if)
+            ::3 (if)
+            ::4 (if)
+::5 (fn)
+    ::6 (loop)
+    ::7 (loop)
+        ::8 (if)
+        ::9 (if)
+    ::10 (loop)
+::11 (fn)
+    ::12 (loop)
+```
+
+We can print the scopes in a format similar to the one used in the previous section. Using the scope hierarchy as our guide, we can figure out what each scope is doing. This isn't a very structured process, everyone would have their own way of doing it. It might be possible to write something like a decompiler to make it easier, but I haven't written one.
+
+Here's the source code of `prog.bin` for your reference:
+
+```py
+# Note: This is not exactly Python.
+
+def main(input):
+    ret = 'Definitely not the flag.'
+    t = -1
+    if len(input) >= 9:
+        if (input[0] == 'b'[0]) & (input[1] == '6'[0]) & (input[2] == 'a'[0]):
+            t = transform(input)
+            if t == [19, 105, 105, 56, 48, 124, 17, 25, 23, 77, 23, 13, 53, 49, 93, 125, 66, 111, 12, 14, 77, 60, 21, 112, 83, 96, 42, 71, 2, 4, 48, 61, 88, 112, 21, 8, 86, 12, 123, 16, 61, 50, 24, 32, 32, 92, 58, 39, 75, 4, 3, 107, 125, 81, 33, 74, 9, 14]:
+                ret = 'Yes, that\'s the flag!'
+            else:
+                ret = 'Sorry, that\'s not the flag'
+    return ret
+
+def transform(input):
+    h = hash(input) % 127
+    xs = input
+    i = 1
+    while i < len(xs):
+        xs[i] = xs[i] ^ xs[i-1]
+        i += 1
+    i = 0
+    while i < len(xs):
+        if i % 2 == 0:
+            xs[i] = xs[i] * 69 % 127
+        else:
+            xs[i] = xs[i] * 420 % 127
+        i += 1
+    i = 0
+    while i < len(xs):
+        xs[i] = xs[i] ^ h
+        i += 1
+    return xs
+
+def hash(arr):
+    ret = 0
+    base = 31
+    base_p = 1
+    i = 0
+    while i < len(arr):
+        ret = (ret + arr[i] * base_p) % 1000000007
+        base_p = base_p * base % 1000000007
+        i += 1
+    return ret
+```
+
+It's easy to write a solver for this algo:
+
+```py
+def hash(arr):
+    ret = 0
+    base = 31
+    base_p = 1
+    i = 0
+    while i < len(arr):
+        ret = (ret + arr[i] * base_p) % 1000000007
+        base_p = base_p * base % 1000000007
+        i += 1
+    return ret
+
+def undo_transform(transformed):
+    solutions = []
+    for h in range(127):
+        xs = transformed[:]
+        for i in range(len(xs)):
+            xs[i] ^= h
+            if i % 2 == 0:
+                xs[i] = xs[i] * 81 % 127
+            else:
+                xs[i] = xs[i] * 114 % 127
+        for i in reversed(range(1, len(xs))):
+            xs[i] ^= xs[i-1]
+        if hash(xs) % 127 != h:
+            continue
+        solutions.append(''.join(chr(x) for x in xs))
+    solutions = [x for x in solutions if x.startswith('b6actf{')]
+    if len(solutions) != 1:
+        print(f'{solutions=}')
+        exit()
+    else:
+        return solutions[0]
+```
+
+And we get the flag:
+
+```py
+>>> undo_transform([19, 105, 105, 56, 48, 124, 17, 25, 23, 77, 23, 13, 53, 49, 93, 125, 66, 111, 12, 14, 77, 60, 21, 112, 83, 96, 42, 71, 2, 4, 48, 61, 88, 112, 21, 8, 86, 12, 123, 16, 61, 50, 24, 32, 32, 92, 58, 39, 75, 4, 3, 107, 125, 81, 33, 74, 9, 14])
+'b6actf{Sp00n_M4ch1ne_1s_l3f7_a5_4n_3x3rc1s3_7o_th3_r34d3r}'
+```
+
+I hope it was fun solving it / attempting to solve it!
