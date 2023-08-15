@@ -19,14 +19,16 @@ def set_(src, dst):
             setattr(dst, k, v)
 
 class Board():
-    initial_content = [
-        {
+    def __init__(self): pass
+
+    @property
+    def pinned_content(self):
+        return [{
             "title": "Our First Adventure!", 
             "text": "Today we went to the forest and you can't believe what we've got to! It's a house made out of gingerbread, cake and candy! How sweet it is!"
-        }
-    ]
-
-    def __init__(self): pass
+        }]
+    
+    current_content = []
 
     def save(self, data):
         data_ = json.loads(data)
@@ -39,10 +41,15 @@ class Board():
         set_(data_, self)
 
     def load(self):
+        res = self.pinned_content
+        if isinstance(self.current_content, list) and len(self.current_content) > 0 and all(["title" in x and "text" in x for x in self.current_content]):
+            res.extend(self.current_content)
         if hasattr(self, "new_content") and self.new_content is not None:
-            self.initial_content.extend(getattr(self, "new_content"))
+            new_content = getattr(self, "new_content")
+            self.current_content.extend(new_content)
+            res.extend(new_content)
             self.new_content = None
-        return self.initial_content.reverse()
+        return res[::-1]
 
 
 app = Flask(__name__)

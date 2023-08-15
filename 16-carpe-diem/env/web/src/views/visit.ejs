@@ -54,16 +54,14 @@
 
 
 <body>
-  <script src="https://www.google.com/recaptcha/api.js"></script>
   <form id="form" method="POST" action="/visit">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
     <h2><%= challenge %> Admin Bot</h2>
     <p><%= msg %></p>
     <span>URL</span>
     <input type="text" name="url" autofocus required placeholder="https://example.com" value="http://exmaple.com/">
-    <button class="g-recaptcha" 
-        data-sitekey="6LfRF6snAAAAAIw2AqtcgFHK-2BYsiOH7P4wwdQI" 
-        data-callback='onSubmit' 
-        data-action='submit'>Submit</button>
+    <div class="h-captcha" data-sitekey="c8220ee8-903a-4ef3-9a95-8ce721aea348"></div>
+    <input type="submit" />
   </form>
   <script>
     function onSubmit(token) {

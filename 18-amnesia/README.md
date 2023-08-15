@@ -17,7 +17,7 @@ Web / Crypto
 
 https://www.youtube.com/watch?v=x7-X9snnEZI
 
-♡ - - - - - ⋈ ««≪ °◇◆ Like ebb and flow, let tears and memories go ◆◇° ≫ »» ⋈ - - - - - ♡
+♡ - - - - - ⋈ ««≪ °◇◆ Like ebb and flow, tears and memories go ◆◇° ≫ »» ⋈ - - - - - ♡
 
 {CHAL_URL_LINK}
 

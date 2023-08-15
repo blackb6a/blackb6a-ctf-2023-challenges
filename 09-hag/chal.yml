@@ -13,6 +13,6 @@ deployment:
       memory: "1Gi"
   type: normal
   port: 30009
-  stateful: false
+  stateful: true
 metadata:
   youtubeUrl: FjS50ATT1v0

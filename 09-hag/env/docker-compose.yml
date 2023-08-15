@@ -1,6 +1,6 @@
 version: "3.8"
 services:
   hag:
-    build: src/.
+    build: src
     ports:
       - "3000:3000"

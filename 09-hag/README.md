@@ -16,7 +16,7 @@ Web
 
 https://www.youtube.com/watch?v=FjS50ATT1v0
 
-Hi! We're Hansel and Gretel! We've started a blog with the help of a witch to share our life with you! We heard the witch has hidden something sweet, can you help us to find it?
+Hi! We're Hansel and Gretel! We've started a bulletin board with the help of a witch to share our life with you! We heard the witch has hidden something sweet, can you help us to find it?
 
 {CHAL_URL_LINK_1}
 {CHAL_URL_LINK_2}
