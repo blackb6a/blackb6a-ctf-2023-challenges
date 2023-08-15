@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  xsleak:
+  carpe-diem:
     build: web
     ports:
       - "3001:12345"

@@ -11,20 +11,18 @@ Web
 
 ## Description
 
-> 祈求月老 給我 撰寫一世紀 的祝禱  
-> 可倒退某日 雷雨傾倒
+> 時間沒退後 天色早變奏
+> 若預言未來 無處可挽留
+> 去抱緊當刻 再別探究
 
-https://www.youtube.com/watch?v=eV9a5oUCbZQ
+https://www.youtube.com/watch?v=x4Yb33Z_E1Y
 
-> What if I could go back to the moment when we first met   
-> Stop the rain, the time, mistakes we’ve made
-
-Sometimes you may need to reincarnate endlessly to save your beloved ones, even though it may just be futile after all...
+Teach us to number our days, that we may apply our hearts unto wisdom.
 
 ## Note
 
-The flag only contains capital letters.
+The flag only contains capital letters, i.e. `b6actf{[A-Z]+}`
 
 ## Flag
 
-b6actf{EYETOEYE}
+b6actf{SEIZEYOURDAY}
