@@ -2,7 +2,7 @@
 enabled: true
 author: 'hollow'
 categories:
-- misc
+- main-misc
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{3ph3m3r41_m1nd_3tern41_b0nd}'

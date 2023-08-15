@@ -1,4 +1,4 @@
-# 最後一個糊塗神 / Amnesia
+# 失憶症候群 / Amnesia
 
 ## Category
 
@@ -11,12 +11,15 @@ Web / Crypto
 
 ## Description
 
-> 是我丟失千斤記憶 
-> 你所有秘密留在昨日
+> 當記憶 都褪色 當你沒法避免心中壓抑
+> 就順從淚痕和應 沖散追憶軌跡
+> 你若要嘆息 請收去心靈那靜寂
 
-https://www.youtube.com/watch?v=Mvec1GN_dtY
+https://www.youtube.com/watch?v=x7-X9snnEZI
 
-I lose my memories, I don't even know who I am.
+♡ - - - - - ⋈ ««≪ °◇◆ Like ebb and flow, let tears and memories go ◆◇° ≫ »» ⋈ - - - - - ♡
+
+{CHAL_URL_LINK}
 
 ## Note
 

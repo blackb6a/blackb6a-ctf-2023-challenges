@@ -1,19 +1,19 @@
 <!doctype html>
+<html>
 <head>
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdPf6onAAAAAH1RcdFBVvfAv0TGI1Zle8eInxkI"></script>
   <title><%= challenge %> Admin Bot</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     * {
       font-family: Menlo, Consolas, Monaco, 'Liberation Mono', 'Lucida Console', monospace;
     }
-    html, body, main {
+    html, body {
       margin: 0;
       height: 100%;
       background: #18181c;
       color: #eee;
     }
-    main {
+    body {
       display: grid;
     }
     form {
@@ -52,17 +52,24 @@
   </style>
 </head>
 
-<main>
+
+<body>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
   <form id="form" method="POST" action="/visit">
     <h2><%= challenge %> Admin Bot</h2>
     <p><%= msg %></p>
     <span>URL</span>
     <input type="text" name="url" autofocus required placeholder="https://example.com" value="http://exmaple.com/">
-    <button class="g-recaptcha" data-sitekey="6LdPf6onAAAAAH1RcdFBVvfAv0TGI1Zle8eInxkI" data-callback="onSubmit" data-action="submit">Submit</button>
+    <button class="g-recaptcha" 
+        data-sitekey="6LfRF6snAAAAAIw2AqtcgFHK-2BYsiOH7P4wwdQI" 
+        data-callback='onSubmit' 
+        data-action='submit'>Submit</button>
   </form>
-</main>
-<script>
-  function onSubmit(token) {
-    document.getElementById("form").submit();
-  }
-</script>
+  <script>
+    function onSubmit(token) {
+      document.getElementById("form").submit();
+    }
+  </script>
+</body>
+
+</html>
