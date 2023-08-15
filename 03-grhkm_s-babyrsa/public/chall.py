@@ -39,7 +39,6 @@ print(f'{e = }')
 print(f'{l_dp = }')
 print(f'{l_dq = }')
 
-# RSA encryption, -1 because of flag format
 flag = bytes_to_long(flag)
 
 ct = pow(flag, e, N)
