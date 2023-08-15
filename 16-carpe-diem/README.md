@@ -21,8 +21,6 @@ Teach us to number our days, that we may apply our hearts unto wisdom.
 
 ## Note
 
-The flag only contains capital letters, i.e. `b6actf{[A-Z]+}`
-
 Admin bot at `/visit`.
 
 ## Flag
