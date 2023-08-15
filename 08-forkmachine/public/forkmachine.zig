@@ -57,7 +57,6 @@ const IPC_Event = struct {
 };
 
 
-// We need all shared globals inside this struct, so that we can fully share them across multiple processes.
 const SharedGlobals = struct {
     const MAX_NUM_VMNODES = 1_000_000;
     const MAX_DYNAMIC_ALLOC_BYTES = 1_000_000;
@@ -172,17 +171,14 @@ const Value = union(ValueType) {
 };
 
 
-// Can be used as a template or an actual runtime node.
 const VMNode = struct {
-    node_type: VMNodeType,                          // Type of node
-    instance_id_base: u64 = undefined,              // Base id of the scope instance
-    id: u32,                                        // Local id of the node in its scope
-    ipcev_instancing_done: *IPC_Event = undefined,  // The node should not do anything until all nodes of its scope are instantiated
-    requirements: []u32,                            // The node depends on these nodes having a truthy value
-    value: Value = undefined,                       // The value produced by the node
-    ipcev_done: IPC_Event = .{},                    // The node should use this to tell other nodes that it has produced a result
-
-    // Node type specific members below
+    node_type: VMNodeType,
+    instance_id_base: u64 = undefined,
+    id: u32,
+    ipcev_instancing_done: *IPC_Event = undefined,
+    requirements: []u32,
+    value: Value = undefined,
+    ipcev_done: IPC_Event = .{},
 
     // Constant
     constant_value: Value = undefined,
@@ -223,7 +219,7 @@ const VMNode = struct {
             }
         }
         switch (self.node_type) {
-            .constant => self.value = self.constant_value, // Just copy
+            .constant => self.value = self.constant_value,
             .compute => {
                 var num_operands: u32 = 0;
                 var operand1: *VMNode = undefined;
@@ -312,7 +308,6 @@ const VMNode = struct {
                                     self.value = Value {.vector = res_vector};
                                 },
                                 .equal => {
-//                                     if (operand1.value != .vector or operand2.value != .vector) unreachable; // Not sure whether to keep this.
                                     self.value = Value {.int = @intFromBool(operand1.value.equal(operand2.value))};
                                 },
                                 .get_at_index => {
@@ -535,9 +530,7 @@ pub fn loadProgram(path: []const u8) !void {
     for (0..num_scope_templates) |i| {
         SHARED_GLOBALS.scope_templates[i] = try loadScopeTemplate(reader);
     }
-    var end = false;
     _ = reader.readByte() catch {
-        end = true;
         return;
     };
     unreachable;
@@ -545,7 +538,6 @@ pub fn loadProgram(path: []const u8) !void {
 
 
 pub fn main() !void {
-    // Only for use in the main function. May not be safe for multi-process access.
     var fn_main_gpa = std.heap.GeneralPurposeAllocator(.{}){};
     const fn_main_gpaa = fn_main_gpa.allocator();
 
@@ -553,7 +545,6 @@ pub fn main() !void {
     SHARED_GLOBALS.fba = std.heap.FixedBufferAllocator.init(&SHARED_GLOBALS.fba_buf);
     SHARED_GLOBALS.allocator = SHARED_GLOBALS.fba.threadSafeAllocator();
 
-    // undefined init might be bad, not sure, so just to be safe:
     SHARED_GLOBALS.instancing_mutex = std.Thread.Mutex{};
     var dummy_req = try SHARED_GLOBALS.allocator.alloc(u32, 0);
     for (0..SharedGlobals.MAX_NUM_VMNODES) |i| {
@@ -604,7 +595,7 @@ pub fn main() !void {
                 values[i] = Value {.int = input[i]};
             }
             arg_node.value = Value {.vector = values};
-            arg_node.ipcev_done.signal(); // We did it for you!
+            arg_node.ipcev_done.signal();
             SHARED_GLOBALS.next_instance_base += 1;
 
             init_node.scope_args = try SHARED_GLOBALS.allocator.alloc(u32, 1);
