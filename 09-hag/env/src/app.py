@@ -22,7 +22,7 @@ class Board():
     initial_content = [
         {
             "title": "Our First Adventure!", 
-            "text": "Today we went to the forest and you can't believe what we've got to!\n\nIt's a house made out of gingerbread, cake and candy!\n\nHow sweet it is!"
+            "text": "Today we went to the forest and you can't believe what we've got to! It's a house made out of gingerbread, cake and candy! How sweet it is!"
         }
     ]
 
@@ -42,7 +42,7 @@ class Board():
         if hasattr(self, "new_content") and self.new_content is not None:
             self.initial_content.extend(getattr(self, "new_content"))
             self.new_content = None
-        return self.initial_content
+        return self.initial_content.reverse()
 
 
 app = Flask(__name__)

