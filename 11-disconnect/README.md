@@ -7,12 +7,15 @@ Does it really disconnected?
 
 flag in `/flag.txt`
 
+Attachment: {ATTACHMENT_LINK}
+
+```
+{CHAL_NC_LINK}
+```
+
+> Note: All pwn challenges are running on an Ubuntu 23.04 machine.
+
 ===
-
-
-## Notes
-
-All pwn challenges are running on the Ubuntu 23.04 machine.
 
 ## Flag
 
