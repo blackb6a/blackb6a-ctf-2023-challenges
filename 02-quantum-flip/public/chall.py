@@ -1,10 +1,6 @@
-from qiskit import QuantumCircuit, QuantumRegister, Aer, ClassicalRegister, assemble
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
-import hashlib
+from qiskit import QuantumCircuit, QuantumRegister, Aer, ClassicalRegister
+from bitarray import bitarray
 import os
-
-from secret import flag
 
 # Quantum is truly random
 def generateTrulyRandomSeq(n: int) -> list:
@@ -20,33 +16,39 @@ def generateTrulyRandomSeq(n: int) -> list:
     
     sv_sim = Aer.get_backend('qasm_simulator')
     # I afraid using too much urandom will draw all the entropy so I decided to use quantum (which is truly random as urandom too!)
-    qobj = assemble(qc, seed_simulator=int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF, shots=1)
-    job = sv_sim.run(qobj)
+    job = sv_sim.run(qc, seed_simulator=int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF, shots=1)
 
     res = list(job.result().get_counts().keys())[0]
     return res
 
-# AES that supports any bit length!
-def AES_encrypt(key: bytes, iv: bytes, msg: bytes) -> bytes:
-    key = hashlib.md5(key).digest()
-    iv = hashlib.md5(iv).digest()
-    cipher = AES.new(key=key, iv=iv, mode=AES.MODE_CBC)
-    ct = cipher.encrypt(pad(msg, 16))
-    return ct
-
 def main():
-    n = 20000
-    
-    seq = generateTrulyRandomSeq(n)
-    iv, key = seq[:-64], seq[-64:]
+    seq_per_file = 3
+    enc_filenames = ['quantum.jpg', 'flag']
+    read_files = []
 
-    iv = int(iv, 2).to_bytes(len(iv) // 8, 'big')
-    key = int(key, 2).to_bytes(len(key) // 8, 'big')
-    
-    ct = AES_encrypt(key, iv, flag)
-    
-    print('ct =', ct.hex())
-    print('iv =', iv.hex())
+    for fn in enc_filenames:
+        with open(fn, 'rb') as f:
+            arr = bitarray()
+            arr.fromfile(f)
+            read_files.append(arr)
+
+    len_seq = sum(map(len, read_files)) * seq_per_file
+    seq = generateTrulyRandomSeq(len_seq)
+
+    head = 0
+    for i in range(len(enc_filenames)):
+        pt = read_files[i]
+        len_pt = len(pt)
+        for _ in range(seq_per_file):
+            assert head + len(pt) <= len_seq
+            stream = seq[head:head+len_pt]
+            stream = bitarray(stream)
+            pt ^= stream
+            
+            head += len_pt
+
+        with open(enc_filenames[i] + '.enc', 'wb') as f:
+            pt.tofile(f)
 
 if __name__ == '__main__':
     main()
