@@ -13,6 +13,11 @@ Introducing Vectorify Image Factory (VIF), the ultimate image-to-vector conversi
 
 Attachment: {ATTACHMENT_LINK}
 
+
+## Notes
+
+All pwn challenges are running on the Ubuntu 23.04 machine.
+
 ## Flag
 
 `b6actf{bE_4waR3_N0t_3v3rY_1iB_i5_seCuRe}`

