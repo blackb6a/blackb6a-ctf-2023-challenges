@@ -23,6 +23,8 @@ Teach us to number our days, that we may apply our hearts unto wisdom.
 
 Challenge Bot: {CHAL_URL_LINK}/visit
 
+Attachment: {ATTACHMENT_LINK}
+
 ## Note
 
 

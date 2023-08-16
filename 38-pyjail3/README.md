@@ -21,6 +21,12 @@ https://www.youtube.com/watch?v=RmTAUDlcPSk
 The code can't remember anything... Everything is lost...
 I really love the code a lot, can you help me to make it remember?
 
+```
+{CHAL_NC_LINK}
+```
+
+Attachment: {ATTACHMENT_LINK}
+
 ## Notes
 
 ## Flag

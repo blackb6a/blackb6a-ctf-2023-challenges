@@ -11,10 +11,9 @@ Remark:
 - You can only test the service on `http://*.m.pipedream.net`. 
 - Please do not run the service against websites that are not managed by you. Black Bauhinia will not take responsibility for any damage you made.
 
-Attachments: {ATTACHMENT_LINK}
-
 Challenge Bot: {CHAL_URL_LINK}
 
+Attachment: {ATTACHMENT_LINK}
 
 ## Flag
 

@@ -17,6 +17,8 @@ https://www.youtube.com/watch?v=EE9WbMxksRY
 
 It's all about the grind when it comes to RPG games. You grind for experience, level up, and beat foes that were stronger than you. Hope you have fun grinding to max level and see you on the other side.
 
+Attachment: {ATTACHMENT_LINK}
+
 ## Notes
 Do let me know if there is any bug or any rooms for improvement.
 

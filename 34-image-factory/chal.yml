@@ -2,7 +2,7 @@
 enabled: true
 author: 'cire meat pop'
 categories:
-- pwn
+- main-pwn
 points: 500
 released_at: '1970-01-01 12:00:00'
 flag: 'b6actf{bE_4waR3_N0t_3v3rY_1iB_i5_seCuRe}'

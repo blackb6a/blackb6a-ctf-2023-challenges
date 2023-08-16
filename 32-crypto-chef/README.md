@@ -21,6 +21,12 @@ https://www.youtube.com/watch?v=xRXj7R1j3cE
 Some wild seasoning and ingredients appeared! What can be done with them?  
 Let's make some great dish with it! I bet you are good at cooking right?  
 
+```
+{CHAL_NC_LINK}
+```
+
+Attachment: {ATTACHMENT_LINK}
+
 ## Notes
 
 ## Flag

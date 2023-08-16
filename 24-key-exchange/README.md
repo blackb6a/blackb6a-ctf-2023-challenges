@@ -15,6 +15,8 @@ Crypto
 
 My favourite Hong Kong idol, Lizzo!
 
+Attachment: {ATTACHMENT_LINK}
+
 ## Notes
 
 easy chal, maybe warmup level

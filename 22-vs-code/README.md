@@ -9,3 +9,5 @@ Making a challenge has never been easier! Just paste a screenshot and there you 
 > Flag verification was slow back then due to technical limitations
 
 *Remark: all characters are ASCII*
+
+Attachment: {ATTACHMENT_LINK}
