@@ -6,7 +6,7 @@ import os
 
 seq_per_file = 3
 length = 19968
-skip = os.path.getsize('./flag.enc') * 8 - length
+skip = os.path.getsize('./quantum.jpg') * 8 - length
 
 MATRIX_FILE = f'mt19937_64_matrix_skip_{skip}'
 
@@ -78,10 +78,10 @@ def get_leak(rng):
     return leak
 
 def get_prefix(rng):
-    return [rng.getrandbits(1) for _ in range(200000)]
+    return [rng.getrandbits(1) for _ in range(776400)]
 
 def main():
-    rng = MT19937_64(int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF)
+    rng = MT19937_64(3064954383174244867)
 
     ans_prefix = get_prefix(rng)
 
@@ -90,7 +90,7 @@ def main():
     get_state0(leak, rev_state)
 
     rng.setstate(rev_state + [0])
-    print(ans_prefix == [rng.getrandbits(1, reverse = True) for _ in range(200000)][::-1])
+    print(ans_prefix == [rng.getrandbits(1, reverse = True) for _ in range(776400)][::-1])
 
 if __name__ == '__main__':
     main()

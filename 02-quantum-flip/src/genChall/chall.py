@@ -2,8 +2,6 @@ from qiskit import QuantumCircuit, QuantumRegister, Aer, ClassicalRegister
 from bitarray import bitarray
 import os
 
-key = int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF
-
 # Quantum is truly random
 def generateTrulyRandomSeq(n: int) -> list:
     qr = QuantumRegister(1)
@@ -18,7 +16,7 @@ def generateTrulyRandomSeq(n: int) -> list:
     
     sv_sim = Aer.get_backend('qasm_simulator')
     # I afraid using too much urandom will draw all the entropy so I decided to use quantum (which is truly random as urandom too!)
-    job = sv_sim.run(qc, seed_simulator=key, shots=1)
+    job = sv_sim.run(qc, seed_simulator=int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF, shots=1)
 
     res = list(job.result().get_counts().keys())[0]
     return res
@@ -51,11 +49,7 @@ def main():
 
         with open(enc_filenames[i] + '.enc', 'wb') as f:
             pt.tofile(f)
-    
-    print(key)
-    with open('debug_stream', 'wb') as f:
-        s = bitarray(seq)
-        s.tofile(f)
+            
 
 if __name__ == '__main__':
     main()
