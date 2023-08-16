@@ -40,7 +40,7 @@ def main():
         pt = read_files[i]
         len_pt = len(pt)
         for _ in range(seq_per_file):
-            assert head + len(pt) <= len_seq
+            assert head + len_pt <= len_seq
             stream = seq[head:head+len_pt]
             stream = bitarray(stream)
             pt ^= stream
