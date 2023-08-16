@@ -2,10 +2,11 @@ from mt19937_64 import MT19937_64
 from bitarray import bitarray
 from tqdm import tqdm
 from sage.all import *
+import os
 
 seq_per_file = 3
 length = 19968
-skip = 238832
+skip = os.path.getsize('./flag.enc') * 8 - length
 
 MATRIX_FILE = f'mt19937_64_matrix_skip_{skip}'
 
@@ -69,18 +70,27 @@ def get_state0(leak, state):
 
 
 #Showcase
-def get_leak(rng = None):
-    if rng is None: rng = MT19937_64(0)
+def get_leak(rng):
     leak = [0 for _ in range(length)]
     for _ in range(seq_per_file):
         leak = [rng.getrandbits(1) ^ b for b in leak]
         rng.skip_state(skip)
     return leak
 
+def get_prefix(rng):
+    return [rng.getrandbits(1) for _ in range(200000)]
+
 def main():
-    leak = get_leak()
+    rng = MT19937_64(int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF)
+
+    ans_prefix = get_prefix(rng)
+
+    leak = get_leak(rng)
     rev_state = reverse_state(leak)
     get_state0(leak, rev_state)
+
+    rng.setstate(rev_state + [0])
+    print(ans_prefix == [rng.getrandbits(1, reverse = True) for _ in range(200000)][::-1])
 
 if __name__ == '__main__':
     main()

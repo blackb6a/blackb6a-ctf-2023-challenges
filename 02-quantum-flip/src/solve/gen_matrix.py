@@ -11,7 +11,7 @@ import os
 
 seq_per_file = 3
 length = 19968
-skip = os.path.getsize('./flag') * 8 - length
+skip = os.path.getsize('./flag.enc') * 8 - length
 
 def list_state():
     state = [0] * 312
