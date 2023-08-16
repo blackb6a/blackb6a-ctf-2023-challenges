@@ -23,14 +23,15 @@ def generateTrulyRandomSeq(n: int) -> list:
     return res
 
 def main():
-    seq_per_file = 2
+    seq_per_file = 3
     enc_filenames = ['quantum.jpg', 'flag']
     read_files = []
 
     for fn in enc_filenames:
-        arr = bitarray()
-        arr.fromfile(fn)
-        read_files.append(arr)
+        with open(fn, 'rb') as f:
+            arr = bitarray()
+            arr.fromfile(f)
+            read_files.append(arr)
 
     len_seq = sum(map(len, read_files)) * seq_per_file
     seq = generateTrulyRandomSeq(len_seq)
