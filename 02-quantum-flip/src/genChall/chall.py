@@ -1,4 +1,4 @@
-from qiskit import QuantumCircuit, QuantumRegister, Aer, ClassicalRegister, assemble
+from qiskit import QuantumCircuit, QuantumRegister, Aer, ClassicalRegister
 from bitarray import bitarray
 import os
 
@@ -16,8 +16,7 @@ def generateTrulyRandomSeq(n: int) -> list:
     
     sv_sim = Aer.get_backend('qasm_simulator')
     # I afraid using too much urandom will draw all the entropy so I decided to use quantum (which is truly random as urandom too!)
-    qobj = assemble(qc, seed_simulator=int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF, shots=1)
-    job = sv_sim.run(qobj)
+    job = sv_sim.run(qc, seed_simulator=int.from_bytes(os.urandom(8), 'big') & 0x7FFFFFFFFFFFFFFF, shots=1)
 
     res = list(job.result().get_counts().keys())[0]
     return res
