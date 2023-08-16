@@ -47,7 +47,8 @@ def main():
             
             head += len_pt
 
-        pt.tofile(enc_filenames[i] + '.enc')
+        with open(enc_filenames[i] + '.enc', 'wb') as f:
+            pt.tofile(f)
 
 if __name__ == '__main__':
     main()
