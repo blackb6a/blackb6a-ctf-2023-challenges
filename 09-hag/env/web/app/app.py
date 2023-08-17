@@ -1,7 +1,6 @@
 from flask import Flask, render_template, session, request, Response
 from werkzeug.exceptions import HTTPException
 import os
-from uuid import uuid4
 import json
 import requests
 from random import randint
@@ -53,7 +52,7 @@ class Board():
 
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = str(uuid4())
+app.config["SECRET_KEY"] = str(os.urandom(32))
 app.config["SESSION_COOKIE_HTTPONLY"] = False
 app.add_template_global(randint)
 
