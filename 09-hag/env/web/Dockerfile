@@ -8,10 +8,10 @@ RUN pip3 install requests flask flask-session
 
 RUN mkdir /app
 COPY app /app
-COPY launcher.sh /launcher.sh
-RUN chmod 555 /launcher.sh 
-RUN crontab -l | { cat; echo "*/5 * * * * /launcher.sh"; } | crontab
+COPY start.sh /start.sh
+
+RUN chmod 555 /start.sh
 
 WORKDIR /app
 
-CMD [ "/launcher.sh" ]
+CMD [ "/start.sh" ]
