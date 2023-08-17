@@ -13,3 +13,5 @@ deployment:
       memory: "1Gi"
   type: normal
   port: 20003
+metadata:
+  youtubeUrl: 8wB0S5nZMJw
