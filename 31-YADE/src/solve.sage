@@ -29,7 +29,7 @@ assert "d" in globals()
 # Initiate connection
 from pwn import context, process
 context.log_level = "CRITICAL"
-rc = process("python3 chal.py", shell=True)
+rc = process("python3 chall.py", shell=True)
 
 # Load equation
 # TODO: Generate trapdoor dynamically and adjust script
