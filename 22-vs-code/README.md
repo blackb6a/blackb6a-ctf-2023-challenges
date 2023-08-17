@@ -1,13 +1,18 @@
-VS Code (人曲大戰)
+VS Code
 ===
+
+### 濛 (Blurry)
+
+> 無暇除下每一滴瑕玼嗎
+
+> 既沒看出來　何必驚怕
+
+> 眼前若變濛　便有好夢
+
+> 平凡人亦可輕易被神化
 
 ## Description
 
-Making a challenge has never been easier! Just paste a screenshot and there you go.
-
-> As I created this challenge, I got sucked into the world of Matrix
-> Flag verification was slow back then due to technical limitations
+Making a challenge has never been easier!
 
 *Remark: all characters are ASCII*
-
-Attachment: {ATTACHMENT_LINK}
