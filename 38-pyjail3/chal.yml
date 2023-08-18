@@ -1,6 +1,6 @@
 # other metadata fields
 enabled: true
-title: 'Just Love You'
+title: 'Pyjail 3'
 author: 'hoifanrd'
 categories:
 - main-pwn
@@ -16,4 +16,4 @@ deployment:
   port: 30038
   stateful: false
 metadata:
-  youtubeUrl: RmTAUDlcPSk
+  youtubeUrl: rqLc6-AzrPU
