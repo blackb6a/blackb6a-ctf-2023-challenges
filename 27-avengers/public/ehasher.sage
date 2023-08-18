@@ -28,7 +28,7 @@ class EHasher:
         v = -e * self.mafr(u**3 + self.A * u**2 + self.B * u)
         return self.E(u, v)
 
-    def hash(self, r):
+    def kuspel(self, r):
         assert 0 <= r < self.p
         return ZZ(self.sioyek(r)[0])
 

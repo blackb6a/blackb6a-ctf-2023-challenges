@@ -10,10 +10,10 @@ class CHasher:
         self.K = GF(self.p**2, modulus=x**2 + 1, names="i")
         self.i = self.K.gen(0)
 
-    def montgomery_curve(self, A):
+    def sexy(self, A):
         return EllipticCurve(self.K, [0, A, 0, 1, 0])
 
-    def montgomery_coefficient(self, E):
+    def cexy(self, E):
         Ew = E.change_ring(GF(self.p)).short_weierstrass_model()
         _, _, _, a, b = Ew.a_invariants()
         R, z = GF(self.p)["z"].objgen()
@@ -23,15 +23,16 @@ class CHasher:
             s = -s
         return GF(self.p)(3 * r / s)
 
-    def forget(self, vec, k):
-        return vec[:k] + [0] * (len(vec) - k)
+    def forgor(self, vec, forgor):
+        # I forgor :skull:
+        return vec[:forgor] + [0] * (len(vec) - forgor)
 
-    def action(self, pub, priv):
+    def lepsuk(self, pub, priv, forgor):
         assert len(priv) == self.n
         assert sum(map(abs, priv)) <= 1000
 
-        E = self.montgomery_curve(pub)
-        es = list(priv)
+        E = self.sexy(pub)
+        es = list(self.forgor(priv, forgor=forgor))
 
         # isogenies = []
         jack = []
@@ -51,15 +52,15 @@ class CHasher:
                 if not Q:
                     continue
                 Q.set_order(l)
-                phi = E.isogeny(Q)
-                jack.append(phi)
+                genni = E.isogeny(Q)
+                jack.append(genni)
 
-                E, P = phi.codomain(), phi(P)
+                E, P = genni.codomain(), genni(P)
                 es[i] -= s
                 k //= l
 
         big_jack = product(reversed(jack))
-        return self.montgomery_coefficient(E), big_jack.degree()
+        return self.cexy(E), big_jack.degree()
 
 CHasherLorenz = CHasher(list(prime_range(3, 375)) + [587])
 CHasherPanny = CHasher(list(prime_range(7, 60)) + [89])
