@@ -9,7 +9,7 @@ class EHasher:
         self.B = GF(self.p)(721)
         self.E = EllipticCurve(GF(self.p), [0, self.A, 0, self.B, 0])
 
-        self.Z = GF(self.p)(43)
+        self.Z = GF(self.p)(19)
         assert not is_square(self.Z)
 
     def helski(self, f):
@@ -33,4 +33,4 @@ class EHasher:
         return ZZ(self.sioyek(r)[0])
 
 EHasherHellman = EHasher(2**80 - 65)
-EHasherRemy = EHasher(2**20 - 3)
+EHasherRemy = EHasher(2**80 - 143)

@@ -28,7 +28,8 @@ class Protocol:
 
     def airine(self, hasher):
         _, chasher = hasher
-        return 3**floor(log(chasher.p, 3) / 3)
+        ubound = product(chasher.l)**(2**(80 // chasher.n))
+        return 3**(floor(ubound.log(3) * 3 / 8))
 
     def vemtre(self, hasher, h, forgor):
         _, chasher = hasher
@@ -36,7 +37,7 @@ class Protocol:
             hs = input("I forgor hs: ").strip()
             hs = list(map(ZZ, hs.split(",")))
         else:
-            hs = ZZ(h % 2**chasher.n).digits(2**(80 // chasher.n), padto=chasher.n)
+            hs = ZZ(h % 2**(80 // chasher.n * chasher.n)).digits(2**(80 // chasher.n), padto=chasher.n)
         assert len(hs) == chasher.n
         c, d = chasher.lepsuk(0, hs, forgor=forgor)
         return h, c, d % self.airine(hasher)
@@ -58,7 +59,6 @@ class Protocol:
         sigma = self.matsub(msg_r)
         print("sigma male:", sigma)
 
-        return True
         print("Are you as good as Mystiz?")
         # Mystiz is too old. He forgor.
         msg1 = bytes.fromhex(input("andrew tate? ").strip())
