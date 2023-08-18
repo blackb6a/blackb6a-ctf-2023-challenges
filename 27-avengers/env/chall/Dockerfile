@@ -1,5 +1,7 @@
 FROM sagemath/sagemath:10.0
 
+RUN useradd ctfuser --create-home
+
 RUN sudo apt-get update
 
 RUN sudo apt-get install -y socat
