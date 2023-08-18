@@ -1,6 +1,8 @@
 VS Code
 ===
 
+## Description
+
 ### 濛 (Blurry)
 
 > 無暇除下每一滴瑕玼嗎
@@ -10,8 +12,6 @@ VS Code
 > 眼前若變濛　便有好夢
 
 > 平凡人亦可輕易被神化
-
-## Description
 
 Making a challenge has never been easier!
 

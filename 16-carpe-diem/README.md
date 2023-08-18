@@ -20,9 +20,8 @@ https://www.youtube.com/watch?v=x4Yb33Z_E1Y
 
 Teach us to number our days, that we may apply our hearts unto wisdom.
 
-```
-{CHAL_URL_LINK}
-```
+
+Website: {CHAL_URL_LINK}
 
 Challenge Bot: {CHAL_URL_LINK}/visit
 
@@ -33,4 +32,4 @@ Attachment: {ATTACHMENT_LINK}
 
 ## Flag
 
-b6actf{SEIZEYOURDAYS}
+b6actf{SEIZEYOURDAY}

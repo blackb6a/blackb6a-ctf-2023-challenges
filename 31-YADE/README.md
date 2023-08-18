@@ -1,4 +1,4 @@
-# YADE (Yet Another Diophantine Equation)
+YADE (Yet Another Diophantine Equation)
 
 ## Category
 

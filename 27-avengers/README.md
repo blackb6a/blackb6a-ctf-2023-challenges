@@ -8,7 +8,7 @@ Avengers
 > 就回隊吧 尊貴的磚瓦 
 > 去抵抗風化 
 
-Avengers, assemble! Free the 🐟 next to the 🌊
+Avengers, assemble! Free the 🐟 to the 🌊.
 
 Note: If server connection is too slow, open ticket on Discord server.
 
