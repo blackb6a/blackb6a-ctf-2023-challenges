@@ -8,7 +8,7 @@
 #include <liburing.h>
 
 char *hostname = "en6fb8xm9qefw.x.pipedream.net"; // change this
-char *ip = "54.87.114.130"; // change this
+char *ip = "44.216.35.201"; // change this
 int port = 80;
 
 
