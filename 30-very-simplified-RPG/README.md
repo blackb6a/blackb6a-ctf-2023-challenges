@@ -1,4 +1,4 @@
-# Very Simplified RPG
+Very Simplified RPG
 
 ## Category
 
@@ -9,6 +9,7 @@ Reverse
 -   **Author:** Viky
 
 ## Description
+### 日練夜練沒有假
 
 > 煩住我的　圍住我的　無論多幾多對手
 > 要攻要守　不顫抖　路仍必須走

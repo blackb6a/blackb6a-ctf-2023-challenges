@@ -9,7 +9,7 @@ flag: 'b6actf{1_w0nd3r_wha7_th3_d15h_t4573_l1k3_7035b0b3c0db29973a93afa01e8fdc4f
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 30032

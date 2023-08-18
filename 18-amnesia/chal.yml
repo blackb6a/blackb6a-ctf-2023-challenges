@@ -10,7 +10,7 @@ flag: 'b6actf{h4v1ng_b64ctf_1n_my_pub1c_key_m4d5_m5_s0b5r}'
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 30018

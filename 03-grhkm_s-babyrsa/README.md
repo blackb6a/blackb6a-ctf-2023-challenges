@@ -1,4 +1,4 @@
-# grhkm's babyRSA
+grhkm's babyRSA
 
 ## Category
 
@@ -17,7 +17,7 @@ Crypto
 
 My kindergarten teacher taught me 5 > 4, so clearly 1 / 5 > 1 / 4...
 
-{ATTACHMENT_LINK}
+Attachment: {ATTACHMENT_LINK}
 
 ## Flag
 

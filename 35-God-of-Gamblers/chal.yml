@@ -9,7 +9,7 @@ flag: 'b6actf{y0u_4r3_7h3_60d_0f_64mbl3r5!!!!!}'
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 20001

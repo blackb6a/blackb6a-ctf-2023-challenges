@@ -1,4 +1,4 @@
-# 偏偏喜歡你 / Just Love You
+Just Love You
 
 ## Category
 
@@ -10,6 +10,7 @@ Pwn
 -   **Testers:** 
 
 ## Description
+### 偏偏喜歡你
 
 > 為何你的嘴裏 總是那一句 為何我的心不會死  
 > 明白到愛失去 一切都不對 我又為何偏偏喜歡你  

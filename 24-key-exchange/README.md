@@ -1,4 +1,4 @@
-# Key Exchange: Epilogue
+Key Exchange: Epilogue
 
 ## Category
 

@@ -2,6 +2,7 @@ Disconnect
 ===
 
 ## Description
+
 > 想約他  私訊他  別無視我好嗎
 > 中斷聯繫了嗎
 > 等他  回覆  答我  解說一下
@@ -18,7 +19,7 @@ flag in `/flag.txt`
 
 Attachment: {ATTACHMENT_LINK}
 
-> Note: All pwn challenges are running on an Ubuntu 23.04 machine.
+Note: All pwn challenges are running on an Ubuntu 23.04 machine.
 
 ## Flag
 

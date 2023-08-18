@@ -16,3 +16,5 @@ VS Code
 Making a challenge has never been easier!
 
 *Remark: all characters are ASCII*
+
+Attachment: {ATTACHMENT_LINK}

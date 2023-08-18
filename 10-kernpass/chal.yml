@@ -9,8 +9,8 @@ flag: 'b6actf{17_15_4n_345y_k3rn31_ch4113n63}'
 deployment:
   resources:
     limits:
-      cpu: "4"
-      memory: "1Gi"
+      cpu: "2"
+      memory: "8Gi"
   type: normal
   port: 20002
 metadata:

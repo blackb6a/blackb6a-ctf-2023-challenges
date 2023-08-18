@@ -2,6 +2,7 @@ God of Gamblers
 ===
 
 ## Description
+
 > 我是個怕輸的人 
 > 仍然扮勇敢 
 > 前去雖嚇人 
@@ -20,4 +21,4 @@ The god of gamblers never lose a single game.
 
 Attachment: {ATTACHMENT_LINK}
 
-> Note: All pwn challenges are running on an Ubuntu 23.04 machine.
+Note: All pwn challenges are running on an Ubuntu 23.04 machine.

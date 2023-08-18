@@ -20,7 +20,7 @@ flag: 'b6actf{test_test_test}'
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 12345

@@ -9,8 +9,8 @@ flag: 'b6actf{Master_Password=**************************************************
 deployment:
   resources:
     limits:
-      cpu: "4"
-      memory: "1Gi"
+      cpu: "1"
+      memory: "2Gi"
   type: normal
   port: 8192
   stateful: false

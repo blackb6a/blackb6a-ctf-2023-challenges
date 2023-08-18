@@ -9,7 +9,7 @@ flag: 'b6actf{50ck37_15_n07_7h3_0nly_5y5c4ll_70_cr3473_50ck37}'
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 20003

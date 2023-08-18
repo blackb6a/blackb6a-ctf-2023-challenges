@@ -10,7 +10,7 @@ deployment:
   resources:
     limits:
       cpu: "4"
-      memory: "1Gi"
+      memory: "4Gi"
   type: normal
   port: 8809
   stateful: true

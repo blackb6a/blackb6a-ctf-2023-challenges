@@ -1,4 +1,4 @@
-# 量子糾纏 / Quantum Entanglement
+Quantum Entanglement
 
 ## Category
 
@@ -10,6 +10,8 @@ Crypto
 -   **Testers:** 
 
 ## Description
+
+### 量子糾纏
 
 > 時光是維度　粒子已分佈  
 > 在宇宙兩邊  

@@ -1,4 +1,4 @@
-# Every Delicate Detail
+Every Delicate Detail
 
 ## Category
 
@@ -21,7 +21,7 @@ Crypto
 
 Can you distinguish the two random streams which are xorred together?
 
-{ATTACHMENT_LINK}
+Attachment: {ATTACHMENT_LINK}
 
 ## Flag
 

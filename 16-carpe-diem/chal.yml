@@ -9,7 +9,7 @@ flag: 'b6actf{SEIZEYOURDAYs}'
 deployment:
   resources:
     limits:
-      cpu: "4"
+      cpu: "1"
       memory: "1Gi"
   type: normal
   port: 30016
