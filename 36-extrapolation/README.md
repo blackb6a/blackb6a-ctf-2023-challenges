@@ -11,11 +11,10 @@ Misc
 
 ## Description
 
-> 反正左右查看
-> 總之左右查看
+>豁出去漫遊 不通知親友
+>那快感少有 哪管想去多久
 
-
-https://www.youtube.com/watch?v=b4DUhBI7vvI
+https://www.youtube.com/watch?v=hBPKSCA-JR0
 
 Windows 10, Snip & Sketch Auto Save
 
