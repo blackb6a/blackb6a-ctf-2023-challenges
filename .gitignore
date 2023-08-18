@@ -1,3 +1,6 @@
 build/
 */target
 */build
+*/*.sage.py
+*/*/*.sage.py
+*/*/*/*.sage.py

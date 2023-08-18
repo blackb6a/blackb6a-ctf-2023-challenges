@@ -61,11 +61,11 @@ class Protocol:
 
         print("Are you as good as Mystiz?")
         # Mystiz is too old. He forgor.
-        msg1 = bytes.fromhex(input("andrew tate? ").strip())
+        msg1 = bytes.fromhex(input("andrew tate? ").strip()[:10])
         msg1_r = int.from_bytes(msg1, "big")
         neobeo = self.matsub(msg1_r, forgores=[45, 2])
 
-        msg2 = bytes.fromhex(input("john tate? ").strip())
+        msg2 = bytes.fromhex(input("john tate? ").strip()[:10])
         msg2_r = int.from_bytes(msg2, "big")
         имя_пользователя = self.matsub(msg2_r, forgores=[45, 2])
         return msg1 != msg2 and neobeo == имя_пользователя == sigma
