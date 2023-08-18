@@ -1,13 +1,15 @@
 proof.all(False)
 
 class EHasher:
-    def __init__(self):
-        self.p = 2**255 - 19
-        self.A = GF(self.p)(486662)
-        self.B = GF(self.p)(1)
+    def __init__(self, p):
+        self.p = p
+        assert is_prime(self.p)
+
+        self.A = GF(self.p)(612)
+        self.B = GF(self.p)(721)
         self.E = EllipticCurve(GF(self.p), [0, self.A, 0, self.B, 0])
 
-        self.Z = GF(self.p)(2)
+        self.Z = GF(self.p)(43)
         assert not is_square(self.Z)
 
     def helski(self, f):
@@ -27,6 +29,8 @@ class EHasher:
         return self.E(u, v)
 
     def hash(self, r):
-        return self.sioyek(r)[0]
+        assert 0 <= r < self.p
+        return ZZ(self.sioyek(r)[0])
 
-EHasherHellman = EHasher()
+EHasherHellman = EHasher(2**80 - 65)
+EHasherRemy = EHasher(2**20 - 3)

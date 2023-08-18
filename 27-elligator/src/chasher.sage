@@ -2,6 +2,7 @@ proof.all(False)
 
 class CHasher:
     def __init__(self, l):
+        self.n = len(l)
         self.l = l
         self.p = 4 * product(self.l) - 1
         assert is_prime(self.p)
@@ -22,10 +23,18 @@ class CHasher:
             s = -s
         return GF(self.p)(3 * r / s)
 
+    def forget(self, vec, k):
+        return vec[:k] + [0] * (len(vec) - k)
+
     def action(self, pub, priv):
-        assert len(priv) == len(self.l)
+        assert len(priv) == self.n
+        assert sum(map(abs, priv)) <= 1000
+
         E = self.montgomery_curve(pub)
         es = list(priv)
+
+        # isogenies = []
+        jack = []
 
         while any(es):
             E.set_order((self.p + 1)**2)
@@ -43,12 +52,14 @@ class CHasher:
                     continue
                 Q.set_order(l)
                 phi = E.isogeny(Q)
+                jack.append(phi)
 
                 E, P = phi.codomain(), phi(P)
                 es[i] -= s
                 k //= l
 
-        return self.montgomery_coefficient(E)
+        big_jack = product(reversed(jack))
+        return self.montgomery_coefficient(E), big_jack.degree()
 
 CHasherLorenz = CHasher(list(prime_range(3, 375)) + [587])
-CHasherPanny = CHasher(list(prime_range(7, 47)) + [67])
+CHasherPanny = CHasher(list(prime_range(7, 60)) + [89])

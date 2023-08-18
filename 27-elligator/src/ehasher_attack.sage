@@ -1,4 +1,6 @@
-def elligator_attack(target):
+def elligator_attack(ehasher, target):
+    A = ehasher.A
+    Z = ehasher.Z
     u, v = target.xy()
     try:
         r1 = ((-A / u - 1) / Z).square_root()
