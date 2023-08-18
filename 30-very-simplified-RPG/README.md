@@ -1,4 +1,4 @@
-# 日練夜練沒有假 / Very Simplified RPG
+# Very Simplified RPG
 
 ## Category
 
@@ -23,4 +23,5 @@ Attachment: {ATTACHMENT_LINK}
 Do let me know if there is any bug or any rooms for improvement.
 
 ## Flag
-b6actf{345y_w3b6l_64m3_h4ck1n6_w17h_c37u5}
+
+`b6actf{345y_w3b6l_64m3_h4ck1n6_w17h_c37u5}`
