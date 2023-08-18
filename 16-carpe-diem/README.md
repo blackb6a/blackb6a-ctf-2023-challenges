@@ -33,4 +33,4 @@ Attachment: {ATTACHMENT_LINK}
 
 ## Flag
 
-b6actf{SEIZEYOURDAYS}
+b6actf{SEIZEYOURDAY}
