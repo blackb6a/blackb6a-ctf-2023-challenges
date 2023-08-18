@@ -5,7 +5,7 @@ categories:
 - main-crypto
 points: 500
 released_at: '2023-08-19 08:00:00'
-flag: 'b6actf{i dont like leet stuff so ye hope u enjoyed the comments}'
+flag: 'b6actf{i_dont_like_leet_stuff_so_ye_hope_u_enjoyed_the_comments}'
 deployment:
   resources:
     limits:

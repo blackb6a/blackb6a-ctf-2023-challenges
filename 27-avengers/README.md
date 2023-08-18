@@ -8,8 +8,8 @@ Avengers
 > 就回隊吧 尊貴的磚瓦 
 > 去抵抗風化 
 
-Attachment: {ATTACHMENT_LINK}
-
 ```
 {CHAL_NC_LINK}
 ```
+
+Attachment: {ATTACHMENT_LINK}

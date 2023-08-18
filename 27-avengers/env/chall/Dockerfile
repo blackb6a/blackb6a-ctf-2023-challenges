@@ -6,10 +6,8 @@ RUN sudo apt-get update
 
 RUN sudo apt-get install -y socat
 
-WORKDIR /home/ctfuser
+COPY *.sage /home/sage/
 
-COPY *.sage /home/ctfuser/
+ENV FLAG "b6actf{i_dont_like_leet_stuff_so_ye_hope_u_enjoyed_the_comments}"
 
-ENV FLAG "b6actf{i dont like leet stuff so ye hope u enjoyed the comments}"
-
-CMD ["socat", "TCP-LISTEN:1337,reuseaddr,fork", "EXEC:'sage prover.sage'"]
+CMD ["socat", "TCP-LISTEN:1337,reuseaddr,fork", "EXEC:'sage /home/sage/prover.sage'"]
