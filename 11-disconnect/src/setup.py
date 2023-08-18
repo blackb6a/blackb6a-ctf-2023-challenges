@@ -25,7 +25,7 @@ def receive_data():
     os.chmod(filename, 0o661)
     
     pid = subprocess.Popen(["sudo", "-u", "limiteduser", "/sandbox", filename], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    time.sleep(3)
+    time.sleep(6)
     pid.kill()
     os.remove(filename)
 if __name__ == "__main__":

