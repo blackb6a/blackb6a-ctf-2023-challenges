@@ -15,11 +15,9 @@ Crypto
 
 My favourite Hong Kong idol, Lizzo!
 
+Note: Unusual flag format
+
 Attachment: {ATTACHMENT_LINK}
-
-## Notes
-
-easy chal, maybe warmup level
 
 ## Flag
 
