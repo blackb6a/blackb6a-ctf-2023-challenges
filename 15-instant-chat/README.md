@@ -1,4 +1,4 @@
-# 傾計最緊要快 / Instant Chat
+# Instant Chat
 
 ## Category
 
@@ -26,4 +26,4 @@ Do let me know if there is any bug or any rooms for improvement.
 
 ## Flag
 
-b6actf{f1r3_f1r3_my_f1r3b453_15_0n_f1r3!}
+`b6actf{f1r3_f1r3_my_f1r3b453_15_0n_f1r3!}`
