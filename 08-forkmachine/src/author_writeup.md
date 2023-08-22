@@ -1,5 +1,5 @@
 # Bauhinia CTF 2023 / Fork Machine / Author's Writeup
-### Author: [cdemirer](https://github.com/cdemirer)
+#### Author: [cdemirer](https://github.com/cdemirer)
 
 In this writeup, I will explain how the Fork Machine works, then I will discuss some approaches to reverse the `prog.bin` file.
 
@@ -431,4 +431,10 @@ And we get the flag:
 'b6actf{Sp00n_M4ch1ne_1s_l3f7_a5_4n_3x3rc1s3_7o_th3_r34d3r}'
 ```
 
-I hope it was fun solving it / attempting to solve it!
+## 3. Final Thoughts
+
+During testing, we considered crafting a much more complex (and possibly obfuscated) `prog.bin` file, such that it would require writing some kind of automated analysis tool (i.e. decompiler) in order to solve it. However, we decided to keep the difficulty lower since we weren't sure if there'd be any solves then.
+
+Feel free to let me know if you think that was the right call, or if you'd like to play such harder version instead. :) I'd also be interested to hear if you find unnecessary complexity in Fork Machine's design (e.g. you think stuff could be computed with a different set of node types that are easier to reason about).
+
+I hope it was fun solving (or trying to solve) the challenge!
