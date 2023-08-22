@@ -1,0 +1,18 @@
+# other metadata fields
+enabled: true
+author: 'cire meat pop'
+categories:
+- main-pwn
+points: 500
+released_at: '2023-08-19 00:00:00'
+flag: 'b6actf{bE_4waR3_N0t_3v3rY_1iB_i5_seCuRe}'
+deployment:
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+  type: normal
+  port: 20010
+  stateful: false
+metadata:
+  youtubeUrl: bWxHgHLJlYw

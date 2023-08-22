@@ -1,0 +1,10 @@
+# other metadata fields
+enabled: true
+author: 'cdemirer'
+categories:
+- main-reverse
+points: 500
+released_at: '2023-08-19 00:00:00'
+flag: 'b6actf{Sp00n_M4ch1ne_1s_l3f7_a5_4n_3x3rc1s3_7o_th3_r34d3r}'
+metadata:
+  youtubeUrl: NLf8xl3vUfw

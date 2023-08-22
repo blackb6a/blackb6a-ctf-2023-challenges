@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <title><%= challenge %> Admin Bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      font-family: Menlo, Consolas, Monaco, 'Liberation Mono', 'Lucida Console', monospace;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #18181c;
+      color: #eee;
+    }
+    body {
+      display: grid;
+    }
+    form {
+      margin: auto;
+      width: 100%;
+      max-width: 600px;
+      display: grid;
+      background: #08080c;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    }
+    h2 {
+      margin: 0;
+    }
+    input, button {
+      border-radius: 5px;
+      padding: 10px;
+    }
+    input {
+      background: #18181c;
+      color: #eee;
+      border: 1px #eee solid;
+      margin-bottom: 30px;
+    }
+    button {
+      background: #eee;
+      color: #18181c;
+      border: 0;
+      cursor: pointer;
+      transition: background ease-in-out 0.2s;
+    }
+    button:hover {
+      background: #bbb;
+    }
+  </style>
+</head>
+
+
+<body>
+  <form id="form" method="POST" action="/visit">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <h2><%= challenge %> Admin Bot</h2>
+    <p><%= msg %></p>
+    <span>URL</span>
+    <input type="text" name="url" autofocus required placeholder="https://example.com" value="http://exmaple.com/">
+    <div class="h-captcha" data-sitekey="c8220ee8-903a-4ef3-9a95-8ce721aea348"></div>
+    <input type="submit" />
+  </form>
+  <script>
+    function onSubmit(token) {
+      document.getElementById("form").submit();
+    }
+  </script>
+</body>
+
+</html>

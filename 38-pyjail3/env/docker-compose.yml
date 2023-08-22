@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  chall:
+    build: ./app
+    ports:
+      - 30038:1337

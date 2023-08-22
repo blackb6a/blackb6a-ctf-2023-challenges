@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  wog3-web:
+    build: web/.
+    ports:
+      - "8765:80"

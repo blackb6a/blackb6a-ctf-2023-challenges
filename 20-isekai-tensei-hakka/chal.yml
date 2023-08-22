@@ -1,0 +1,18 @@
+# other metadata fields
+enabled: true
+author: 'ozetta'
+categories:
+- main-web
+points: 500
+released_at: '2023-08-19 00:00:00'
+flag: 'b6actf{Un1ink_za_worId_Un1ock_za_res3t}'
+deployment:
+  resources:
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+  type: normal
+  port: 8765
+  stateful: true
+metadata:
+  youtubeUrl: mzkAo-7mR6Y

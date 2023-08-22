@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  killt:
+    build: killt/.
+    ports:
+      - "8097:80"

@@ -1,0 +1,11 @@
+# other metadata fields
+enabled: true
+author: 'TWY, RaccoonNinja'
+categories:
+- main-misc
+- crypto
+points: 500
+released_at: '2023-08-19 00:00:00'
+flag: "b6actf{D4zZ2l1ng_c0lOur5_bu7_u_hav3_s3En_nth_y37}"
+metadata:
+  youtubeUrl: zdaZbJNTHxc

@@ -1,0 +1,19 @@
+# other metadata fields
+enabled: true
+title: 'Hansel and Gretel'
+author: 'hollow'
+categories:
+- main-web
+points: 500
+released_at: '2023-08-19 08:00:00'
+flag: 'b6actf{p0llute_the_w0r1d_4_sweet_sweet_c00k1es}'
+deployment:
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+  type: normal
+  port: 30009
+  stateful: true
+metadata:
+  youtubeUrl: FjS50ATT1v0

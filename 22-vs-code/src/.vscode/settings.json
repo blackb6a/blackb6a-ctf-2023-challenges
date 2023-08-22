@@ -1,0 +1,84 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.selectionBackground": "#ffffff80",
+        "minimap.background": "#202020ff"
+    },
+    "editor.tokenColorCustomizations": {
+        "comments": "#315528", 
+        "functions": "#6cf73e", 
+        "keywords": "#279c00", 
+        "numbers": "#f5e6a0", 
+        "strings": "#138f13", 
+        "types": "#49d11b", 
+        "variables": "#ccdd99", 
+        "textMateRules": [
+            {
+                "scope": "source.python",
+                "settings": {
+                    "foreground": "#5a8f5a" 
+                }
+            },
+            {
+                "scope": "keyword.control",
+                "settings": {
+                    "foreground": "#beff33" 
+                }
+            },
+            {
+                "scope": "keyword.operator",
+                "settings": {
+                    "foreground": "#ffffbe" 
+                }
+            },
+            {
+                "scope": "keyword.operator.logical.python",
+                "settings": {
+                    "foreground": "#00ff00" 
+                }
+            },
+            {
+                "scope": "constant.language",
+                "settings": {
+                    "foreground": "#ecff58" 
+                }
+            },
+            {
+                "scope": [
+                    "constant.character.escape",
+                    "constant.character.unicode"
+                ],
+                "settings": {
+                    "foreground": "#85c656" 
+                }
+            },
+            {
+                "scope": [
+                    "constant.character.set.regexp",
+                    "string.regexp"
+                ],
+                "settings": {
+                    "foreground": "#defaca" 
+                }
+            },
+            {
+                "scope": [
+                    "constant.other.set.regexp",
+                    "keyword.operator.quantifier.regexp",
+                    "constant.character"
+                ],
+                "settings": {
+                    "foreground": "#acfe09"
+                }
+            },
+            {
+                "scope": [
+                    "support.variable",
+                    "variable.language"
+                ],
+                "settings": {
+                    "foreground": "#98cf1f"
+                }
+            }
+        ]
+    }
+}

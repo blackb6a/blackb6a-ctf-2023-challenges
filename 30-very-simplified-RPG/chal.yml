@@ -1,0 +1,10 @@
+# other metadata fields
+enabled: true
+author: 'viky'
+categories:
+- main-reverse
+points: 500
+released_at: '2023-08-19 16:00:00'
+flag: 'b6actf{345y_w3b6l_64m3_h4ck1n6_w17h_c37u5}'
+metadata:
+  youtubeUrl: EE9WbMxksRY

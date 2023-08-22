@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title><%= challenge %></title>
+</head>
+<body onload="convert()" onhashchange="convert()">
+    <h1><%= challenge %></h1>
+    <textarea id="i" onchange="location.hash=btoa(i.value)" style="width:400;height:300"></textarea>
+    <iframe id="o" style="width:400;height:300"></iframe>
+    <script>
+        convert = () => {
+            i.value = atob(location.hash.slice(1));
+            o.srcdoc = i.value;
+        }
+    </script>
+</body>
+</html>

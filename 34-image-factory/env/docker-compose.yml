@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  image_factory:
+    build: ./chall
+    ports:
+      - "20010:1337"
+    restart: unless-stopped

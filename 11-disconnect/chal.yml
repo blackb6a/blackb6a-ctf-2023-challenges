@@ -1,0 +1,17 @@
+# other metadata fields
+enabled: true
+author: 'botton'
+categories:
+- main-pwn
+points: 500
+released_at: '2023-08-19 00:00:00'
+flag: 'b6actf{50ck37_15_n07_7h3_0nly_5y5c4ll_70_cr3473_50ck37}'
+deployment:
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+  type: normal
+  port: 20003
+metadata:
+  youtubeUrl: 8wB0S5nZMJw

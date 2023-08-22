@@ -1,0 +1,1 @@
+cmd_/home/bottom/blackb6a-ctf-2023-challenges/10-kernpass/src/kernel_driver/Module.symvers := sed 's/ko$$/o/' /home/bottom/blackb6a-ctf-2023-challenges/10-kernpass/src/kernel_driver/modules.order | scripts/mod/modpost -m -a  -o /home/bottom/blackb6a-ctf-2023-challenges/10-kernpass/src/kernel_driver/Module.symvers -e -i Module.symvers   -T -
