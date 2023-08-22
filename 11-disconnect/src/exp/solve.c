@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <liburing.h>
 
-char *ip = "210.209.101.153";
+char *ip = "YOU PUBLIC IP";
 int port = 58888;
 
 int main(int argc , char *argv[])
