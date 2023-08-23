@@ -7,6 +7,6 @@ First you need damage to kill the boss. If you play a bit of the game you will f
 
 Then you need to get access to the chest in fence. For instance you can achieve this by changing the player's x coordinate. Do notice the hint in console `[B6AWarmHint] Player Rigidbody2D position x:` because it is quite hard to find float. With regards to [unity documentation](https://docs.unity3d.com/ScriptReference/Vector2-x.html), the x coordinate is float. Do note that the float value that cetus found has more decimal places than the value shown in console due to some unknown reason, so it is not possible to search for the exact value of x coordinate. Do use differential search with a bit of creativity to find the correct address.
 You should be able to achieve something like this
-![image](https://github.com/blackb6a/blackb6a-ctf-2023-challenges/assets/33385719/729af854-c5cc-49e1-a587-a3907679aa7a)
+![image](https://github.com/blackb6a/blackb6a-ctf-2023-challenges/blob/main/30-very-simplified-RPG/src/257021557-729af854-c5cc-49e1-a587-a3907679aa7a.png)
 
 The remaining part is simply move to the location of the boss, kill the boss, open the chest, and get flag. Simple!
