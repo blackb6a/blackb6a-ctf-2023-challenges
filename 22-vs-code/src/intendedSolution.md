@@ -9,6 +9,8 @@ While the source code syntax coloring is customized (we'll go through that later
 - Used bcrypt to generate a hash with the colors
 - Changed the background to #202020 to ~~trick innocent solvers~~ be more theme agnostic
 
+Please also see Neobeo and 4yn (the only solve)'s solve script at https://github.com/slashbad/writeups/blob/master/b6a23/vscode/vscode-solution.ipynb - it has really good visualizations.
+
 Here's a suggested solve path:
 
 1. Differentiate the different colors
